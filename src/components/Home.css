@@ -1,0 +1,43 @@
+.welcome-screen {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 0 10vw 0 10vw;
+    background-color: #fff;
+  
+  }
+  
+  .welcome-text h1 {
+    display: block;
+    font-size: 3rem;
+    margin: 0 !important;
+  }
+  
+  .welcome-text h3 {
+    font-size: 1.5rem;
+    margin-top: 6px !important;
+    opacity: 0.5;
+    line-height: 24px;
+  }
+  
+  .welcome-image img{
+    width: 38vw;
+    height: auto;
+    padding-top: 10vh;
+  }
+
+  @media only screen and (max-width: 768px){
+    .welcome-screen {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-around;
+        text-align: center;
+      }
+    
+      .welcome-image img{
+        width: 70vw;
+        margin: 0 !important;
+      }
+  }
