@@ -1,0 +1,52 @@
+.shopping-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.item-image {
+    transition: transform .3s ease;
+}
+
+.item-image:hover {
+    transform: scale(1.1);
+}
+
+.hoodie {
+    position: relative;
+    margin-right: 3rem;
+    margin-left: 3rem;
+    margin-bottom: 24px;
+}
+
+.hoodie img {
+    width: auto;
+    height:45vh;
+    opacity: 1;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.shopping-item {
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    width: 0px;
+    height : 0px;
+    opacity: 0;
+    transition: opacity 0.15s ease-out, width 0s linear 0.15s, height 0s linear 0.15s;
+    background-color: rgba(128,128,128,0.5);
+  }
+
+@media only screen and (max-width: 768px) {
+    .shopping-items {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}

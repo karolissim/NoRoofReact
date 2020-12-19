@@ -6,8 +6,8 @@ class Navbar extends Component {
     render() {
         return (
             <React.Fragment>
-                <div class="nav">
-                    <div class="logo">
+                <div className="nav">
+                    <div className="logo">
                         <Link to='/'>NoRoof.</Link>
                     </div>
                     <div class="nav-links">
