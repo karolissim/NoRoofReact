@@ -13,7 +13,7 @@ class Navbar extends Component {
                     <div class="nav-links">
                         <Link to="/">Shop</Link>
                         <Link to="/faq">FAQ</Link>
-                        <Link to="contact">Contact</Link>
+                        <Link to="/contact">Contact</Link>
                         <a id="cart-trigger" href="#0">Cart</a>
                     </div>
                 </div>

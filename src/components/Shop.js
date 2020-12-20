@@ -15,7 +15,7 @@ class Shop extends Component {
                     <div className="shopping-items">
                        {items.map((item, i) => {
                         return (
-                            <div className="hoodie">
+                            <div className="hoodie" key={i}>
                                 <img className="item-image" src={require("../images/" + item.product_id + ".jpg").default}></img>
                             </div>
                         )
