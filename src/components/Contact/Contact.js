@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import './Contact.css'
-import fb_logo from '../images/facebook.png'
-import ig_logo from '../images/instagram.png'
+import fb_logo from '../../images/facebook.png'
+import ig_logo from '../../images/instagram.png'
 
 class Contact extends Component {
     render() {
         return(
             <React.Fragment>
-                <div class="contact-screen">
-                    <div class="message-form">
+                <div className="contact-screen">
+                    <div className="message-form">
                         <h1 id="Contact">Get in touch with us</h1>
-                        <form class="form" action="" method="post">
+                        <form className="form" action="" method="post">
                             <textarea name="message" rows="10" cols="55"></textarea>
-                            <input class="submit-button" type="submit"></input>
+                            <input className="submit-button" type="submit"></input>
                         </form>
                     </div>
-                    <div class="social-media">
+                    <div className="social-media">
                         <h3>© 2020 NoRoof. All rights reserved.</h3>
-                        <div class="media-links">
+                        <div className="media-links">
                             <a href="">
                                 <img src={ig_logo} alt=""></img>
                             </a>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import './Home.css'
-import logo from '../images/logo.png';
+import './WelcomeScreen.css'
+import logo from '../../images/logo_reduce.jpg';
 
-class Home extends Component {
+class WelcomeScreen extends Component {
     render() {
         return (
             <div id="NoRoof" className="welcome-screen">
@@ -18,4 +18,4 @@ class Home extends Component {
     }
 }
 
-export default Home
+export default WelcomeScreen

@@ -10,11 +10,11 @@ class Navbar extends Component {
                     <div className="logo">
                         <Link to='/'>NoRoof.</Link>
                     </div>
-                    <div class="nav-links">
-                        <Link to="/">Shop</Link>
+                    <div className="nav-links">
+                        <Link to="/shop">Shop</Link>
                         <Link to="/faq">FAQ</Link>
                         <Link to="/contact">Contact</Link>
-                        <a id="cart-trigger" href="#0">Cart</a>
+                        <span id="cart-trigger">Cart</span>
                     </div>
                 </div>
                 <div id="shadow-layer"></div>

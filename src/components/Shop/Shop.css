@@ -14,14 +14,14 @@
     transform: scale(1.1);
 }
 
-.hoodie {
+.item {
     position: relative;
     margin-right: 3rem;
     margin-left: 3rem;
     margin-bottom: 24px;
 }
 
-.hoodie img {
+.item img {
     width: auto;
     height:45vh;
     opacity: 1;

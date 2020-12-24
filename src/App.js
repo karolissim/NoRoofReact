@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import './App.css'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import Navbar from './components/Navbar'
-import Home from './components/Home'
-import Shop from './components/Shop'
-import FAQ from './components/FAQ'
-import Contact from './components/Contact'
+import Navbar from './components/Navbar/Navbar'
+import WelcomeScreen from './components/WelcomeScreen/WelcomeScreen'
+import Shop from './components/Shop/Shop'
+import FAQ from './components/FAQ/FAQ'
+import Contact from './components/Contact/Contact'
 
 class App extends Component {
   constructor (props) {
@@ -18,7 +17,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await fetch('http://192.168.1.204:3030/api/item/', {mode: 'cors', method: 'GET'})
+    await fetch('http://localhost:3030/api/item/', {mode: 'cors', method: 'GET'})
       .then(res => res.json())
       .then(
         result => {
@@ -34,14 +33,13 @@ class App extends Component {
   }
 
   render() {
-    const { error, isLoaded, shopItems } = this.state;
     return (
       <div className="App">
         <Router>
           <Navbar/>
           <Switch>
             <Route exact path="/">
-              <Home/>
+              <WelcomeScreen/>
               <Shop shopItems={this.state.shopItems}/>
             </Route>
             <Route path="/faq">
@@ -49,6 +47,8 @@ class App extends Component {
             </Route>
             <Route path="/contact">
               <Contact/>
+            </Route>
+            <Route path="/shop">
             </Route>
           </Switch>
         </Router>

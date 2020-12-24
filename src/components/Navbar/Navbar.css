@@ -28,10 +28,20 @@
     color: #000;
   }
   
-  .nav .nav-links a{
+  .nav .nav-links a {
     margin-right: 25px;
     font-size: 1rem;
     color: #000;
+  }
+
+  .nav .nav-links span {
+    margin-right: 25px;
+    font-size: 1rem;
+    color: #000;
+  }
+
+  .nav .nav-links span:hover {
+    cursor: pointer;
   }
   
   .logo {
@@ -45,6 +55,11 @@
       }
     
       .nav .nav-links a{
+        margin-right: 12px;
+        font-size: 0.8rem;
+      }
+
+      .nav .nav-links span {
         margin-right: 12px;
         font-size: 0.8rem;
       }
