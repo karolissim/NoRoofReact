@@ -7,14 +7,14 @@ class Navbar extends Component {
         return (
             <React.Fragment>
                 <div className="nav">
-                    <div className="logo">
+                    <div className="brand-name">
                         <Link to='/'>NoRoof.</Link>
                     </div>
                     <div className="nav-links">
-                        <Link to="/shop">Shop</Link>
-                        <Link to="/faq">FAQ</Link>
-                        <Link to="/contact">Contact</Link>
-                        <span id="cart-trigger">Cart</span>
+                        <Link className="link" to="/shop">Shop</Link>
+                        <Link className="link" to="/faq">FAQ</Link>
+                        <Link className="link" to="/contact">Contact</Link>
+                        <span className="link-span" id="cart-trigger">Cart</span>
                     </div>
                 </div>
                 <div id="shadow-layer"></div>

@@ -4,9 +4,6 @@ import './FAQ.css'
 const FAQ = () => {
   return (
     <div id="FAQ" className="faq-screen">
-      <div className="faq-image">
-        <img src={require('../../images/faq.jpg').default} alt=""></img>
-      </div>
       <div className="faq-list">
         <ol>
           <li className="item1">

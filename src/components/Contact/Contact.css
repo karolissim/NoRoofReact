@@ -24,7 +24,7 @@
     border-color: rgb(107,204,241);
     border-width: 3px;
     padding: 10px;
-      font-family: Tahoma, sans-serif;
+    font-family: Tahoma, sans-serif;
   }
   
   .submit-button {
@@ -32,15 +32,15 @@
     margin-top: 1rem;
     width: 20vw;
     background-color:rgb(107,204,241);
-      border-radius:25px;
-      border:1px solid rgb(107,204,241);
-      display:inline-block;
-      cursor:pointer;
-      color:#ffffff;
-      font-family:Arial;
-      font-size:1rem;
-      padding:1rem 2.5rem;
-      text-decoration:none;
+    border-radius:25px;
+    border:1px solid rgb(107,204,241);
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:1rem;
+    padding:1rem 2.5rem;
+    text-decoration:none;
     text-align: center;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -71,9 +71,13 @@
   }
 
 @media only screen and (max-width: 768px){
+    .contact-screen {
+      margin-top: 80px;
+    }
+
     .form {
         width: auto;
-        margin: 0 !important;
+        margin-top: 10vh;
         padding-left: 2vw;
     }
     
@@ -84,10 +88,11 @@
     
     .submit-button {
         padding: 0.7rem 0;
+        width: 40vw;
     }
     
     .message-form textarea {
-        width: 50vw;
+        width: 70vw;
         margin: 0 !important;
     }
     
@@ -98,5 +103,9 @@
     .media-links a img{
         width: 6vw;
         margin-right: 5px;
+    }
+
+    .social-media h3 {
+      margin-top: 15vh;
     }
 }

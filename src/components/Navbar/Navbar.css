@@ -16,56 +16,44 @@
     border-bottom-right-radius: 10px;
   }
   
-  .img-replace {
-    /* replace text with a background-image */
-    display: inline-block;
-    overflow: hidden;
-    text-indent: 100%;
-    white-space: nowrap;
-  }
-  
-  .logo a {
+  .brand-name a {
     color: #000;
   }
   
-  .nav .nav-links a {
+  .link, .link-span{
     margin-right: 25px;
     font-size: 1rem;
     color: #000;
   }
 
-  .nav .nav-links span {
-    margin-right: 25px;
-    font-size: 1rem;
-    color: #000;
-  }
-
-  .nav .nav-links span:hover {
+  .link-span:hover {
     cursor: pointer;
   }
   
-  .logo {
+  .brand-name {
     font-size: 1.5rem;
     font-weight: bold;
   }
 
   @media only screen and (max-width: 768px){
     .nav {
+        height: 60px;
         padding: 0 12px 0 18px;
       }
     
-      .nav .nav-links a{
-        margin-right: 12px;
-        font-size: 0.8rem;
-      }
-
-      .nav .nav-links span {
+      .link, .link-span{
         margin-right: 12px;
         font-size: 0.8rem;
       }
     
-      .logo {
+      .brand-name {
         font-size: 1.5rem;
         font-weight: bold;
       }
+  }
+
+  @media only screen and (max-width: 1024px) and (orientation: landscape) {
+    .nav {
+      height: 60px;
+    }
   }
