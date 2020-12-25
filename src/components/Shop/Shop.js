@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import './Shop.css'
 
 const Shop = (props) => {
@@ -13,9 +14,12 @@ const Shop = (props) => {
             <div className="item-list">
                 <div className="shopping-items">
                     {items.map((item, i) => {
+                        const size = item.available_size.split(",")[0]
                         return (
                             <div className="item" key={i}>
-                                <img className="item-image" src={require("../../images/" + item.product_id + ".jpg").default}></img>
+                                <Link to={"/shop/" + item.product_id + "/" + size}>
+                                    <img className="item-image" src={require("../../images/" + item.product_id + ".jpg").default} alt=""></img>
+                                </Link>
                             </div>
                         )
                     })}

@@ -1,0 +1,53 @@
+.item-container__info {
+    margin-left: 5vw;
+}
+
+.item-container__info h2 {
+    margin-bottom: 0 !important;
+}
+  
+.author-tag {
+    margin: 0 !important;
+    opacity: 0.7;
+}
+  
+.additional-info {
+    margin-top: 18px;
+}
+  
+.additional-info p {
+    margin: 0 ;
+    margin-bottom: 2px !important;
+}
+  
+.additional-info h2 {
+    margin-top: .7rem;
+}
+
+#size-selector {
+    background-image: url(https://www.flaticon.com/svg/static/icons/svg/35/35762.svg);
+    background-repeat: no-repeat, repeat;
+    background-position: right .2em top 50%, 0 0;
+    background-size: 1.2em auto, 100%;
+  }
+  
+.size-selector {
+    display: block;
+    font-size: 1.2em;
+    font-family: sans-serif;
+    font-weight: 550;
+    line-height: 1;
+    width: 10vw;
+    padding: .4em .4em .3em .6em;
+    box-sizing: border-box;
+    margin: 1rem 0;
+    border: 1px solid #000;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+}
+  
+.size-selector:focus, .add-to-cart-button, .size-chart-button {
+    outline: none;
+}

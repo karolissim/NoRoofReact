@@ -1,0 +1,30 @@
+.item-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100vh;
+    padding: 0 5vw 0 5vw;
+    top: 100px;
+    width: 80vw;
+}
+
+.item-container__photo {
+    margin-top: 70px;
+}
+
+.add-to-cart-button {
+    text-align: center;
+    font-size: .9em;
+    font-weight: 800;
+    width: 9vw;
+    padding: .4em;
+    border: 1px solid #000;
+    background-color: #fff;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+  
+.unavailable {
+    border: 2px solid rgb(220,20,60);
+    color:rgba(0,0,0,0.6);
+}
