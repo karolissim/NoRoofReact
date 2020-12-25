@@ -35,6 +35,29 @@
     font-weight: bold;
   }
 
+  #shadow-layer {
+    position: fixed;
+    min-height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    cursor: pointer;
+    z-index: 101;
+    display: none;
+  }
+
+  #shadow-layer.is-visible {
+    display: block;
+    -webkit-animation: cd-fade-in 0.3s;
+    -moz-animation: cd-fade-in 0.3s;
+    animation: cd-fade-in 0.3s;
+  }
+
+  #counter-wrapper {
+    font-size: 80%;
+  }
+
   @media only screen and (max-width: 768px){
     .nav {
         height: 60px;
