@@ -17,7 +17,8 @@ class App extends Component {
       cartShadow: false,
       error: null,
       isLoaded: false,
-      shopItems: []
+      shopItems: [],
+      addToCartItem: null
     }
 
     this.modifyItemNum = this.modifyItemNum.bind(this);
@@ -49,6 +50,14 @@ class App extends Component {
     this.setState({itemNumber: number + this.state.itemNumber});
   }
 
+  addItemToCart = (item) => {
+    this.setState({addToCartItem: item})
+  }
+
+  emptyAddToCartItem = () => {
+    this.setState({addToCartItem: null})
+  }
+
   render() {
     return (
       <div className="App">
@@ -62,11 +71,13 @@ class App extends Component {
             modifyItemNum = {this.modifyItemNum}
             cartOn = {this.state.cartOn}
             displayCart = {this.displayCart}
+            item={this.state.addToCartItem}
+            emptyAddToCartItem={this.emptyAddToCartItem}
           />
           <Switch>
             <Route exact path="/">
               <WelcomeScreen />
-              <Shop shopItems={this.state.shopItems}/>
+              {this.state.isLoaded ? <Shop shopItems={this.state.shopItems}/> : <div></div>}
             </Route>
             <Route path="/faq">
                <FAQ />
@@ -75,7 +86,8 @@ class App extends Component {
               <Contact />
             </Route>
             <Route path="/shop/:itemId/:sizeId">
-              <ItemContainer />
+              <ItemContainer 
+              addToCart={this.addItemToCart}/>
             </Route>
           </Switch>
         </Router>

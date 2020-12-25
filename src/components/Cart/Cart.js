@@ -193,6 +193,11 @@ class Cart extends React.Component {
         if (prevState !== this.state) {
             this.setLocalStorage();
         }
+        if(this.props.item !== null) {
+            console.log("gaidys: " + this.props.item)
+            this.addItem(this.props.item)
+            this.props.emptyAddToCartItem()
+        }
     }
 
     render() {
