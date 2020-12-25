@@ -5,6 +5,7 @@ import WelcomeScreen from './components/WelcomeScreen/WelcomeScreen'
 import Shop from './components/Shop/Shop'
 import FAQ from './components/FAQ/FAQ'
 import Contact from './components/Contact/Contact'
+import ItemContainer from './components/ItemContainer/ItemContainer'
 
 class App extends Component {
   constructor (props) {
@@ -36,19 +37,20 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <Navbar/>
+          <Navbar />
           <Switch>
             <Route exact path="/">
-              <WelcomeScreen/>
+              <WelcomeScreen />
               <Shop shopItems={this.state.shopItems}/>
             </Route>
             <Route path="/faq">
-               <FAQ/>
+               <FAQ />
             </Route>
             <Route path="/contact">
-              <Contact/>
+              <Contact />
             </Route>
-            <Route path="/shop">
+            <Route path="/shop/:itemId/:sizeId">
+              <ItemContainer />
             </Route>
           </Switch>
         </Router>
