@@ -1,22 +1,42 @@
-import React, { Component } from 'react';
-import './App.css';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import Shop from './components/Shop';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import Navbar from './components/Navbar/Navbar'
+import WelcomeScreen from './components/WelcomeScreen/WelcomeScreen'
+import Shop from './components/Shop/Shop'
+import FAQ from './components/FAQ/FAQ'
+import Contact from './components/Contact/Contact'
+import ItemContainer from './components/ItemContainer/ItemContainer'
 import Cart from './components/Cart';
 
 class App extends Component {
-  constructor(props) {
-
-    super(props);
-
+  constructor (props) {
+    super(props)
     this.state = {
       itemNumber: 0,
       cartOn: false,
-      cartShadow: false
-    };
+      cartShadow: false,
+      error: null,
+      isLoaded: false,
+      shopItems: []
+    }
+
     this.modifyItemNum = this.modifyItemNum.bind(this);
+  }
+
+  async componentDidMount() {
+    await fetch('http://localhost:3030/api/item/', {mode: 'cors', method: 'GET'})
+      .then(res => res.json())
+      .then(
+        result => {
+          this.setState ({
+            isLoaded: true,
+            shopItems: result.items
+          })
+        }
+      )
+      .catch((error) => {
+        this.setState({error: error})
+      })
   }
 
   displayCart = () => {
@@ -28,7 +48,6 @@ class App extends Component {
     console.log(number);
     this.setState({itemNumber: number + this.state.itemNumber});
   }
-  
 
   render() {
     return (
@@ -38,16 +57,25 @@ class App extends Component {
             displayCart = {this.displayCart}
             shadowState = {this.state.cartShadow}
             itemNumber = {this.state.itemNumber}
-            />
+          />
           <Cart
             modifyItemNum = {this.modifyItemNum}
             cartOn = {this.state.cartOn}
             displayCart = {this.displayCart}
-            />
+          />
           <Switch>
-            <Route path="/">
-              <Home/>
-              <Shop/>
+            <Route exact path="/">
+              <WelcomeScreen />
+              <Shop shopItems={this.state.shopItems}/>
+            </Route>
+            <Route path="/faq">
+               <FAQ />
+            </Route>
+            <Route path="/contact">
+              <Contact />
+            </Route>
+            <Route path="/shop/:itemId/:sizeId">
+              <ItemContainer />
             </Route>
           </Switch>
         </Router>
