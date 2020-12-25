@@ -6,7 +6,7 @@ import Shop from './components/Shop/Shop'
 import FAQ from './components/FAQ/FAQ'
 import Contact from './components/Contact/Contact'
 import ItemContainer from './components/ItemContainer/ItemContainer'
-import Cart from './components/Cart';
+import Cart from './components/Cart/Cart';
 
 class App extends Component {
   constructor (props) {

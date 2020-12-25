@@ -1,6 +1,6 @@
 import React from 'react';
 import './Cart.css'
-import CartItem from './CartItem';
+import CartItem from '../CartItem/CartItem';
 /*eslint no-unused-expressions: ["error", { "allowTernary": true }]*/
 
 const colors = [
@@ -22,7 +22,7 @@ const mockItem = {
   key: 255,
   cartItem: {
     itemId: 2,
-    src: require("../images/logo.png").default,
+    src: require("../../images/logo.png").default,
     itemSizeId: 2,
     itemColorId: 2,
     quantity: 5,
