@@ -19,7 +19,7 @@ const ItemContainer = () => {
     const { itemId, sizeId } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const [item, setItem] = useState([])
-    const [userDesiredQuantity, setUserQuantity] = useState(1)
+    const [userItemQuantity, setUserQuantity] = useState(1)
     const [userItemSize, setUserItemSize] = useState('')
     const [itemQuantityInStock, setItemQuantity] = useState(0)
 
@@ -57,12 +57,12 @@ const ItemContainer = () => {
                 </div>
                 <ItemInformation
                     item={item}
-                    userQuantity={userDesiredQuantity}
+                    userQuantity={userItemQuantity}
                     changeQuantity={changeQuantity}
                     changeSize={changeSize}
                     itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
                     <div>
-                        <button className={addToCartInfo.style} type="submit" name="button" onClick={() => console.log(userDesiredQuantity + " " + userItemSize)}>{addToCartInfo.text}</button>
+                        <button className={addToCartInfo.style} type="submit" name="button" onClick={() => console.log(userItemQuantity + " " + userItemSize)}>{addToCartInfo.text}</button>
                     </div>
                 </ItemInformation>
             </div>
