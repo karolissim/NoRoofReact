@@ -32,7 +32,7 @@ const ItemContainer = (props) => {
 
     useEffect(() => {
         async function fetchItem() {
-            await fetch('http://192.168.0.133:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
+            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
@@ -42,7 +42,7 @@ const ItemContainer = (props) => {
         }
 
         async function fetchQuantity() {
-            await fetch('http://192.168.0.133:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
+            await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemQuantity(result)
