@@ -15,7 +15,23 @@ const AddToCartButtonState = [
     }
 ]
 
-const ItemContainer = () => {
+const mockItem = {
+    key: 255,
+    cartItem: {
+      itemId: 2,
+      src: require("../../images/logo.png").default,
+      itemSizeId: 2,
+      itemColorId: 2,
+      quantity: 5,
+      name: "NO-ROOF-HOODIE",
+      color: "Orow",
+      size: "M",
+      price: 70
+    }
+  }
+
+const ItemContainer = (props) => {
+    console.log(props)
     const { itemId, sizeId } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const [item, setItem] = useState([])
@@ -62,7 +78,10 @@ const ItemContainer = () => {
                     changeSize={changeSize}
                     itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
                     <div>
-                        <button className={addToCartInfo.style} type="submit" name="button" onClick={() => console.log(userDesiredQuantity + " " + userItemSize)}>{addToCartInfo.text}</button>
+                        <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
+                            console.log(userDesiredQuantity + " " + userItemSize)
+                            props.addToCart(mockItem)
+                        }}>{addToCartInfo.text}</button>
                     </div>
                 </ItemInformation>
             </div>
