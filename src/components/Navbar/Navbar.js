@@ -11,7 +11,10 @@ class Navbar extends Component {
                         <Link to='/'>NoRoof.</Link>
                     </div>
                     <div className="nav-links">
-                        <Link className="link" to="/shop">Shop</Link>
+                        <Link className="link" to={{
+                            pathname: '/',
+                            hash: '#shop-start'
+                        }}>Shop</Link>
                         <Link className="link" to="/faq">FAQ</Link>
                         <Link className="link" to="/contact">Contact</Link>
                         <a id="cart-trigger" href="#0" onClick = {this.props.displayCart}>Cart <span id="counter-wrapper">(<span id="item-counter">{this.props.itemNumber}</span>)</span></a>

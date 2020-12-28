@@ -1,6 +1,9 @@
   .contact-screen {
+    display: flex;
     text-align: center;
-    margin: 30vh 10vw 0px 10vw;
+    justify-content: center;
+    margin: 30vh 0 0 0;
+    height: 100%;
   }
   
   .form {
@@ -46,14 +49,15 @@
     -moz-appearance: none;
   }
   
-  .social-media {
-    text-align: center;
-    align-items: center;
-  }
-  
   .social-media h3 {
-    margin-top: 20vh;
     font-size: 1rem;
+  }
+
+  .social-media {
+    position: absolute;
+    bottom: 0;
+    align-items: center;
+    text-align: center;
   }
   
   .media-links {
@@ -70,7 +74,7 @@
     width: 2vw;
   }
 
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 1024px){
     .contact-screen {
       margin-top: 80px;
     }
@@ -108,4 +112,14 @@
     .social-media h3 {
       margin-top: 15vh;
     }
+}
+
+@media only screen and (max-width: 1024px) and (orientation: landscape) {
+  .social-media {
+    position: relative;
+  }
+
+  .contact-screen {
+    flex-direction: column;
+  }
 }

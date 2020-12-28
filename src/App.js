@@ -9,7 +9,7 @@ import ItemContainer from './components/ItemContainer/ItemContainer'
 import Cart from './components/Cart/Cart';
 
 class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       itemNumber: 0,
@@ -25,12 +25,12 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await fetch('http://localhost:3030/api/item/', {mode: 'cors', method: 'GET'})
+    await fetch('http://192.168.0.133:3030/api/item/', { mode: 'cors', method: 'GET' })
       .then(res => res.json())
       .then(
         result => {
           console.log(result.items);
-          this.setState ({
+          this.setState({
             isLoaded: true,
             shopItems: result.items
           })
@@ -38,57 +38,54 @@ class App extends Component {
       )
       .catch((error) => {
         console.log(error);
-        this.setState({error: error})
+        this.setState({ error: error })
       })
   }
 
   displayCart = () => {
-    this.setState( {cartOn: !this.state.cartOn, cartShadow: !this.state.cartShadow});
+    this.setState({ cartOn: !this.state.cartOn, cartShadow: !this.state.cartShadow });
     !this.state.cartOn ? document.getElementsByTagName("html")[0].style.overflow = 'hidden' : document.getElementsByTagName("html")[0].style.overflow = 'visible';
   }
 
   modifyItemNum = (number) => {
-    this.setState({itemNumber: number + this.state.itemNumber});
+    this.setState({ itemNumber: number + this.state.itemNumber });
   }
 
   addItemToCart = (item) => {
-    this.setState({addToCartItem: item})
+    this.setState({ addToCartItem: item })
   }
 
   emptyAddToCartItem = () => {
-    this.setState({addToCartItem: null})
+    this.setState({ addToCartItem: null })
   }
 
   render() {
     return (
       <div className="App">
         <Router>
-          <Navbar 
-            displayCart = {this.displayCart}
-            shadowState = {this.state.cartShadow}
-            itemNumber = {this.state.itemNumber}
+          <Navbar
+            displayCart={this.displayCart}
+            shadowState={this.state.cartShadow}
+            itemNumber={this.state.itemNumber}
           />
           <Cart
-            modifyItemNum = {this.modifyItemNum}
-            cartOn = {this.state.cartOn}
-            displayCart = {this.displayCart}
+            modifyItemNum={this.modifyItemNum}
+            cartOn={this.state.cartOn}
+            displayCart={this.displayCart}
             item={this.state.addToCartItem}
             emptyAddToCartItem={this.emptyAddToCartItem}
           />
           <Switch>
             <Route exact path="/">
               <WelcomeScreen />
-              {this.state.isLoaded ? <Shop shopItems={this.state.shopItems}/> : <div></div>}
+              {this.state.isLoaded ? <Shop shopItems={this.state.shopItems} /> : <div></div>}
             </Route>
-            <Route path="/faq">
-               <FAQ />
-            </Route>
-            <Route path="/contact">
-              <Contact />
-            </Route>
+            <Route path="/faq" component={FAQ} />
+            <Route path="/contact" component={Contact} />
             <Route path="/shop/:itemId/:sizeId">
-              <ItemContainer 
-              addToCart={this.addItemToCart}/>
+              <ItemContainer
+                allItems={this.state.shopItems}
+                addToCart={this.addItemToCart} />
             </Route>
           </Switch>
         </Router>
