@@ -17,10 +17,10 @@ class Navbar extends Component {
                         }}>Shop</Link>
                         <Link className="link" to="/faq">FAQ</Link>
                         <Link className="link" to="/contact">Contact</Link>
-                        <span className="link-span" id="cart-trigger">Cart</span>
+                        <a id="cart-trigger" href="#0" onClick = {this.props.displayCart}>Cart <span id="counter-wrapper">(<span id="item-counter">{this.props.itemNumber}</span>)</span></a>
                     </div>
                 </div>
-                <div id="shadow-layer"></div>
+                <div id="shadow-layer" className = {this.props.shadowState ? "is-visible" : ""} onClick = {this.props.displayCart}></div>
             </React.Fragment>
         )
     }

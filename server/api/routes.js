@@ -52,7 +52,7 @@ router.get('/quantity/:id/:size', (req, res) => {
 router.get('/quantity/:id', (req, res) => {
   const id = parseInt(req.params.id)
 
-  pool.query('SELECT color_size.quantity, size.size FROM  product_color JOIN color_size ON product_color.product_color_id = color_size.product_color_id JOIN color ON product_color.color_id = color.color_id JOIN size ON color_size.size_id = size.size_id JOIN product ON product_color.product_id = product.product_id WHERE product.product_id = $1 ORDER BY color_size.size_id',
+  pool.query('SELECT color_size.quantity, size.size, size.size_id FROM  product_color JOIN color_size ON product_color.product_color_id = color_size.product_color_id JOIN color ON product_color.color_id = color.color_id JOIN size ON color_size.size_id = size.size_id JOIN product ON product_color.product_id = product.product_id WHERE product.product_id = $1 ORDER BY color_size.size_id',
     [id], (error, results) => {
       if(error) {
         throw error

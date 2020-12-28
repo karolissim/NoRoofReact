@@ -75,6 +75,24 @@ const ItemContainer = (props) => {
         }
     }
 
+    function getItem(item) {
+        console.log("" + itemId + item.product_color_id + userItemSize);
+        return {
+            key: "" + itemId + item.product_color_id + userItemSize,
+            cartItem: {
+                itemId: itemId,
+                src: require("../../images/" + item.product_id + ".jpg").default,
+                itemSizeId: itemQuantity.find((size) => size.size === userItemSize).size_id,
+                itemColorId: item.product_color_id,
+                quantity: userItemQuantity * 1,
+                name: item.name,
+                color: item.color,
+                size: userItemSize,
+                price: item.price * 1
+            }
+        };
+    }
+
     if (isItemFetched && !itemQuantity.length === false) {
         return (
             <div className="container">
@@ -89,7 +107,10 @@ const ItemContainer = (props) => {
                         changeSize={changeSize}
                         itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
                         <div>
-                            <button className={addToCartInfo.style} type="submit" name="button" onClick={() => console.log(userItemQuantity + " " + userItemSize)}>{addToCartInfo.text}</button>
+                            <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
+                                console.log(userItemQuantity + " " + userItemSize)
+                                props.addToCart(getItem(item))
+                            }}>{addToCartInfo.text}</button>
                         </div>
                     </ItemInformation>
                 </div>

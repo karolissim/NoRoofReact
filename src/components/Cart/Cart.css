@@ -1,0 +1,134 @@
+#cart {
+    top: 0;
+    height: 100%;
+    width: 400px;
+    background: #FFF;
+    /* header height */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 101;
+    position: fixed;
+    right: -100%;
+    padding-top: 0px;
+    transition: right 0.3s;
+}
+
+#cart-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    align-items: right;
+    padding-top: 5%;
+}
+
+#cart-tag {
+    padding-left: 0.75em;
+    margin: 0!important;
+}
+
+.close-container {
+    right: 0.955em;
+    margin-left: 220px;
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    /* position: fixed; */
+    cursor: pointer;
+    align-items: center;
+}
+
+.leftright {
+    margin: 45% 0 0 20%;
+    position: absolute;
+    padding-left: 40%;
+    height: 2px;
+    width: 7px;
+    background-color: black;
+    transform: rotate(45deg);
+    transition: all 0.2s ease-in;
+}
+
+.rightleft {
+    margin: 45% 0 0 20%;
+    position: absolute;
+    padding-left: 40%;
+    height: 2px;
+    width: 7px;
+    background-color: rgb(0, 0, 0);
+    transform: rotate(-45deg);
+    transition: all 0.2s ease-in;
+}
+
+:root {
+    --close-cart-color: black;
+    --check-out-button: 107,204,241;
+}
+
+.close-container:hover .leftright {
+    transform: rotate(-45deg);
+    background-color: rgb(var(--close-cart-color));
+}
+
+.close-container:hover .rightleft {
+    transform: rotate(45deg);
+    background-color: rgb(var(--close-cart-color));
+}
+
+#cart .cart-items {
+    padding: 0;
+}
+
+#cart .cart-items li:last-child {
+    border-bottom: 1px solid #e0e6ef;
+}
+
+#cart .cart-items li {
+    position: relative;
+    padding: 1em;
+    border-top: 1px solid #e0e6ef;
+}
+
+#cart #cart-total {
+    padding-top: 0.1em;
+    padding-bottom: 1em;
+}
+
+#cart #cart-total span {
+    float: right;
+}
+
+#cart #cart-total::after {
+    /* clearfix */
+    content: '';
+    display: table;
+    clear: both;
+}
+
+#cart #total-wrapper {
+    margin: 1em;
+}
+
+#cart .checkout-btn {
+    display: block;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background: rgb(var(--check-out-button));
+    color: #FFF;
+    text-align: center;
+}
+
+#cart .checkout-btn:hover {
+    background: rgba(var(--check-out-button), 0.8);
+}
+
+#cart.speed-in {
+    right: 0;
+  }
+
+@media only screen and (max-width: 768px){
+    #cart {
+        width: 70%;
+    }
+}

@@ -1,0 +1,154 @@
+.cart-item {
+    display: flex;
+    flex-direction: row;
+}
+
+/* might need to fix width to 100 too, depends on how we make our photos */
+.cart-preview-photo {
+    cursor: pointer;
+    z-index: 120;
+    width: auto;
+    height: 100px;
+    padding-right: 10px;
+}
+
+.prdct-name {
+    cursor: pointer;
+    font-size: 1.3em;
+}
+
+#cart .color-size-wrapper {
+    margin-top: .4em;
+}
+
+.color-size {
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.75);
+    margin-top: 1em;
+}
+
+.inc-quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 76px;
+    margin-bottom: .4em;
+    margin-top: .4em;
+}
+
+.quantity-minus,
+.quantity-plus {
+  display: block;
+  width: 22px;
+  height: 23px;
+  margin: 0;
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  border-left: 0px solid #000;
+  border-right: 0px solid #000;
+  text-decoration: none;
+  text-align: center;
+  line-height: 23px;
+}
+
+.quantity-minus:hover > span {
+    color: black;
+}
+
+.quantity-minus {
+    border-radius: 3px 0 0 3px;
+}
+
+.inc-visual {
+    color: rgba(0, 0, 0, 0.76);
+}
+
+.quantity-input {
+    width: 32px;
+    height: 23px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-left: 0px solid #000;
+    border-right: 0px solid #000;
+    outline: none;
+    font-size: 100%;
+    background-color: white;
+    color: black;
+}
+
+.quantity-plus:hover > span {
+    color: black;
+} 
+
+.quantity-plus {
+    border-radius: 0 3px 3px 0;
+}
+
+.price {
+    color: #a5aebc;
+    margin-top: .4em;
+}
+
+.item-remove {
+
+    align-items: center;
+    position: absolute;
+    right: 0.92em;
+    top: 43%;
+    width: 25px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+:root {
+    --remove-item-color: black;
+}
+
+.item-remove:before, .item-remove:after {
+    position: absolute;
+    left: 12px;
+    content: ' ';
+    height: 15px;
+    width: 2px;
+    background-color: black;
+}
+
+.itm-rmv:before, .itm-rmv:after {
+    position: absolute;
+    left: 12px;
+    content: ' ';
+    height: 15px;
+    width: 2px;
+    background-color: var(--remove-item-color);
+  }
+
+.item-remove:before {
+    transform: rotate(45deg);
+}
+
+.item-remove:after {
+    transform: rotate(-45deg);
+}
+
+.img-replace {
+    /* replace text with a background-image */
+    display: inline-block;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+}
+
+@media only screen and (max-width: 768px){
+    .prdct-name {
+        font-size: 1em;
+    }
+
+    .color-size {
+        font-size: 0.9em;
+    }
+}
+
