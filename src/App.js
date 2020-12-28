@@ -28,6 +28,7 @@ class App extends Component {
       .then(res => res.json())
       .then(
         result => {
+          console.log(result.items);
           this.setState ({
             isLoaded: true,
             shopItems: result.items
@@ -35,6 +36,7 @@ class App extends Component {
         }
       )
       .catch((error) => {
+        console.log(error);
         this.setState({error: error})
       })
   }
@@ -45,7 +47,6 @@ class App extends Component {
   }
 
   modifyItemNum = (number) => {
-    console.log(number);
     this.setState({itemNumber: number + this.state.itemNumber});
   }
 
@@ -66,7 +67,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/">
               <WelcomeScreen />
-              <Shop shopItems={this.state.shopItems}/>
+              {this.state.isLoaded ? <Shop shopItems={this.state.shopItems}/> : <div></div>}
             </Route>
             <Route path="/faq">
                <FAQ />

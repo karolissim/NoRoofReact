@@ -4,6 +4,7 @@ import './Shop.css'
 
 const Shop = (props) => {
     const items = props.shopItems
+    console.log(props);
     return (
         <div id="Shop" className="shop-screen">
             <div className="shop-text">
