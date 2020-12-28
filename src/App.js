@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await fetch('http://localhost:3030/api/item/', {mode: 'cors', method: 'GET'})
+    await fetch('http://192.168.0.133:3030/api/item/', {mode: 'cors', method: 'GET'})
       .then(res => res.json())
       .then(
         result => {
@@ -43,14 +43,11 @@ class App extends Component {
               <WelcomeScreen />
               <Shop shopItems={this.state.shopItems}/>
             </Route>
-            <Route path="/faq">
-               <FAQ />
-            </Route>
-            <Route path="/contact">
-              <Contact />
-            </Route>
+            <Route path="/faq" component={FAQ}/>
+            <Route path="/contact" component={Contact}/>
             <Route path="/shop/:itemId/:sizeId">
-              <ItemContainer />
+              <ItemContainer 
+              allItems={this.state.shopItems}/>
             </Route>
           </Switch>
         </Router>

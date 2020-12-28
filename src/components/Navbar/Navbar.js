@@ -11,7 +11,10 @@ class Navbar extends Component {
                         <Link to='/'>NoRoof.</Link>
                     </div>
                     <div className="nav-links">
-                        <Link className="link" to="/shop">Shop</Link>
+                        <Link className="link" to={{
+                            pathname: '/',
+                            hash: '#shop-start'
+                        }}>Shop</Link>
                         <Link className="link" to="/faq">FAQ</Link>
                         <Link className="link" to="/contact">Contact</Link>
                         <span className="link-span" id="cart-trigger">Cart</span>

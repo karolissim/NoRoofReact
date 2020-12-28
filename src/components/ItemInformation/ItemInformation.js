@@ -16,10 +16,10 @@ const ItemInformation = (props) => {
                     <div className="selectors">
                         <select id="size-selector" className="size-selector" onChange={props.changeSize}>
                             {sizes.map((value) => {
-                                return <option value={value} key={value}>{value}</option>
+                                return <option value={value} key={props.item.product_id + "_" + value}>{value}</option>
                             })}
                         </select>
-                        <input className="size-selector" type="number" pattern="[0-9]*" value={props.userQuantity} min="1" max={props.itemQuantity} onChange={props.changeQuantity}></input>
+                        <input id="quantity-input" className="size-selector" type="number" pattern="[0-9]*" value={props.userQuantity} min="1" max={props.itemQuantity} onChange={props.changeQuantity}></input>
                     </div>
                     {props.children}
                 </div>
