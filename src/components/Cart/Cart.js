@@ -15,7 +15,8 @@ const colors = [
     '255, 0, 0',
     '0, 217, 255',
     '255, 115, 0',
-    '236, 118, 187'
+    '236, 118, 187',
+    '0, 0, 0'
 ];
 
 var localStorage = window.localStorage;
@@ -35,9 +36,9 @@ class Cart extends React.Component {
         this.addItem = this.addItem.bind(this);
         this.incrementQuantity = this.incrementQuantity.bind(this);   
         this.decrementQuantity = this.decrementQuantity.bind(this);
-        this.setLocalStorage = this.setLocalStorage.bind(this); 
-        
-        this.changeColor('--check-out-button');
+        this.setLocalStorage = this.setLocalStorage.bind(this);
+        this.closeCart = this.closeCart.bind(this);  
+
     }
 
     /**
@@ -169,6 +170,13 @@ class Cart extends React.Component {
         localStorage.setItem("exp", JSON.stringify(expiry));
     }
 
+    /**
+     * closes cart and waits until the cart is closed to recolour the checkout button
+     */
+    closeCart() {
+        this.props.displayCart();
+    }
+
     
     /**
      * if a component is updated, update local storage with new information
@@ -184,6 +192,10 @@ class Cart extends React.Component {
             this.addItem(this.props.item)
             this.props.emptyAddToCartItem()
         }
+
+        if(!prevProps.shadow) {
+            this.changeColor('--check-out-button');
+        }
     }
 
     render() {
@@ -191,7 +203,7 @@ class Cart extends React.Component {
             <div id="cart" className = {this.props.cartOn ? "speed-in" : ""}>
                 <div id="cart-header">
                     <h2 id="cart-tag">Cart</h2>
-                    <div className="close-container" id="close1" onMouseEnter = {() => this.changeColor('--close-cart-color')} onClick= {this.props.displayCart} >
+                    <div className="close-container" id="close1" onMouseEnter = {() => this.changeColor('--close-cart-color')} onClick = {this.closeCart} >
                         <div className="leftright"></div>
                         <div className="rightleft"></div>
                     </div>

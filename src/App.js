@@ -74,6 +74,7 @@ class App extends Component {
             displayCart={this.displayCart}
             item={this.state.addToCartItem}
             emptyAddToCartItem={this.emptyAddToCartItem}
+            shadow={this.state.cartShadow}
           />
           <Switch>
             <Route exact path="/">
