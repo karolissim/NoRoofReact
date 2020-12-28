@@ -66,19 +66,20 @@
 
   @media only screen and (max-width: 768px){
     .nav {
-        height: 60px;
-        padding: 0 12px 0 18px;
-      }
+      height: 60px;
+      padding: 0 12px 0 18px;
+    }
+
+    .nav .nav-links a{
+      margin-right: 12px;
+      font-size: 0.8rem;
+      color: #000;
+    }
     
-      .link, .link-span{
-        margin-right: 12px;
-        font-size: 0.8rem;
-      }
-    
-      .brand-name {
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
+    .brand-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
   }
 
   @media only screen and (max-width: 1024px) and (orientation: landscape) {

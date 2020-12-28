@@ -176,5 +176,25 @@
     .item-container__photo > img {
         width: 40vw;
         height: 75vh;
+        margin-top: 0 !important;
+    }
+
+    .item-container__photo {
+        margin-top: 0 !important;
+    }
+}
+
+@media only screen and (max-width: 900px) and (orientation: landscape) {
+    .item-container__photo > img {
+        width: 40vw;
+        height: 70vh;
+    }
+
+    .item-container__photo {
+        margin-top: 60px !important;
+    }
+
+    .add-to-cart-button {
+        width: 20vw;
     }
 }
