@@ -142,3 +142,13 @@
     white-space: nowrap;
 }
 
+@media only screen and (max-width: 768px){
+    .prdct-name {
+        font-size: 1em;
+    }
+
+    .color-size {
+        font-size: 0.9em;
+    }
+}
+

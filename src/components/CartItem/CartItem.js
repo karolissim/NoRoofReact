@@ -1,6 +1,7 @@
 import React from 'react';
 
 import "./CartItem.css"
+import {Link} from 'react-router-dom'
 
 const colors = [
     //block green
@@ -43,15 +44,18 @@ class CartItem extends React.Component {
 
     render() {
         const item = this.props.item;
+        console.log("/shop/" + item.cartItem.itemColorId + "/" + item.cartItem.itemSizeId)
         return (
             <li className = "cart-item">
-                <img className = "cart-preview-photo" src = {item.cartItem.src} alt={item.cartItem.name}></img>
+                <Link to={"/shop/" + item.cartItem.itemColorId + "/" + item.cartItem.itemSizeId}>
+                    <img className = "cart-preview-photo" src = {item.cartItem.src} alt = {item.cartItem.name} title = {item.cartItem.name} onClick = {this.props.displayCart}></img>
+                </Link>
                 <div className = "cart-info">
                     <span hidden = {item.cartItem.itemId} className = "item-id"></span>
                     <span hidden = {item.cartItem.itemSizeId} className = "item-size-id"></span>
                     <span hidden = {item.cartItem.itemColorId} className = "item-color-id"></span>
     
-                    <span className = "prdct-name">{item.cartItem.name}</span>
+                    <span className = "prdct-name" title = {item.cartItem.name}>{item.cartItem.name}</span>
                     <div className = "color-size-wrapper">
                         <span className = "color-size">{item.cartItem.color + " / " + item.cartItem.size}</span>
                     </div>

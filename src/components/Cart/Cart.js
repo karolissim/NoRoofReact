@@ -5,33 +5,18 @@ import CartItem from '../CartItem/CartItem';
 
 const colors = [
     //block green
-    'rgb(131,209,104)',
-    'rgb(255,225,93)',
-    'rgb(107,204,241)',
-    'rgb(237,185,104)',
-    'rgb(197,177,213)',
-    'rgb(255,165,191)',
-    'rgb(194,226,96)',
-    'red',
-    'cyan',
-    'orange',
-    'pink'
+    '131,209,104',
+    '255,225,93',
+    '107,204,241',
+    '237,185,104',
+    '197,177,213',
+    '255,165,191',
+    '194,226,96',
+    '255, 0, 0',
+    '0, 217, 255',
+    '255, 115, 0',
+    '236, 118, 187'
 ];
-
-const mockItem = {
-  key: 255,
-  cartItem: {
-    itemId: 2,
-    src: require("../../images/logo.png").default,
-    itemSizeId: 2,
-    itemColorId: 2,
-    quantity: 5,
-    name: "NO-ROOF-HOODIE",
-    color: "Orow",
-    size: "M",
-    price: 70
-  }
-}
 
 var localStorage = window.localStorage;
 
@@ -50,7 +35,9 @@ class Cart extends React.Component {
         this.addItem = this.addItem.bind(this);
         this.incrementQuantity = this.incrementQuantity.bind(this);   
         this.decrementQuantity = this.decrementQuantity.bind(this);
-        this.setLocalStorage = this.setLocalStorage.bind(this);     
+        this.setLocalStorage = this.setLocalStorage.bind(this); 
+        
+        this.changeColor('--check-out-button');
     }
 
     /**
@@ -119,12 +106,13 @@ class Cart extends React.Component {
                        totalPrice: this.state.totalPrice - price});
         this.props.modifyItemNum(-1);
     }
+
     /** 
      * method that changes color of the close cart button "X" once it is hovered over
      */
-    changeColor() {
+    changeColor(name) {
         let randomColor = colors[Math.floor(Math.random() * colors.length)];
-        document.documentElement.style.setProperty('--close-cart-color', randomColor);
+        document.documentElement.style.setProperty(name, randomColor);
     }
 
     /**
@@ -165,7 +153,6 @@ class Cart extends React.Component {
         });
 
         (index !== -1) ? itemArray[index].cartItem.quantity += quantity : itemArray.push(item);
-        console.log("hello");
         this.props.modifyItemNum(quantity);
         this.setState({cartItems: itemArray,
                        totalPrice: this.state.totalPrice + item.cartItem.price * quantity});
@@ -194,7 +181,6 @@ class Cart extends React.Component {
             this.setLocalStorage();
         }
         if(this.props.item !== null) {
-            console.log("gaidys: " + this.props.item)
             this.addItem(this.props.item)
             this.props.emptyAddToCartItem()
         }
@@ -205,7 +191,7 @@ class Cart extends React.Component {
             <div id="cart" className = {this.props.cartOn ? "speed-in" : ""}>
                 <div id="cart-header">
                     <h2 id="cart-tag">Cart</h2>
-                    <div className="close-container" id="close1" onMouseEnter = {this.changeColor} onClick= {this.props.displayCart} >
+                    <div className="close-container" id="close1" onMouseEnter = {() => this.changeColor('--close-cart-color')} onClick= {this.props.displayCart} >
                         <div className="leftright"></div>
                         <div className="rightleft"></div>
                     </div>
@@ -217,6 +203,7 @@ class Cart extends React.Component {
                                                                     removeItem = {this.removeItem}
                                                                     incrementQuantity = {this.incrementQuantity}
                                                                     decrementQuantity = {this.decrementQuantity}
+                                                                    displayCart = {this.props.displayCart}
                                                                     />)) }  
                 </ul>
 
@@ -227,7 +214,6 @@ class Cart extends React.Component {
                     </p>
                 </div>
                 <a href="#0" className="checkout-btn">Checkout</a>
-                <a href="#0" className="checkout-btn" onClick = {() => this.addItem(mockItem)}>Add to Cart</a>
              </div>
         )
     }

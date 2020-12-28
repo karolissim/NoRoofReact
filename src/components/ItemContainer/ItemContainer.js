@@ -15,23 +15,9 @@ const AddToCartButtonState = [
     }
 ]
 
-const mockItem = {
-    key: 255,
-    cartItem: {
-      itemId: 2,
-      src: require("../../images/logo.png").default,
-      itemSizeId: 2,
-      itemColorId: 2,
-      quantity: 5,
-      name: "NO-ROOF-HOODIE",
-      color: "Orow",
-      size: "M",
-      price: 70
-    }
-  }
+
 
 const ItemContainer = (props) => {
-    console.log(props)
     const { itemId, sizeId } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const [item, setItem] = useState([])
@@ -42,6 +28,7 @@ const ItemContainer = (props) => {
     const addToCartInfo = itemQuantityInStock === 0 ? AddToCartButtonState[0] : AddToCartButtonState[1]
 
     useEffect(() => {
+        console.log("here");
         function fetchItem() {
             fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
@@ -65,6 +52,25 @@ const ItemContainer = (props) => {
         setUserItemSize(event.target.value)
     }
 
+    function getItem(item) {
+        console.log("" + itemId + item.product_color_id + userItemSize);
+        return {
+            key: "" + itemId + item.product_color_id + userItemSize,
+            cartItem: {
+              itemId: itemId,
+              src: itemPhoto,
+              itemSizeId: userItemSize,
+              itemColorId: item.product_color_id,
+              quantity: userDesiredQuantity * 1,
+              name: item.name,
+              color: item.color,
+              size: userItemSize,
+              price: item.price * 1
+            }
+        };
+
+    }
+
     if (!isLoading) {
         return (
             <div className="item-container">
@@ -80,7 +86,7 @@ const ItemContainer = (props) => {
                     <div>
                         <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
                             console.log(userDesiredQuantity + " " + userItemSize)
-                            props.addToCart(mockItem)
+                            props.addToCart(getItem(item))
                         }}>{addToCartInfo.text}</button>
                     </div>
                 </ItemInformation>
