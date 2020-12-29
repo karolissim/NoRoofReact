@@ -50,6 +50,7 @@
   text-decoration: none;
   text-align: center;
   line-height: 23px;
+  cursor: pointer;
 }
 
 .quantity-minus:hover > span {
@@ -94,7 +95,6 @@
 }
 
 .item-remove {
-
     align-items: center;
     position: absolute;
     right: 0.92em;
@@ -102,6 +102,7 @@
     width: 25px;
     height: 20px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 :root {
