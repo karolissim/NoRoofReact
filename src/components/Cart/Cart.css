@@ -11,7 +11,7 @@
     position: fixed;
     right: -100%;
     padding-top: 0px;
-    transition: right 0.3s;
+    transition: right 0.2s;
 }
 
 #cart-header {

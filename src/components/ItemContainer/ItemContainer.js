@@ -7,11 +7,13 @@ import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 const AddToCartButtonState = [
     {
         style: 'add-to-cart-button unavailable',
-        text: 'OUT OF STOCK'
+        text: 'OUT OF STOCK',
+        isDisabled: true
     },
     {
         style: 'add-to-cart-button available',
-        text: 'ADD TO CART'
+        text: 'ADD TO CART',
+        isDisabled: false
     }
 ]
 
@@ -56,6 +58,11 @@ const ItemContainer = (props) => {
 
     function changeQuantity(event) {
         setUserQuantity(event.target.value)
+    }
+
+    function quantityValidation(value) {
+        console.log(value)
+        setUserQuantity(value)
     }
 
     function changeSize(event) {
@@ -104,13 +111,14 @@ const ItemContainer = (props) => {
                         item={item}
                         userQuantity={userItemQuantity}
                         changeQuantity={changeQuantity}
+                        quantityValidation={quantityValidation}
                         changeSize={changeSize}
                         itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
                         <div>
                             <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
                                 console.log(userItemQuantity + " " + userItemSize)
                                 props.addToCart(getItem(item))
-                            }}>{addToCartInfo.text}</button>
+                            }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
                         </div>
                     </ItemInformation>
                 </div>
