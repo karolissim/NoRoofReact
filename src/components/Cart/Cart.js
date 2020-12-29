@@ -213,7 +213,7 @@ class Cart extends React.Component {
                         <span id="currency">€</span>
                     </p>
                 </div>
-                <a href="#0" className="checkout-btn">Checkout</a>
+                <a className="checkout-btn">Checkout</a>
              </div>
         )
     }

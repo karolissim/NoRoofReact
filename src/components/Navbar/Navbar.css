@@ -64,6 +64,10 @@
     font-size: 80%;
   }
 
+  #cart-trigger {
+    cursor: pointer;
+  }
+
   @media only screen and (max-width: 768px){
     .nav {
       height: 60px;

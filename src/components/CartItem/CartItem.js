@@ -61,11 +61,11 @@ class CartItem extends React.Component {
                     </div>
     
                     <div className = "inc-quantity">
-                        <a href = "#0" className = "quantity-minus" onClick = {() => this.props.decrementQuantity(item.key)}>
+                        <a className = "quantity-minus" onClick = {() => this.props.decrementQuantity(item.key)}>
                             <span className = "inc-visual"> - </span>
                         </a>
                         <input type = "text" className = "quantity-input" value = {item.cartItem.quantity} disabled></input>
-                        <a href = "#0" className = "quantity-plus" onClick = {() => this.props.incrementQuantity(item.key)}>
+                        <a className = "quantity-plus" onClick = {() => this.props.incrementQuantity(item.key)}>
                             <span className = "inc-visual"> + </span>
                         </a>
                     </div>
@@ -75,7 +75,7 @@ class CartItem extends React.Component {
                         <span> {item.cartItem.price * item.cartItem.quantity} </span>
                     </div>
     
-                    <a href = "#0" className = {this.state.itemCloseHover ? "item-remove img-replace itm-rmv" : "item-remove img-replace"}
+                    <a className = {this.state.itemCloseHover ? "item-remove img-replace itm-rmv" : "item-remove img-replace"}
                     onMouseOver = {this.changeColor} onMouseOut = {this.closeExit} onClick = {() => this.props.removeItem(item.key)}>Remove</a>
                 </div>
             </li>
