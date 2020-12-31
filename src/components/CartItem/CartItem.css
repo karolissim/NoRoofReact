@@ -4,6 +4,7 @@
 }
 
 /* might need to fix width to 100 too, depends on how we make our photos */
+
 .cart-preview-photo {
     cursor: pointer;
     z-index: 120;
@@ -38,23 +39,22 @@
     margin-top: .4em;
 }
 
-.quantity-minus,
-.quantity-plus {
-  display: block;
-  width: 22px;
-  height: 23px;
-  margin: 0;
-  border-top: 2px solid #000;
-  border-bottom: 2px solid #000;
-  border-left: 0px solid #000;
-  border-right: 0px solid #000;
-  text-decoration: none;
-  text-align: center;
-  line-height: 23px;
-  cursor: pointer;
+.quantity-minus, .quantity-plus {
+    display: block;
+    width: 22px;
+    height: 23px;
+    margin: 0;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-left: 0px solid #000;
+    border-right: 0px solid #000;
+    text-decoration: none;
+    text-align: center;
+    line-height: 23px;
+    cursor: pointer;
 }
 
-.quantity-minus:hover > span {
+.quantity-minus:hover>span {
     color: black;
 }
 
@@ -85,9 +85,9 @@
     border-radius: 0px;
 }
 
-.quantity-plus:hover > span {
+.quantity-plus:hover>span {
     color: black;
-} 
+}
 
 .quantity-plus {
     border-radius: 0 3px 3px 0;
@@ -129,7 +129,7 @@
     height: 15px;
     width: 2px;
     background-color: var(--remove-item-color);
-  }
+}
 
 .item-remove:before {
     transform: rotate(45deg);
@@ -147,11 +147,10 @@
     white-space: nowrap;
 }
 
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 768px) {
     .prdct-name {
         font-size: 1em;
     }
-
     .color-size {
         font-size: 0.9em;
     }

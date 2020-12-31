@@ -27,20 +27,6 @@ const Shop = (props) => {
                             </div>
                         )
                     })}
-                    {items.map((item, i) => {
-                        const size = item.available_size.split(",")[0]
-                        return (
-                            <div className="shop-grid__item" key={i}>
-                                <div className="shop-grid__item-info">
-                                    <Link to={"/shop/" + item.product_id + "/" + size}>
-                                        <img className="item-image" src={require("../../images/" + item.product_id + ".jpg").default} alt=""></img>
-                                    </Link>
-                                    <h2>{item.name}</h2>
-                                    <h3>€{item.price}</h3>
-                                </div>
-                            </div>
-                        )
-                    })}
                 </div>
             </div>
             <div id="cart-message"></div>
