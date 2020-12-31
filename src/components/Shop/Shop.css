@@ -7,7 +7,7 @@
 }
 
 .shop-grid {
-  padding: 24px 10vw 24px 10vw;
+  padding: 24px 5vw 24px 5vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -128,10 +128,6 @@
 }
 
 @media only screen and (max-width: 1024px) and (orientation: landscape) {
-  /* .item img {
-    height: 70vh;
-    width: auto;
-  } */
   .shop-text h1 {
     font-size: 2rem;
   }
