@@ -2,10 +2,10 @@
     display: flex;
     text-align: center;
     justify-content: center;
-    margin: 30vh 0 0 0;
-    height: 100%;
+    align-items: center;
+    height: 100vh;
   }
-  
+
   .form {
     display: grid;
     align-items: center;
@@ -13,53 +13,53 @@
     margin: 0 auto;
     box-align: center;
   }
-  
+
   .message-form h1 {
     font-size: 2.5rem;
   }
-  
+
   .message-form textarea {
     justify-self: center;
     width: 30vw;
     outline: none;
     resize: none;
     overflow: auto;
-    border-color: rgb(107,204,241);
+    border-color: rgb(107, 204, 241);
     border-width: 3px;
     padding: 10px;
     font-family: Tahoma, sans-serif;
   }
-  
+
   .submit-button {
     justify-self: center;
     margin-top: 1rem;
     width: 20vw;
-    background-color:rgb(107,204,241);
-    border-radius:25px;
-    border:1px solid rgb(107,204,241);
-    display:inline-block;
-    cursor:pointer;
-    color:#ffffff;
-    font-family:Arial;
-    font-size:1rem;
-    padding:1rem 2.5rem;
-    text-decoration:none;
+    background-color: rgb(107, 204, 241);
+    border-radius: 25px;
+    border: 1px solid rgb(107, 204, 241);
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 1rem;
+    padding: 1rem 2.5rem;
+    text-decoration: none;
     text-align: center;
     -webkit-appearance: none;
     -moz-appearance: none;
   }
-  
+
   .social-media h3 {
     font-size: 1rem;
   }
 
   .social-media {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     align-items: center;
     text-align: center;
   }
-  
+
   .media-links {
     width: 10vw;
     display: flex;
@@ -67,59 +67,59 @@
     justify-content: space-around;
     align-items: center;
     margin: auto;
-    padding-bottom: 3vh;
+    padding-bottom: 1vh;
   }
-  
+
   .media-links a img {
     width: 2vw;
   }
 
-@media only screen and (max-width: 1024px){
-    .contact-screen {
-      margin-top: 80px;
-    }
-
-    .form {
-        width: auto;
-        margin-top: 10vh;
-        padding-left: 2vw;
-    }
-    
-    .message-form input {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-    }
-    
+  @media only screen and (max-width: 1024px) {
     .submit-button {
-        padding: 0.7rem 0;
-        width: 40vw;
+      padding: 0.7rem 0;
+      width: 40vw;
     }
-    
     .message-form textarea {
-        width: 70vw;
-        margin: 0 !important;
+      width: 70vw;
+      margin: 0 !important;
     }
-    
-    .media-links {
-        width: 20vw;
-    }
-    
-    .media-links a img{
-        width: 6vw;
-        margin-right: 5px;
-    }
-
     .social-media h3 {
-      margin-top: 15vh;
+      margin: 6px 0;
     }
-}
-
-@media only screen and (max-width: 1024px) and (orientation: landscape) {
-  .social-media {
-    position: relative;
+    .media-links {
+      width: 20vw;
+      margin-top: 12px;
+    }
+    .media-links a img {
+      width: 4vw;
+      margin-right: 5px;
+    }
   }
 
-  .contact-screen {
-    flex-direction: column;
+  @media only screen and (max-width: 700px) {
+    .contact-screen {
+      margin-top: 20vh;
+      height: 100%;
+    }
+    .message-form h1 {
+      font-size: 1.7rem;
+    }
+    .message-form textarea {
+      height: 20vh;
+    }
   }
-}
+
+  @media only screen and (max-width: 1024px) and (orientation: landscape) {
+    .contact-screen {
+      flex-direction: column;
+    }
+  }
+
+  @media only screen and (max-width: 900px) and (orientation: landscape) {
+    .social-media {
+      display: none;
+    }
+    .message-form textarea {
+      height: 30vh;
+    }
+  }
