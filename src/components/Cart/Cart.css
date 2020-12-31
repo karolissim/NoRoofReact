@@ -62,7 +62,7 @@
 
 :root {
     --close-cart-color: black;
-    --check-out-button: 107,204,241;
+    --check-out-button: 107, 204, 241;
 }
 
 .close-container:hover .leftright {
@@ -129,9 +129,9 @@
 
 #cart.speed-in {
     right: 0;
-  }
+}
 
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 768px) {
     #cart {
         width: 70%;
     }

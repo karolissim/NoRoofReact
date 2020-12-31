@@ -5,21 +5,21 @@
 .item-container__info h2 {
     margin-bottom: 0 !important;
 }
-  
+
 .author-tag {
     margin: 0 !important;
     opacity: 0.7;
 }
-  
+
 .additional-info {
     margin-top: 18px;
 }
-  
+
 .additional-info p {
-    margin: 0 ;
+    margin: 0;
     margin-bottom: 2px !important;
 }
-  
+
 .additional-info h2 {
     margin-top: .7rem;
 }
@@ -29,8 +29,8 @@
     background-repeat: no-repeat, repeat;
     background-position: right .2em top 50%, 0 0;
     background-size: 1.2em auto, 100%;
-  }
-  
+}
+
 .size-selector {
     display: block;
     font-size: 1.2em;
@@ -48,32 +48,27 @@
     background-color: #fff;
     border-radius: 5px;
 }
-  
+
 .size-selector:focus, .add-to-cart-button, .size-chart-button {
     outline: none;
 }
 
 @media only screen and (max-width: 1024px) {
-    .item-container__info > h2 {
+    .item-container__info>h2 {
         font-size: 2rem;
     }
-
     .author-tag {
         font-size: 1.5rem;
     }
-
-    .additional-info > p {
+    .additional-info>p {
         font-size: 1.5rem;
     }
-
-    .additional-info > h2 > span{
+    .additional-info>h2>span {
         font-size: 1.5rem;
-      }
-
-    .additional-info > h2 {
+    }
+    .additional-info>h2 {
         margin-top: 0 !important;
     }
-
     .size-selector {
         margin: 8px 0 8px 0 !important;
         height: 2.3rem;
@@ -84,55 +79,45 @@
     .additional-info {
         margin-top: 8px;
     }
-
     .size-selector {
         font-size: 1rem;
         width: 40vw !important;
         margin: 8px 0 0 0 !important;
         margin: 1rem auto;
         height: 2rem;
-      }
-
-    .item-container__info > h2 {
+    }
+    .item-container__info>h2 {
         font-size: 1.5rem;
     }
-
     .author-tag {
         font-size: 1rem;
     }
-
-    .additional-info > h2 > span{
+    .additional-info>h2>span {
         font-size: 1.3rem;
     }
-
-    .additional-info > h2 {
+    .additional-info>h2 {
         margin-top: 0 !important;
     }
-
-    .additional-info > p {
+    .additional-info>p {
         font-size: 1rem;
     }
 }
 
 @media only screen and (max-width: 1024px) and (orientation: landscape) {
-    .item-container__info > h2 {
+    .item-container__info>h2 {
         margin-top: 0 !important;
         font-size: 1.5rem;
     }
-
     .author-tag {
         font-size: 1rem;
     }
-
-    .additional-info > h2 > span{
+    .additional-info>h2>span {
         font-size: 1.3rem;
     }
-
-    .additional-info > h2 {
+    .additional-info>h2 {
         margin-top: 0 !important;
     }
-
-    .additional-info > p {
+    .additional-info>p {
         font-size: 1rem;
     }
 }
@@ -141,19 +126,16 @@
     .item-container__info {
         margin-top: 60px;
     }
-    .item-container__info > h2 {
+    .item-container__info>h2 {
         margin-top: 0 !important;
         font-size: 1.2rem;
     }
-
     .author-tag {
         font-size: 0.9rem;
     }
-
-    .additional-info > h2 > span{
+    .additional-info>h2>span {
         font-size: 1.1rem;
     }
-
     .size-selector {
         font-size: 1rem;
         width: 20vw !important;

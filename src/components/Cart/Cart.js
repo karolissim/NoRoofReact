@@ -29,14 +29,15 @@ class Cart extends React.Component {
         localStorage.getItem("totalPrice") ? total = JSON.parse(localStorage.getItem("totalPrice")) : total = 0;
 
         this.state = {
-          cartShadow: false,
-          totalPrice: total,
-          cartItems: cartItems};
+            cartShadow: false,
+            totalPrice: total,
+            cartItems: cartItems
+        };
         this.addItem = this.addItem.bind(this);
-        this.incrementQuantity = this.incrementQuantity.bind(this);   
+        this.incrementQuantity = this.incrementQuantity.bind(this);
         this.decrementQuantity = this.decrementQuantity.bind(this);
-        this.setLocalStorage = this.setLocalStorage.bind(this); 
-        
+        this.setLocalStorage = this.setLocalStorage.bind(this);
+
         this.changeColor('--check-out-button');
     }
 
@@ -51,7 +52,7 @@ class Cart extends React.Component {
         let cartItems = [];
         let now = new Date();
         let quantity = 0;
-        
+
         if (localStorage.getItem("cartItems")) {
             let expiry = JSON.parse(localStorage.getItem("exp"));
             expiry < now.getTime() ? localStorage.clear() : (cartItems = JSON.parse(localStorage.getItem("cartItems")));
@@ -61,7 +62,7 @@ class Cart extends React.Component {
             quantity += element.cartItem.quantity;
         });
         this.props.modifyItemNum(quantity);
-        return cartItems; 
+        return cartItems;
     }
 
     /**
@@ -73,13 +74,15 @@ class Cart extends React.Component {
         let updatedCart = this.state.cartItems;
         let price = 0;
         updatedCart.forEach((element) => {
-            if(element.key === key) {
+            if (element.key === key) {
                 element.cartItem.quantity += 1;
                 price = element.cartItem.price;
             }
         });
-        this.setState({cartItems: updatedCart,
-                       totalPrice: this.state.totalPrice + price});
+        this.setState({
+            cartItems: updatedCart,
+            totalPrice: this.state.totalPrice + price
+        });
         this.props.modifyItemNum(1);
     }
 
@@ -94,16 +97,18 @@ class Cart extends React.Component {
         let updatedCart = this.state.cartItems;
         let price = 0;
         updatedCart.forEach((element) => {
-            if(element.key === key) {
-                
+            if (element.key === key) {
+
                 if (element.cartItem.quantity > 1) {
                     element.cartItem.quantity -= 1;
                     price = element.cartItem.price;
                 }
             }
         });
-        this.setState({cartItems: updatedCart,
-                       totalPrice: this.state.totalPrice - price});
+        this.setState({
+            cartItems: updatedCart,
+            totalPrice: this.state.totalPrice - price
+        });
         this.props.modifyItemNum(-1);
     }
 
@@ -124,16 +129,17 @@ class Cart extends React.Component {
     removeItem = (key) => {
         let price = 0;
         let quantity = 0;
-        let withoutItem = this.state.cartItems.filter(function(value, index, arr) {
-          if (value.key === key) {
+        let withoutItem = this.state.cartItems.filter(function (value, index, arr) {
+            if (value.key === key) {
                 price = value.cartItem.quantity * value.cartItem.price;
                 quantity = value.cartItem.quantity;
             }
-          return !(value.key === key);
+            return !(value.key === key);
         });
-        this.setState( {
-          cartItems: withoutItem,
-          totalPrice: this.state.totalPrice - price}
+        this.setState({
+            cartItems: withoutItem,
+            totalPrice: this.state.totalPrice - price
+        }
         );
         this.props.modifyItemNum(-quantity);
     }
@@ -147,15 +153,17 @@ class Cart extends React.Component {
     addItem(item) {
         let itemArray = this.state.cartItems;
         let quantity = item.cartItem.quantity;
-        
-        let index = itemArray.findIndex(function(currentValue, index, arr) {
+
+        let index = itemArray.findIndex(function (currentValue, index, arr) {
             return currentValue.key === item.key;
         });
 
         (index !== -1) ? itemArray[index].cartItem.quantity += quantity : itemArray.push(item);
         this.props.modifyItemNum(quantity);
-        this.setState({cartItems: itemArray,
-                       totalPrice: this.state.totalPrice + item.cartItem.price * quantity});
+        this.setState({
+            cartItems: itemArray,
+            totalPrice: this.state.totalPrice + item.cartItem.price * quantity
+        });
     }
 
     /**
@@ -169,7 +177,7 @@ class Cart extends React.Component {
         localStorage.setItem("exp", JSON.stringify(expiry));
     }
 
-    
+
     /**
      * if a component is updated, update local storage with new information
      * 
@@ -180,7 +188,7 @@ class Cart extends React.Component {
         if (prevState !== this.state) {
             this.setLocalStorage();
         }
-        if(this.props.item !== null) {
+        if (this.props.item !== null) {
             this.addItem(this.props.item)
             this.props.emptyAddToCartItem()
         }
@@ -188,33 +196,33 @@ class Cart extends React.Component {
 
     render() {
         return (
-            <div id="cart" className = {this.props.cartOn ? "speed-in" : ""}>
+            <div id="cart" className={this.props.cartOn ? "speed-in" : ""}>
                 <div id="cart-header">
                     <h2 id="cart-tag">Cart</h2>
-                    <div className="close-container" id="close1" onMouseEnter = {() => this.changeColor('--close-cart-color')} onClick= {this.props.displayCart} >
+                    <div className="close-container" id="close1" onMouseEnter={() => this.changeColor('--close-cart-color')} onClick={this.props.displayCart} >
                         <div className="leftright"></div>
                         <div className="rightleft"></div>
                     </div>
                 </div>
-                
+
                 <ul className="cart-items" id="cart-item-container">
-                    { this.state.cartItems.map((item) => (<CartItem key = {item.key} 
-                                                                    item = {item} 
-                                                                    removeItem = {this.removeItem}
-                                                                    incrementQuantity = {this.incrementQuantity}
-                                                                    decrementQuantity = {this.decrementQuantity}
-                                                                    displayCart = {this.props.displayCart}
-                                                                    />)) }  
+                    {this.state.cartItems.map((item) => (<CartItem key={item.key}
+                        item={item}
+                        removeItem={this.removeItem}
+                        incrementQuantity={this.incrementQuantity}
+                        decrementQuantity={this.decrementQuantity}
+                        displayCart={this.props.displayCart}
+                    />))}
                 </ul>
 
                 <div id="cart-total">
-                    <p id="total-wrapper">Total 
+                    <p id="total-wrapper">Total
                         <span id="total">{this.state.totalPrice}</span>
                         <span id="currency">€</span>
                     </p>
                 </div>
                 <a className="checkout-btn">Checkout</a>
-             </div>
+            </div>
         )
     }
 }

@@ -31,17 +31,14 @@
     .welcome-text h1 {
         font-size: 4rem;
     }
-    
     .welcome-text h3 {
         font-size: 2rem;
     }
-
     .welcome-screen {
         flex-direction: column-reverse;
         justify-content: space-around;
         text-align: center;
     }
-
     .welcome-image img {
         width: 70vw;
         margin: 0 !important;
@@ -53,11 +50,9 @@
         width: 70vw;
         margin: 0 !important;
     }
-
     .welcome-text h1 {
         font-size: 2.5rem;
     }
-    
     .welcome-text h3 {
         font-size: 1rem;
     }
@@ -67,15 +62,12 @@
     .welcome-text {
         margin-top: 80px;
     }
-
     .welcome-text h1 {
         font-size: 2rem;
     }
-
     .welcome-text h3 {
         font-size: 1rem;
     }
-
     .welcome-image {
         width: 35vw;
         margin-top: 36px;
