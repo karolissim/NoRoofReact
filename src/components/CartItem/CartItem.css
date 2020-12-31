@@ -7,9 +7,10 @@
 .cart-preview-photo {
     cursor: pointer;
     z-index: 120;
-    width: auto;
+    width: 100px;
     height: 100px;
     padding-right: 10px;
+    object-fit: contain;
 }
 
 .prdct-name {
@@ -79,6 +80,9 @@
     font-size: 100%;
     background-color: white;
     color: black;
+    -webkit-apperance: none;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
 }
 
 .quantity-plus:hover > span {
@@ -152,4 +156,3 @@
         font-size: 0.9em;
     }
 }
-

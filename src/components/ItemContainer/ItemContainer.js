@@ -17,6 +17,11 @@ const AddToCartButtonState = [
     }
 ]
 
+/**
+ * React functional component which is responsible for rendering 
+ * single shopping item with its all information and showing recommended items' on a right side 
+ * @param {Object} props 
+ */
 const ItemContainer = (props) => {
     const { itemId, sizeId } = useParams()
     const [isItemFetched, setIsItemFetched] = useState(false)
@@ -33,6 +38,9 @@ const ItemContainer = (props) => {
     })
 
     useEffect(() => {
+        /**
+         * Fetches single item data from server using item ID and size ID as params
+         */
         async function fetchItem() {
             await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
@@ -43,6 +51,9 @@ const ItemContainer = (props) => {
                 })
         }
 
+        /**
+         * Fetches all item's quantities and sizes using item ID as param
+         */
         async function fetchQuantity() {
             await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
@@ -56,15 +67,29 @@ const ItemContainer = (props) => {
         fetchItem()
     }, [itemId])
 
+    /**
+     * Method is called after item quantity input's onChange event is triggered and
+     * it changes user quantity value to the one that is set in quantity input element
+     * @param {SyntheticEvent} event
+     */
     function changeQuantity(event) {
         setUserQuantity(event.target.value)
     }
 
+    /**
+     * Method is called after item quantity input's onBlur event is triggered.
+     * If input's value is greater than present item quantity or less than 1,
+     * user's quantity is being altered respectively to highest quantity or 1
+     * @param {number} value - Item quantity to be set 
+     */
     function quantityValidation(value) {
-        console.log(value)
         setUserQuantity(value)
     }
 
+    /**
+     * 
+     * @param {SyntheticEvent} event 
+     */
     function changeSize(event) {
         setUserItemSize(event.target.value)
         var currentQuantity = itemQuantity.find((size) => size.size === event.target.value).quantity
