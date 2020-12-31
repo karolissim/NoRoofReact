@@ -29,7 +29,6 @@ class App extends Component {
       .then(res => res.json())
       .then(
         result => {
-          console.log(result.items);
           this.setState({
             isLoaded: true,
             shopItems: result.items
@@ -92,7 +91,6 @@ class App extends Component {
       </div>
     );
   }
-
 }
 
 export default App

@@ -47,7 +47,7 @@ class CartItem extends React.Component {
         console.log("/shop/" + item.cartItem.itemColorId + "/" + item.cartItem.itemSizeId)
         return (
             <li className = "cart-item">
-                <Link to={"/shop/" + item.cartItem.itemColorId + "/" + item.cartItem.itemSizeId}>
+                <Link to={"/shop/" + item.cartItem.itemId + "/" + item.cartItem.size}>
                     <img className = "cart-preview-photo" src = {item.cartItem.src} alt = {item.cartItem.name} title = {item.cartItem.name} onClick = {this.props.displayCart}></img>
                 </Link>
                 <div className = "cart-info">
