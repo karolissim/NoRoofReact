@@ -7,6 +7,7 @@ import FAQ from './components/FAQ/FAQ'
 import Contact from './components/Contact/Contact'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Cart from './components/Cart/Cart';
+import ErrorHandler from './components/ErrorHandler/ErrorHandler';
 
 class App extends Component {
   constructor(props) {
@@ -18,14 +19,15 @@ class App extends Component {
       error: null,
       isLoaded: false,
       shopItems: [],
-      addToCartItem: null
+      addToCartItem: null,
+      limitReached: false
     }
 
     this.modifyItemNum = this.modifyItemNum.bind(this);
   }
 
   async componentDidMount() {
-    await fetch('http://localhost:3030/api/item/', { mode: 'cors', method: 'GET' })
+    await fetch('http://192.168.1.160:3030/api/item/', { mode: 'cors', method: 'GET' })
       .then(res => res.json())
       .then(
         result => {
@@ -58,6 +60,10 @@ class App extends Component {
     this.setState({ addToCartItem: null })
   }
 
+  setLimitReached = (bool) => {
+    this.setState({limitReached: bool});
+  }
+
   render() {
     return (
       <div className="App">
@@ -73,6 +79,8 @@ class App extends Component {
             displayCart={this.displayCart}
             item={this.state.addToCartItem}
             emptyAddToCartItem={this.emptyAddToCartItem}
+            shadow={this.state.cartShadow}
+            setLimitReached = {this.setLimitReached}
           />
           <Switch>
             <Route exact path="/">
@@ -83,6 +91,8 @@ class App extends Component {
             <Route path="/contact" component={Contact} />
             <Route path="/shop/:itemId/:sizeId">
               <ItemContainer
+                limitReached = {this.state.limitReached}
+                setLimitReached = {this.setLimitReached}
                 allItems={this.state.shopItems}
                 addToCart={this.addItemToCart} />
             </Route>

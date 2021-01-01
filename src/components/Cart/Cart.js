@@ -15,7 +15,8 @@ const colors = [
     '255, 0, 0',
     '0, 217, 255',
     '255, 115, 0',
-    '236, 118, 187'
+    '236, 118, 187',
+    '0, 0, 0'
 ];
 
 var localStorage = window.localStorage;
@@ -37,8 +38,13 @@ class Cart extends React.Component {
         this.incrementQuantity = this.incrementQuantity.bind(this);
         this.decrementQuantity = this.decrementQuantity.bind(this);
         this.setLocalStorage = this.setLocalStorage.bind(this);
+<<<<<<< HEAD
 
         this.changeColor('--check-out-button');
+=======
+        this.closeCart = this.closeCart.bind(this);  
+
+>>>>>>> cart_quantity_limiter_and_features
     }
 
     /**
@@ -73,7 +79,9 @@ class Cart extends React.Component {
     incrementQuantity(key) {
         let updatedCart = this.state.cartItems;
         let price = 0;
+        let value = 0;
         updatedCart.forEach((element) => {
+<<<<<<< HEAD
             if (element.key === key) {
                 element.cartItem.quantity += 1;
                 price = element.cartItem.price;
@@ -84,6 +92,20 @@ class Cart extends React.Component {
             totalPrice: this.state.totalPrice + price
         });
         this.props.modifyItemNum(1);
+=======
+            if(element.key === key) {
+                if(element.cartItem.maxQuantity !== element.cartItem.quantity) {
+                    element.cartItem.quantity += 1;
+                    price = element.cartItem.price;
+                    value = 1;
+                }
+
+            }
+        });
+        this.setState({cartItems: updatedCart,
+                       totalPrice: this.state.totalPrice + price});
+        this.props.modifyItemNum(value);
+>>>>>>> cart_quantity_limiter_and_features
     }
 
     /** 
@@ -157,8 +179,21 @@ class Cart extends React.Component {
         let index = itemArray.findIndex(function (currentValue, index, arr) {
             return currentValue.key === item.key;
         });
+        
+        if (index !== -1) {
+            let newQuantity = itemArray[index].cartItem.quantity + quantity;
+            console.log(newQuantity);
+            console.log(itemArray[index].cartItem.maxQuantity);
+            if(newQuantity >  itemArray[index].cartItem.maxQuantity) {
+                quantity = 0;
+                this.props.setLimitReached(true);
+            } else {
+                itemArray[index].cartItem.quantity += quantity;
+            }
+        } else {
+            itemArray.push(item);
+        }
 
-        (index !== -1) ? itemArray[index].cartItem.quantity += quantity : itemArray.push(item);
         this.props.modifyItemNum(quantity);
         this.setState({
             cartItems: itemArray,
@@ -177,7 +212,18 @@ class Cart extends React.Component {
         localStorage.setItem("exp", JSON.stringify(expiry));
     }
 
+<<<<<<< HEAD
 
+=======
+    /**
+     * closes cart and waits until the cart is closed to recolour the checkout button
+     */
+    closeCart() {
+        this.props.displayCart();
+    }
+
+    
+>>>>>>> cart_quantity_limiter_and_features
     /**
      * if a component is updated, update local storage with new information
      * 
@@ -188,9 +234,19 @@ class Cart extends React.Component {
         if (prevState !== this.state) {
             this.setLocalStorage();
         }
+<<<<<<< HEAD
         if (this.props.item !== null) {
             this.addItem(this.props.item)
             this.props.emptyAddToCartItem()
+=======
+        if(this.props.item !== null) {
+            this.addItem(this.props.item);
+            this.props.emptyAddToCartItem();
+        }
+
+        if(!prevProps.shadow) {
+            this.changeColor('--check-out-button');
+>>>>>>> cart_quantity_limiter_and_features
         }
     }
 
@@ -199,7 +255,11 @@ class Cart extends React.Component {
             <div id="cart" className={this.props.cartOn ? "speed-in" : ""}>
                 <div id="cart-header">
                     <h2 id="cart-tag">Cart</h2>
+<<<<<<< HEAD
                     <div className="close-container" id="close1" onMouseEnter={() => this.changeColor('--close-cart-color')} onClick={this.props.displayCart} >
+=======
+                    <div className="close-container" id="close1" onMouseEnter = {() => this.changeColor('--close-cart-color')} onClick = {this.closeCart} >
+>>>>>>> cart_quantity_limiter_and_features
                         <div className="leftright"></div>
                         <div className="rightleft"></div>
                     </div>

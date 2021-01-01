@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import './ItemContainer.css'
 import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
+import ErrorHandler from '../ErrorHandler/ErrorHandler'
 
 const AddToCartButtonState = [
     {
@@ -42,7 +43,7 @@ const ItemContainer = (props) => {
          * Fetches single item data from server using item ID and size ID as params
          */
         async function fetchItem() {
-            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
+            await fetch('http://192.168.1.160:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
@@ -55,7 +56,7 @@ const ItemContainer = (props) => {
          * Fetches all item's quantities and sizes using item ID as param
          */
         async function fetchQuantity() {
-            await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
+            await fetch('http://192.168.1.160:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemQuantity(result)
@@ -95,6 +96,7 @@ const ItemContainer = (props) => {
         var currentQuantity = itemQuantity.find((size) => size.size === event.target.value).quantity
         setItemQuantityInStock(currentQuantity)
         setQuantityInputValue(currentQuantity)
+        props.setLimitReached(false);
     }
 
     function setQuantityInputValue(quantity) {
@@ -105,6 +107,10 @@ const ItemContainer = (props) => {
             document.getElementById('quantity-input').value = 1
             setUserQuantity(1)
         }
+    }
+
+    function generateErrorMessage() {
+        return "Only " + itemQuantityInStock + " items in stock";
     }
 
     function getItem(item) {
@@ -120,7 +126,8 @@ const ItemContainer = (props) => {
                 name: item.name,
                 color: item.color,
                 size: userItemSize,
-                price: item.price * 1
+                price: item.price * 1,
+                maxQuantity: itemQuantityInStock
             }
         };
     }
@@ -128,27 +135,73 @@ const ItemContainer = (props) => {
     if (isItemFetched && !itemQuantity.length === false) {
         return (
             <div className="container">
+
                 <div className="item-container">
                     <div className="item-container__photo">
                         <img src={require("../../images/" + item.product_id + ".jpg").default} alt="item photo"></img>
                     </div>
-                    <ItemInformation
-                        item={item}
-                        userQuantity={userItemQuantity}
-                        changeQuantity={changeQuantity}
-                        quantityValidation={quantityValidation}
-                        changeSize={changeSize}
-                        itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
-                        <div>
-                            <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
-                                console.log(userItemQuantity + " " + userItemSize)
-                                props.addToCart(getItem(item))
-                            }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
+                    <div className="item-container-with-error">
+                        <ItemInformation
+                            item={item}
+                            userQuantity={userItemQuantity}
+                            changeQuantity={changeQuantity}
+                            quantityValidation={quantityValidation}
+                            changeSize={changeSize}
+                            itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
+                            <div>
+                                <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
+                                    props.addToCart(getItem(item))
+                                }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
+
+                            </div>
+                        </ItemInformation>
+                        <div className = "errorWrapper">
+                            <ErrorHandler
+                                setLimitReached = {props.setLimitReached}
+                                isActive = {props.limitReached}
+                                message = {generateErrorMessage()}
+                            />
                         </div>
-                    </ItemInformation>
+                    </div>
+
                 </div>
                 <div className="recommended-items-container">
                     <div className="recommended-items">
+                        {filteredItems.map((item) => {
+                            return (
+                                <ReccomendedItem
+                                    key={item.product_id}
+                                    item={item} />
+                            )
+                        })}
+                        {filteredItems.map((item) => {
+                            return (
+                                <ReccomendedItem
+                                    key={item.product_id}
+                                    item={item} />
+                            )
+                        })}
+                        {filteredItems.map((item) => {
+                            return (
+                                <ReccomendedItem
+                                    key={item.product_id}
+                                    item={item} />
+                            )
+                        })}
+                        {filteredItems.map((item) => {
+                            return (
+                                <ReccomendedItem
+                                    key={item.product_id}
+                                    item={item} />
+                            )
+                        })}
+                        {filteredItems.map((item) => {
+                            return (
+                                <ReccomendedItem
+                                    key={item.product_id}
+                                    item={item} />
+                            )
+                        })}
                         {filteredItems.map((item) => {
                             return (
                                 <ReccomendedItem
