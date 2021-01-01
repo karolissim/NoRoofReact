@@ -164,7 +164,7 @@ class Cart extends React.Component {
             console.log(itemArray[index].cartItem.maxQuantity);
             if(newQuantity >  itemArray[index].cartItem.maxQuantity) {
                 quantity = 0;
-                this.props.setLimitReached(true, itemArray[index].cartItem.maxQuantity - itemArray[index].cartItem.quantity);
+                this.props.setLimitReached(true);
             } else {
                 itemArray[index].cartItem.quantity += quantity;
             }

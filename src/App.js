@@ -20,7 +20,7 @@ class App extends Component {
       isLoaded: false,
       shopItems: [],
       addToCartItem: null,
-      limitReached: [false, null]
+      limitReached: false
     }
 
     this.modifyItemNum = this.modifyItemNum.bind(this);
@@ -61,8 +61,8 @@ class App extends Component {
     this.setState({ addToCartItem: null })
   }
 
-  setLimitReached = (bool, itemsLeft) => {
-    this.setState({limitReached: [bool, itemsLeft]})
+  setLimitReached = (bool) => {
+    this.setState({limitReached: bool});
   }
 
   render() {
