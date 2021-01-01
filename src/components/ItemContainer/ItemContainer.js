@@ -174,41 +174,6 @@ const ItemContainer = (props) => {
                                     item={item} />
                             )
                         })}
-                        {filteredItems.map((item) => {
-                            return (
-                                <ReccomendedItem
-                                    key={item.product_id}
-                                    item={item} />
-                            )
-                        })}
-                        {filteredItems.map((item) => {
-                            return (
-                                <ReccomendedItem
-                                    key={item.product_id}
-                                    item={item} />
-                            )
-                        })}
-                        {filteredItems.map((item) => {
-                            return (
-                                <ReccomendedItem
-                                    key={item.product_id}
-                                    item={item} />
-                            )
-                        })}
-                        {filteredItems.map((item) => {
-                            return (
-                                <ReccomendedItem
-                                    key={item.product_id}
-                                    item={item} />
-                            )
-                        })}
-                        {filteredItems.map((item) => {
-                            return (
-                                <ReccomendedItem
-                                    key={item.product_id}
-                                    item={item} />
-                            )
-                        })}
                     </div>
 
                 </div>

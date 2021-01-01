@@ -2,23 +2,7 @@ import React from 'react';
 
 import "./CartItem.css"
 import { Link } from 'react-router-dom'
-
-const colors = [
-    //block green
-    'rgb(131,209,104)',
-    'rgb(255,225,93)',
-    'rgb(107,204,241)',
-    'rgb(237,185,104)',
-    'rgb(197,177,213)',
-    'rgb(255,165,191)',
-    'rgb(194,226,96)',
-    'red',
-    'cyan',
-    'orange',
-    'pink'
-];
-
-
+import {colors} from '../../Constants/Constants';
 
 class CartItem extends React.Component {
 
