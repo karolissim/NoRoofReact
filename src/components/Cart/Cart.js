@@ -73,15 +73,20 @@ class Cart extends React.Component {
     incrementQuantity(key) {
         let updatedCart = this.state.cartItems;
         let price = 0;
+        let value = 0;
         updatedCart.forEach((element) => {
             if(element.key === key) {
-                element.cartItem.quantity += 1;
-                price = element.cartItem.price;
+                if(element.cartItem.maxQuantity !== element.cartItem.quantity) {
+                    element.cartItem.quantity += 1;
+                    price = element.cartItem.price;
+                    value = 1;
+                }
+
             }
         });
         this.setState({cartItems: updatedCart,
                        totalPrice: this.state.totalPrice + price});
-        this.props.modifyItemNum(1);
+        this.props.modifyItemNum(value);
     }
 
     /** 
@@ -152,8 +157,21 @@ class Cart extends React.Component {
         let index = itemArray.findIndex(function(currentValue, index, arr) {
             return currentValue.key === item.key;
         });
+        
+        if (index !== -1) {
+            let newQuantity = itemArray[index].cartItem.quantity + quantity;
+            console.log(newQuantity);
+            console.log(itemArray[index].cartItem.maxQuantity);
+            if(newQuantity >  itemArray[index].cartItem.maxQuantity) {
+                quantity = 0;
+                this.props.setLimitReached(true, itemArray[index].cartItem.maxQuantity - itemArray[index].cartItem.quantity);
+            } else {
+                itemArray[index].cartItem.quantity += quantity;
+            }
+        } else {
+            itemArray.push(item);
+        }
 
-        (index !== -1) ? itemArray[index].cartItem.quantity += quantity : itemArray.push(item);
         this.props.modifyItemNum(quantity);
         this.setState({cartItems: itemArray,
                        totalPrice: this.state.totalPrice + item.cartItem.price * quantity});
@@ -189,8 +207,8 @@ class Cart extends React.Component {
             this.setLocalStorage();
         }
         if(this.props.item !== null) {
-            this.addItem(this.props.item)
-            this.props.emptyAddToCartItem()
+            this.addItem(this.props.item);
+            this.props.emptyAddToCartItem();
         }
 
         if(!prevProps.shadow) {

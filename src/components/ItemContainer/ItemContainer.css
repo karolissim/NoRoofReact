@@ -126,6 +126,7 @@
 
     .add-to-cart-button {
         width: 40vw;
+        margin-bottom: 0px !important;
     }
 
     .item-container__photo {

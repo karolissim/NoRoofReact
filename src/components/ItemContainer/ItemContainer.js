@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import './ItemContainer.css'
 import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
+import ErrorHandler from '../ErrorHandler/ErrorHandler'
 
 const AddToCartButtonState = [
     {
@@ -14,6 +15,7 @@ const AddToCartButtonState = [
         text: 'ADD TO CART'
     }
 ]
+
 
 const ItemContainer = (props) => {
     const { itemId, sizeId } = useParams()
@@ -32,7 +34,7 @@ const ItemContainer = (props) => {
 
     useEffect(() => {
         async function fetchItem() {
-            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
+            await fetch('http://192.168.1.160:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
@@ -42,7 +44,7 @@ const ItemContainer = (props) => {
         }
 
         async function fetchQuantity() {
-            await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
+            await fetch('http://192.168.1.160:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemQuantity(result)
@@ -63,6 +65,7 @@ const ItemContainer = (props) => {
         var currentQuantity = itemQuantity.find((size) => size.size === event.target.value).quantity
         setItemQuantityInStock(currentQuantity)
         setQuantityInputValue(currentQuantity)
+        props.setLimitReached(false, null);
     }
 
     function setQuantityInputValue(quantity) {
@@ -73,6 +76,17 @@ const ItemContainer = (props) => {
             document.getElementById('quantity-input').value = 1
             setUserQuantity(1)
         }
+    }
+
+    function generateErrorMessage(itemsLeft) {
+        if(itemsLeft === 0) {
+            return "Sorry, we dont have any more of these fine ass hoodies in stock";
+        }
+        if (itemsLeft === 1) {
+            return "Sorry, adin item budet, mozna paiti naxui?";
+        }
+
+        return "Sorry, you can only add " + itemsLeft + " more";
     }
 
     function getItem(item) {
@@ -88,7 +102,8 @@ const ItemContainer = (props) => {
                 name: item.name,
                 color: item.color,
                 size: userItemSize,
-                price: item.price * 1
+                price: item.price * 1,
+                maxQuantity: itemQuantityInStock
             }
         };
     }
@@ -108,9 +123,13 @@ const ItemContainer = (props) => {
                         itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
                         <div>
                             <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
-                                console.log(userItemQuantity + " " + userItemSize)
                                 props.addToCart(getItem(item))
                             }}>{addToCartInfo.text}</button>
+                            <ErrorHandler 
+                                setLimitReached = {props.setLimitReached}
+                                isActive = {props.limitReached[0]}
+                                message = {generateErrorMessage(props.limitReached[1])}
+                            /> 
                         </div>
                     </ItemInformation>
                 </div>

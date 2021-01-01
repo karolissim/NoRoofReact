@@ -1,0 +1,51 @@
+.error {
+    position: fixed;
+    background-color: rgba(255, 0, 0, 0.6);
+    margin-top: 12px;
+    width: 20%;
+    height: auto;
+    border: 0.1em solid black;
+    padding: 0.5%;
+}
+
+.text {
+    padding-right:20px;
+    color: black;
+}
+
+.replace {
+    /* replace text with a background-image */
+    cursor:pointer;
+    display: inline-block;
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+}
+
+.close-error {
+    border-left: 10px;
+    align-items: center;
+    position: absolute;
+    right: 1%;
+    top: 20%;
+    width: 25px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.close-error:before, .close-error:after {
+    position: absolute;
+    left: 12px;
+    content: ' ';
+    height: 10px;
+    width: 1px;
+    background-color: black;
+}
+
+.close-error:before {
+    transform: rotate(45deg);
+}
+
+.close-error:after {
+    transform: rotate(-45deg);
+}
