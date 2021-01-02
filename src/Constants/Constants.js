@@ -25,3 +25,8 @@ export const FaqData = [
     answer: "Don't worry and drop us a message through the 'Contact' section and we will update your shipping info asap."
   }
 ]
+
+export const PREV = "PREV"
+export const NEXT = "NEXT"
+
+export const SERVER_URL = "http://localhost:3030"
