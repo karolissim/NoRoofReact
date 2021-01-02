@@ -20,6 +20,7 @@ const ImageSlider = (props) => {
     const photoUrl = 'url(' + SERVER_URL + '/images/' + props.itemId + '/' + props.colorId + '/' + position + '.jpg)'
 
     useEffect(() => {
+        console.log("ImageSlider")
         imageSliderElement = ReactDOM.findDOMNode(imageSliderElementRef)
         setImageWidth(imageSliderElement.clientWidth)
 
@@ -35,7 +36,8 @@ const ImageSlider = (props) => {
             dotState.push(false)
         }
         setNavDotState(dotState)
-    }, [])
+        setPosition(1)
+    }, [props.itemId])
 
     function animateSliderTransition() {
         ReactDOM.findDOMNode(imageSliderElementRef).style.transition = "transform 0.4s ease-in-out"
