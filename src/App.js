@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await fetch('http://192.168.1.160:3030/api/item/', { mode: 'cors', method: 'GET' })
+    await fetch('http://localhost:3030/api/item/', { mode: 'cors', method: 'GET' })
       .then(res => res.json())
       .then(
         result => {

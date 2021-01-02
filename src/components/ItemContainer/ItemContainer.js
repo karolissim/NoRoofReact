@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import './ItemContainer.css'
 import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
+import ImageSlider from '../ImageSlider/ImageSlider'
 import ErrorHandler from '../ErrorHandler/ErrorHandler'
 
 const AddToCartButtonState = [
@@ -31,6 +32,7 @@ const ItemContainer = (props) => {
     const [userItemQuantity, setUserQuantity] = useState(1)
     const [userItemSize, setUserItemSize] = useState('')
     const [itemQuantityInStock, setItemQuantityInStock] = useState(0)
+    const [itemPhotos, setItemPhotos] = useState([])
 
     const addToCartInfo = itemQuantityInStock === 0 ? AddToCartButtonState[0] : AddToCartButtonState[1]
 
@@ -43,12 +45,13 @@ const ItemContainer = (props) => {
          * Fetches single item data from server using item ID and size ID as params
          */
         async function fetchItem() {
-            await fetch('http://192.168.1.160:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
+            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
                     setUserItemSize(result.available_size.split(",")[0])
                     setIsItemFetched(true)
+                    fetchPhotoIds(result.product_color_id)
                 })
         }
 
@@ -56,11 +59,19 @@ const ItemContainer = (props) => {
          * Fetches all item's quantities and sizes using item ID as param
          */
         async function fetchQuantity() {
-            await fetch('http://192.168.1.160:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
+            await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemQuantity(result)
                     setItemQuantityInStock(result[0].quantity)
+                })
+        }
+
+        function fetchPhotoIds(colorId) {
+            fetch('http://localhost:3030/api/photos/' + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
+                .then((res) => res.json())
+                .then((result) => {
+                    setItemPhotos(result)
                 })
         }
 
@@ -132,14 +143,15 @@ const ItemContainer = (props) => {
         };
     }
 
-    if (isItemFetched && !itemQuantity.length === false) {
+    if (isItemFetched && !itemQuantity.length === false && !itemPhotos.length === false) {
         return (
             <div className="container">
 
                 <div className="item-container">
-                    <div className="item-container__photo">
-                        <img src={require("../../images/" + item.product_id + ".jpg").default} alt="item photo"></img>
-                    </div>
+                    <ImageSlider
+                        itemId={itemId}
+                        colorId={item.product_color_id}
+                        photoIds={itemPhotos} />
                     <div className="item-container-with-error">
                         <ItemInformation
                             item={item}
@@ -155,11 +167,11 @@ const ItemContainer = (props) => {
 
                             </div>
                         </ItemInformation>
-                        <div className = "errorWrapper">
+                        <div className="errorWrapper">
                             <ErrorHandler
-                                setLimitReached = {props.setLimitReached}
-                                isActive = {props.limitReached}
-                                message = {generateErrorMessage()}
+                                setLimitReached={props.setLimitReached}
+                                isActive={props.limitReached}
+                                message={generateErrorMessage()}
                             />
                         </div>
                     </div>

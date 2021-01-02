@@ -26,6 +26,11 @@ export const FaqData = [
   }
 ]
 
+export const PREV = "PREV"
+export const NEXT = "NEXT"
+
+export const SERVER_URL = "http://localhost:3030"
+
 export const colors = [
   '131,209,104',
   '255,225,93',
