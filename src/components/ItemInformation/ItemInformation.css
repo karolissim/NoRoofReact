@@ -53,6 +53,20 @@
     outline: none;
 }
 
+.color_selector {
+    display: flex;
+    margin-top: 8px;
+}
+
+.color_selector__color {
+    border: 1px solid;
+    border-radius: 100px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 6px;
+} 
+
 @media only screen and (max-width: 1024px) {
     .item-container__info>h2 {
         font-size: 2rem;

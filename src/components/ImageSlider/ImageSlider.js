@@ -20,7 +20,6 @@ const ImageSlider = (props) => {
     const photoUrl = 'url(' + SERVER_URL + '/images/' + props.itemId + '/' + props.colorId + '/' + position + '.jpg)'
 
     useEffect(() => {
-        console.log("ImageSlider")
         imageSliderElement = ReactDOM.findDOMNode(imageSliderElementRef)
         setImageWidth(imageSliderElement.clientWidth)
 
@@ -37,7 +36,7 @@ const ImageSlider = (props) => {
         }
         setNavDotState(dotState)
         setPosition(1)
-    }, [props.itemId])
+    }, [props.itemId, props.colorId, props.photoIds])
 
     function animateSliderTransition() {
         ReactDOM.findDOMNode(imageSliderElementRef).style.transition = "transform 0.4s ease-in-out"
@@ -56,7 +55,7 @@ const ImageSlider = (props) => {
     }
 
     function incrementPosition() {
-        if (position >= photoIds.length + 1) return
+        if (position > photoIds.length) return
         setPosition(position + 1)
     }
 
@@ -70,7 +69,10 @@ const ImageSlider = (props) => {
             if (position === photoIds.length) {
                 navDotState[0] = true
                 navDotState[navDotState.length - 1] = false
-            } else {
+            } else if(position === photoIds.length + 1){
+                navDotState[0] = true
+                navDotState[navDotState.length - 2] = false
+            }else {
                 navDotState[position] = true
                 navDotState[position - 1] = false
             }
@@ -88,7 +90,6 @@ const ImageSlider = (props) => {
             }
             navDotState[value] = true
         }
-
         setNavDotState(navDotState)
     }
 

@@ -14,11 +14,10 @@ const Shop = (props) => {
             <div className="item-list">
                 <div className="shop-grid">
                     {items.map((item, i) => {
-                        const size = item.available_size.split(",")[0]
                         return (
                             <div className="shop-grid__item" key={i}>
                                 <div className="shop-grid__item-info">
-                                    <Link to={"/shop/" + item.product_id + "/" + size}>
+                                    <Link to={"/shop/" + item.product_id + "/" + item.size_id + "/" + item.product_color_id}>
                                         <img className="item-image" src={require("../../images/" + item.product_id + ".jpg").default} alt=""></img>
                                     </Link>
                                     <h2>{item.name}</h2>

@@ -1,8 +1,11 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import './ItemInformation.css'
 
+
 const ItemInformation = (props) => {
-    const sizes = props.item.available_size.split(",")
+    // const sizes = props.item.available_size.split(",")
+    console.log(props.itemColors)
     var itemQuantityInput
     return (
         <div className="item-container__info">
@@ -14,10 +17,21 @@ const ItemInformation = (props) => {
                 <p>{props.item.description}</p>
                 <p><span>Fit: <span>{props.item.fit}</span></span></p>
                 <h2><span>$<span></span>{props.item.price}</span></h2>
+                <div className="color_selector">
+                    {props.itemColors.map((color, key) => {
+                        return (
+                            <Link 
+                            to={'/shop/' + props.itemId + '/' + color.size_id + '/' + color.color_id}
+                            key={key}
+                            className="color_selector__color" 
+                            style={{ backgroundColor: color.hex, border: '1px solid', borderColor: color.hex}}/>
+                        )
+                    })}
+                </div>
                 <div className="selectors">
                     <select id="size-selector" className="size-selector" onChange={props.changeSize}>
-                        {sizes.map((value) => {
-                            return <option value={value} key={props.item.product_id + "_" + value}>{value}</option>
+                        {props.itemSizes.map((value) => {
+                            return <option value={value.size} key={value.size_id}>{value.size}</option>
                         })}
                     </select>
                     <input

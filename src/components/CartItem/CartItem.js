@@ -28,7 +28,6 @@ class CartItem extends React.Component {
 
     render() {
         const item = this.props.item;
-        console.log("/shop/" + item.cartItem.itemColorId + "/" + item.cartItem.itemSizeId)
         return (
             <li className="cart-item">
                 <Link to={"/shop/" + item.cartItem.itemId + "/" + item.cartItem.size}>

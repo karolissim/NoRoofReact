@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await fetch('http://localhost:3030/api/item/', { mode: 'cors', method: 'GET' })
+    await fetch('http://localhost:3030/api/items', { mode: 'cors', method: 'GET' })
       .then(res => res.json())
       .then(
         result => {
@@ -89,7 +89,7 @@ class App extends Component {
             </Route>
             <Route path="/faq" component={FAQ} />
             <Route path="/contact" component={Contact} />
-            <Route path="/shop/:itemId/:sizeId">
+            <Route path="/shop/:itemId/:sizeId/:colorId">
               <ItemContainer
                 limitReached = {this.state.limitReached}
                 setLimitReached = {this.setLimitReached}

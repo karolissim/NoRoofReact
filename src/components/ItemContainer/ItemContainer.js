@@ -25,10 +25,11 @@ const AddToCartButtonState = [
  * @param {Object} props 
  */
 const ItemContainer = (props) => {
-    const { itemId, sizeId } = useParams()
+    const { itemId, sizeId, colorId } = useParams()
     const [isItemFetched, setIsItemFetched] = useState(false)
     const [item, setItem] = useState([])
     const [itemQuantity, setItemQuantity] = useState([])
+    const [itemColors, setItemColors] = useState([])
     const [userItemQuantity, setUserQuantity] = useState(1)
     const [userItemSize, setUserItemSize] = useState('')
     const [itemQuantityInStock, setItemQuantityInStock] = useState(0)
@@ -41,17 +42,19 @@ const ItemContainer = (props) => {
     })
 
     useEffect(() => {
+        setItem([])
+        setItemQuantity([])
+
         /**
          * Fetches single item data from server using item ID and size ID as params
          */
         async function fetchItem() {
-            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
+            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
-                    setUserItemSize(result.available_size.split(",")[0])
                     setIsItemFetched(true)
-                    fetchPhotoIds(result.product_color_id)
+                    // fetchPhotoIds()
                 })
         }
 
@@ -59,25 +62,37 @@ const ItemContainer = (props) => {
          * Fetches all item's quantities and sizes using item ID as param
          */
         async function fetchQuantity() {
-            await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
+            await fetch('http://localhost:3030/api/quantity/' + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemQuantity(result)
                     setItemQuantityInStock(result[0].quantity)
+                    setUserItemSize(result[0].size)
                 })
         }
 
-        function fetchPhotoIds(colorId) {
-            fetch('http://localhost:3030/api/photos/' + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
+        async function fetchPhotoIds() {
+            await fetch('http://localhost:3030/api/photos/' + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemPhotos(result)
                 })
         }
 
+        async function fetchItemColors() {
+            await fetch('http://localhost:3030/api/color/' + itemId, { mode: 'cors', method: 'GET' })
+                .then((res) => res.json())
+                .then((result) => {
+                    console.log("color: " + JSON.stringify(result.colors))
+                    setItemColors(result.colors)
+                })
+        }
+
         fetchQuantity()
         fetchItem()
-    }, [itemId])
+        fetchPhotoIds()
+        fetchItemColors()
+    }, [itemId, colorId, sizeId])
 
     /**
      * Method is called after item quantity input's onChange event is triggered and
@@ -143,18 +158,21 @@ const ItemContainer = (props) => {
         };
     }
 
-    if (isItemFetched && !itemQuantity.length === false && !itemPhotos.length === false) {
+    if (isItemFetched && !itemQuantity.length === false && !itemPhotos.length === false && !itemColors.length === false) {
         return (
             <div className="container">
 
                 <div className="item-container">
                     <ImageSlider
                         itemId={itemId}
-                        colorId={item.product_color_id}
+                        colorId={colorId}
                         photoIds={itemPhotos} />
                     <div className="item-container-with-error">
                         <ItemInformation
+                            itemId={itemId}
                             item={item}
+                            itemSizes={itemQuantity}
+                            itemColors={itemColors}
                             userQuantity={userItemQuantity}
                             changeQuantity={changeQuantity}
                             quantityValidation={quantityValidation}
@@ -183,7 +201,8 @@ const ItemContainer = (props) => {
                             return (
                                 <ReccomendedItem
                                     key={item.product_id}
-                                    item={item} />
+                                    item={item}
+                                    sizeId={sizeId}/>
                             )
                         })}
                     </div>
