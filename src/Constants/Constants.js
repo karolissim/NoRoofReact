@@ -30,3 +30,18 @@ export const PREV = "PREV"
 export const NEXT = "NEXT"
 
 export const SERVER_URL = "http://localhost:3030"
+
+export const colors = [
+  '131,209,104',
+  '255,225,93',
+  '107,204,241',
+  '237,185,104',
+  '197,177,213',
+  '255,165,191',
+  '194,226,96',
+  '255, 0, 0',
+  '0, 217, 255',
+  '255, 115, 0',
+  '236, 118, 187',
+  '0, 0, 0'
+];

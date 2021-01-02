@@ -37,7 +37,7 @@ app.get("/", function(req, res) {
   var status = req.cookies['status'];
 
   if(status === 'false'){
-    fetch('http://localhost:3030/checkout-session?sessionId=' + key)
+    fetch('http://192.168.1.160:3030/checkout-session?sessionId=' + key)
       .then(function(result) {
         return result.json();
       })
@@ -47,7 +47,7 @@ app.get("/", function(req, res) {
         productAmount = String(session.metadata.amount).split(',');
 
         for (var i = 0; i < productColorIds.length; i++) {
-          fetch('http://localhost:3030/api/quantity/' + productColorIds[i] + '/' + productSizeIds[i] + '/' + productAmount[i], {
+          fetch('http://192.168.1.160:3030/api/quantity/' + productColorIds[i] + '/' + productSizeIds[i] + '/' + productAmount[i], {
               mode: 'cors',
               method: 'PUT',
             })

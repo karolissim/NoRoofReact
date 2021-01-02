@@ -128,7 +128,7 @@
     content: ' ';
     height: 15px;
     width: 2px;
-    background-color: var(--remove-item-color);
+    background-color: rgb(var(--remove-item-color));
 }
 
 .item-remove:before {

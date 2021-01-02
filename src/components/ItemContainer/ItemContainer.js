@@ -4,6 +4,7 @@ import './ItemContainer.css'
 import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 import ImageSlider from '../ImageSlider/ImageSlider'
+import ErrorHandler from '../ErrorHandler/ErrorHandler'
 
 const AddToCartButtonState = [
     {
@@ -67,7 +68,7 @@ const ItemContainer = (props) => {
         }
 
         function fetchPhotoIds(colorId) {
-            fetch('http://localhost:3030/api/photos/' + itemId + '/' + colorId, {mode: 'cors', method: 'GET'})
+            fetch('http://localhost:3030/api/photos/' + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemPhotos(result)
@@ -106,6 +107,7 @@ const ItemContainer = (props) => {
         var currentQuantity = itemQuantity.find((size) => size.size === event.target.value).quantity
         setItemQuantityInStock(currentQuantity)
         setQuantityInputValue(currentQuantity)
+        props.setLimitReached(false);
     }
 
     function setQuantityInputValue(quantity) {
@@ -116,6 +118,10 @@ const ItemContainer = (props) => {
             document.getElementById('quantity-input').value = 1
             setUserQuantity(1)
         }
+    }
+
+    function generateErrorMessage() {
+        return "Only " + itemQuantityInStock + " items in stock";
     }
 
     function getItem(item) {
@@ -131,7 +137,8 @@ const ItemContainer = (props) => {
                 name: item.name,
                 color: item.color,
                 size: userItemSize,
-                price: item.price * 1
+                price: item.price * 1,
+                maxQuantity: itemQuantityInStock
             }
         };
     }
@@ -139,25 +146,36 @@ const ItemContainer = (props) => {
     if (isItemFetched && !itemQuantity.length === false && !itemPhotos.length === false) {
         return (
             <div className="container">
+
                 <div className="item-container">
-                    <ImageSlider 
+                    <ImageSlider
                         itemId={itemId}
                         colorId={item.product_color_id}
-                        photoIds={itemPhotos}/>
-                    <ItemInformation
-                        item={item}
-                        userQuantity={userItemQuantity}
-                        changeQuantity={changeQuantity}
-                        quantityValidation={quantityValidation}
-                        changeSize={changeSize}
-                        itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
-                        <div>
-                            <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
-                                console.log(userItemQuantity + " " + userItemSize)
-                                props.addToCart(getItem(item))
-                            }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
+                        photoIds={itemPhotos} />
+                    <div className="item-container-with-error">
+                        <ItemInformation
+                            item={item}
+                            userQuantity={userItemQuantity}
+                            changeQuantity={changeQuantity}
+                            quantityValidation={quantityValidation}
+                            changeSize={changeSize}
+                            itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
+                            <div>
+                                <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
+                                    props.addToCart(getItem(item))
+                                }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
+
+                            </div>
+                        </ItemInformation>
+                        <div className="errorWrapper">
+                            <ErrorHandler
+                                setLimitReached={props.setLimitReached}
+                                isActive={props.limitReached}
+                                message={generateErrorMessage()}
+                            />
                         </div>
-                    </ItemInformation>
+                    </div>
+
                 </div>
                 <div className="recommended-items-container">
                     <div className="recommended-items">
