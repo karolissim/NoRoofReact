@@ -5,9 +5,12 @@ const ErrorHandler = (props) => {
     const style = props.isActive ? 'block' : 'none' ;
 
     useEffect(() =>{
+        props.setErrorDisplay(true);
         const timer = setTimeout(() => {
             props.setLimitReached(false);
-        }, 70000);
+            props.setErrorDisplay(false);
+            console.log("error off")
+        }, 7000);
 
         return () => clearTimeout(timer);
     });

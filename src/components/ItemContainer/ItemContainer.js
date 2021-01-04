@@ -4,6 +4,10 @@ import './ItemContainer.css'
 import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 import ErrorHandler from '../ErrorHandler/ErrorHandler'
+import ReactBodymovin from 'react-bodymovin'
+import animation from '../../loaders/18855-checkmark-icon.json'
+import ReactDOM from 'react-dom'
+import lottie from "lottie-web"
 
 const AddToCartButtonState = [
     {
@@ -15,6 +19,11 @@ const AddToCartButtonState = [
         style: 'add-to-cart-button available',
         text: 'ADD TO CART',
         isDisabled: false
+    },
+    {
+        style: 'add-to-cart-button available add-to-cart-button-wa',
+        text: '',
+        isDisabled: true
     }
 ]
 
@@ -31,12 +40,14 @@ const ItemContainer = (props) => {
     const [userItemQuantity, setUserQuantity] = useState(1)
     const [userItemSize, setUserItemSize] = useState('')
     const [itemQuantityInStock, setItemQuantityInStock] = useState(0)
-
-    const addToCartInfo = itemQuantityInStock === 0 ? AddToCartButtonState[0] : AddToCartButtonState[1]
-
+    const [addToCartAnimation, setAddToCartAnimation] = useState(false);
+    let addToCartInfo = itemQuantityInStock === 0 ? AddToCartButtonState[0] : addToCartAnimation ? AddToCartButtonState[2] : AddToCartButtonState[1]
+    const [errorDisplay, setErrorDisplay] = useState(false);
     const filteredItems = props.allItems.filter((product) => {
         return product.product_id !== parseInt(itemId)
     })
+
+    var animationContainer = React.createRef()
 
     useEffect(() => {
         /**
@@ -87,6 +98,29 @@ const ItemContainer = (props) => {
         setUserQuantity(value)
     }
 
+    function showAnimation() {
+        console.log(props.limitReached);
+
+        let anim = lottie.loadAnimation({
+            container: animationContainer.current,
+            loop: true,
+            animationData: animation,
+
+            rendererSettings: {
+                // resizeMode: 'cover'
+              }
+        });
+        setAddToCartAnimation(true);
+        anim.play();
+
+        anim.addEventListener('complete', function(){
+            anim.destroy();
+            setAddToCartAnimation(false);
+        });
+
+        
+    }
+
     /**
      * 
      * @param {SyntheticEvent} event 
@@ -132,6 +166,21 @@ const ItemContainer = (props) => {
         };
     }
 
+    async function addToCartOnClick() {
+        
+        props.addToCart(getItem(item));
+        
+        let anim = setTimeout(() => {
+            console.log(props.limitReached);
+            if(props.limitReached === false) {
+                showAnimation();
+            }
+        }, 1000);
+
+        return () => clearTimeout(anim);
+        
+    }
+
     if (isItemFetched && !itemQuantity.length === false) {
         return (
             <div className="container">
@@ -148,18 +197,17 @@ const ItemContainer = (props) => {
                             quantityValidation={quantityValidation}
                             changeSize={changeSize}
                             itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
-                            <div>
-                                <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
-                                    props.addToCart(getItem(item))
-                                }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
-
-                            </div>
+                                <button className = {addToCartInfo.style} type="submit" name="button" onClick={() => addToCartOnClick()} disabled={addToCartInfo.isDisabled}>
+                                    {addToCartInfo.text}
+                                    <div className = {addToCartAnimation ? "add-to-cart-animation" : ""} ref = {animationContainer}></div>
+                                </button>
                         </ItemInformation>
                         <div className = "errorWrapper">
                             <ErrorHandler
                                 setLimitReached = {props.setLimitReached}
                                 isActive = {props.limitReached}
                                 message = {generateErrorMessage()}
+                                setErrorDisplay = {setErrorDisplay}
                             />
                         </div>
                     </div>
@@ -180,7 +228,7 @@ const ItemContainer = (props) => {
             </div>
         )
     } else {
-        return <div></div>
+        return (<div className = "loader-wrapper"><img className = "loader" src = {require("../../loaders/colored_loader.gif").default} height="150px" width="150px" /></div>)
     }
 }
 

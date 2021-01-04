@@ -39,8 +39,9 @@ const ItemInformation = (props) => {
                                 props.quantityValidation(1)
                             }
                         }}></input>
-                </div>
                 {props.children}
+                </div>
+                
             </div>
         </div>
     )

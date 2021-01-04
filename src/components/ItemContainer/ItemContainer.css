@@ -9,6 +9,14 @@
     flex-direction: column;
 }
 
+.loader-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .item-container {
     /* position: fixed; */
     grid-column: 1;
@@ -50,15 +58,30 @@
 
 .add-to-cart-button {
     text-align: center;
+    height: 35px;
     font-size: .9em;
     font-weight: 800;
-    width: 9vw;
+    width: 10vw;
     padding: .4em;
     border: 1px solid #000;
     background-color: #fff;
     -moz-appearance: none;
     -webkit-appearance: none;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+/* add to cart button with animation */
+.add-to-cart-button-wa {
+    padding: 0 !important;
+}
+
+.add-to-cart-animation {
+    top: 0px;
+    width: 30px;
+    height: 30px;
 }
 
 .unavailable {
@@ -72,7 +95,7 @@
 
 @media only screen and (max-width: 1024px) {
     .item-container-with-error {
-        justify-content: center;
+        justify-items: center;
         
     }
 

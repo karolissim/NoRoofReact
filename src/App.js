@@ -54,6 +54,7 @@ class App extends Component {
 
   addItemToCart = (item) => {
     this.setState({ addToCartItem: item })
+    return true;
   }
 
   emptyAddToCartItem = () => {
