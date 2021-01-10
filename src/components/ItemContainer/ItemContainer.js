@@ -5,19 +5,7 @@ import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 import ImageSlider from '../ImageSlider/ImageSlider'
 import ErrorHandler from '../ErrorHandler/ErrorHandler'
-
-const AddToCartButtonState = [
-    {
-        style: 'add-to-cart-button unavailable',
-        text: 'OUT OF STOCK',
-        isDisabled: true
-    },
-    {
-        style: 'add-to-cart-button available',
-        text: 'ADD TO CART',
-        isDisabled: false
-    }
-]
+import { SERVER_URL, ADD_TO_CART_BUTTON_STATE } from '../../constants/Constants'
 
 /**
  * React functional component which is responsible for rendering 
@@ -35,7 +23,7 @@ const ItemContainer = (props) => {
     const [itemQuantityInStock, setItemQuantityInStock] = useState(0)
     const [itemPhotos, setItemPhotos] = useState([])
 
-    const addToCartInfo = itemQuantityInStock === 0 ? AddToCartButtonState[0] : AddToCartButtonState[1]
+    const addToCartInfo = itemQuantityInStock === 0 ? ADD_TO_CART_BUTTON_STATE[0] : ADD_TO_CART_BUTTON_STATE[1]
 
     const filteredItems = props.allItems.filter((product) => {
         return product.product_id !== parseInt(itemId)
@@ -49,12 +37,11 @@ const ItemContainer = (props) => {
          * Fetches single item data from server using item ID and size ID as params
          */
         async function fetchItem() {
-            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId + '/' + colorId, { mode: 'cors', method: 'GET' })
+            await fetch(SERVER_URL + "/api/item/" + itemId + '/' + sizeId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
                     setIsItemFetched(true)
-                    // fetchPhotoIds()
                 })
         }
 
@@ -62,7 +49,7 @@ const ItemContainer = (props) => {
          * Fetches all item's quantities and sizes using item ID as param
          */
         async function fetchQuantity() {
-            await fetch('http://localhost:3030/api/quantity/' + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
+            await fetch(SERVER_URL + "/api/quantity/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemQuantity(result)
@@ -72,7 +59,7 @@ const ItemContainer = (props) => {
         }
 
         async function fetchPhotoIds() {
-            await fetch('http://localhost:3030/api/photos/' + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
+            await fetch(SERVER_URL + "/api/photos/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemPhotos(result)
@@ -80,10 +67,9 @@ const ItemContainer = (props) => {
         }
 
         async function fetchItemColors() {
-            await fetch('http://localhost:3030/api/color/' + itemId, { mode: 'cors', method: 'GET' })
+            await fetch(SERVER_URL + "/api/color/" + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
-                    console.log("color: " + JSON.stringify(result.colors))
                     setItemColors(result.colors)
                 })
         }
@@ -92,7 +78,7 @@ const ItemContainer = (props) => {
         fetchItem()
         fetchPhotoIds()
         fetchItemColors()
-    }, [itemId, colorId, sizeId])
+    }, [itemId, colorId])
 
     /**
      * Method is called after item quantity input's onChange event is triggered and
@@ -202,7 +188,8 @@ const ItemContainer = (props) => {
                                 <ReccomendedItem
                                     key={item.product_id}
                                     item={item}
-                                    sizeId={sizeId}/>
+                                    sizeId={item.size_id}
+                                    colorId={item.product_color_id} />
                             )
                         })}
                     </div>

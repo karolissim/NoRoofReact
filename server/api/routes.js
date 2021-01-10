@@ -59,7 +59,6 @@ router.get('/color/:id', (req, res) => {
         throw error
       }
 
-      console.log(results.rows)
       var colorID
       var colors = []
 

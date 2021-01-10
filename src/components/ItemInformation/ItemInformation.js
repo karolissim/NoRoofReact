@@ -4,8 +4,6 @@ import './ItemInformation.css'
 
 
 const ItemInformation = (props) => {
-    // const sizes = props.item.available_size.split(",")
-    console.log(props.itemColors)
     var itemQuantityInput
     return (
         <div className="item-container__info">
@@ -24,7 +22,7 @@ const ItemInformation = (props) => {
                             to={'/shop/' + props.itemId + '/' + color.size_id + '/' + color.color_id}
                             key={key}
                             className="color_selector__color" 
-                            style={{ backgroundColor: color.hex, border: '1px solid', borderColor: color.hex}}/>
+                            style={{ backgroundColor: color.hex, border: '1px solid', borderColor: 'black'}}/>
                         )
                     })}
                 </div>

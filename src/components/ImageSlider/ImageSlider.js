@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import './ImageSlider.css'
 import ImageContainer from '../ImageContainer/ImageContainer'
 import ImageZoom from '../ImageZoom/ImageZoom'
-import { PREV, NEXT, SERVER_URL } from '../../Constants/Constants'
+import { PREV, NEXT, SERVER_URL, COLORS } from '../../constants/Constants'
 
 const ImageSlider = (props) => {
     const [position, setPosition] = useState(1)
@@ -123,8 +123,7 @@ const ImageSlider = (props) => {
                         <ImageContainer
                             itemId={props.itemId}
                             colorId={props.colorId}
-                            photoIds={props.photoIds}
-                            imageSliderElement={imageSliderElementRef} />
+                            photoIds={props.photoIds}/>
                     </div>
                 </div>
                 <div>
@@ -147,7 +146,8 @@ const ImageSlider = (props) => {
                     {photoIds.map((_photoId, key) => {
                         return (
                             <a
-                                className={navDotState[key] ? "slider-nav__dot slider-nav__dot-filled" : "slider-nav__dot"}
+                                className="slider-nav__dot"
+                                style={navDotState[key] ? {border: "1px solid rgb(" + COLORS[key] + ")", borderWidth: '1px', backgroundColor: "rgb(" + COLORS[key] + ")"} : {border: '1px solid', borderColor: "rgb(" + COLORS[key] + ")"}}
                                 key={key}
                                 onClick={() => {
                                     setPosition(key + 1)
