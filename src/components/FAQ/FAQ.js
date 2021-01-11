@@ -1,7 +1,7 @@
 import React from 'react'
 import FaqUnit from '../FaqUnit/FaqUnit'
 import './FAQ.css'
-import { FaqData } from '../../Constants/Constants'
+import { FaqData } from '../../constants/Constants'
 
 const FAQ = () => {
   return (

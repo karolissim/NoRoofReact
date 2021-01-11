@@ -1,7 +1,7 @@
 import React from 'react';
 import './Cart.css'
 import CartItem from '../CartItem/CartItem';
-import {colors} from '../../Constants/Constants';
+import {colors} from '../../constants/Constants';
 /*eslint no-unused-expressions: ["error", { "allowTernary": true }]*/
 
 
@@ -157,6 +157,7 @@ class Cart extends React.Component {
                 this.props.setLimitReached(true);
             } else {
                 itemArray[index].cartItem.quantity += quantity;
+                this.props.showAnimation()
             }
         } else {
             itemArray.push(item);

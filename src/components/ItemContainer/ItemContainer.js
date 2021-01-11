@@ -54,7 +54,7 @@ const ItemContainer = (props) => {
          * Fetches single item data from server using item ID and size ID as params
          */
         async function fetchItem() {
-            await fetch('http://192.168.1.160:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
+            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
@@ -67,7 +67,7 @@ const ItemContainer = (props) => {
          * Fetches all item's quantities and sizes using item ID as param
          */
         async function fetchQuantity() {
-            await fetch('http://192.168.1.160:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
+            await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemQuantity(result)
@@ -115,10 +115,7 @@ const ItemContainer = (props) => {
                 anim.destroy();
                 setAddToCartAnimation(false);
             });
-        }
-        
-
-        
+        }  
     }
 
     /**
@@ -167,9 +164,7 @@ const ItemContainer = (props) => {
 
    function addToCartOnClick() {    
         props.addToCart(getItem(item));
-        
-        showAnimation();
-        
+        // showAnimation();
     }
 
     if (isItemFetched && !itemQuantity.length === false) {
@@ -190,7 +185,8 @@ const ItemContainer = (props) => {
                             itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
                                 <button className = {addToCartInfo.style} type="submit" name="button" onClick={() => addToCartOnClick()} disabled={addToCartInfo.isDisabled}>
                                     {addToCartInfo.text}
-                                    <div className = {addToCartAnimation ? "add-to-cart-animation" : ""} ref = {animationContainer}></div>
+                                    {/* <div className = {addToCartAnimation ? "add-to-cart-animation" : ""} ref = {animationContainer}></div> */}
+                                    <div className = "add-to-cart-animation"></div>
                                 </button>
                         </ItemInformation>
                         <div className = "errorWrapper">

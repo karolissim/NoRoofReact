@@ -8,6 +8,8 @@ import Contact from './components/Contact/Contact'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Cart from './components/Cart/Cart';
 import ErrorHandler from './components/ErrorHandler/ErrorHandler';
+import lottie from "lottie-web"
+import animation from './loaders/18855-checkmark-icon.json'
 
 class App extends Component {
   constructor(props) {
@@ -20,14 +22,14 @@ class App extends Component {
       isLoaded: false,
       shopItems: [],
       addToCartItem: null,
-      limitReached: false
+      limitReached: false,
     }
 
     this.modifyItemNum = this.modifyItemNum.bind(this);
   }
 
   async componentDidMount() {
-    await fetch('http://192.168.1.160:3030/api/item/', { mode: 'cors', method: 'GET' })
+    await fetch('http://localhost:3030/api/item/', { mode: 'cors', method: 'GET' })
       .then(res => res.json())
       .then(
         result => {
@@ -65,6 +67,24 @@ class App extends Component {
     this.setState({limitReached: bool});
   }
 
+  showAnimation = () => {
+    // if(!props.limitReached) {
+        let anim = lottie.loadAnimation({
+            container: document.querySelector(".add-to-cart-animation"),
+            loop: false,
+            autoplay: false,
+            animationData: animation,
+        });
+        // setAddToCartAnimation(true);
+        anim.play();
+
+        anim.addEventListener('complete', function(){
+            anim.destroy();
+            // setAddToCartAnimation(false);
+        });
+    // }  
+}
+
   render() {
     return (
       <div className="App">
@@ -82,6 +102,7 @@ class App extends Component {
             emptyAddToCartItem={this.emptyAddToCartItem}
             shadow={this.state.cartShadow}
             setLimitReached = {this.setLimitReached}
+            showAnimation = {this.showAnimation}
           />
           <Switch>
             <Route exact path="/">
