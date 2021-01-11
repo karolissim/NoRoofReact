@@ -131,26 +131,6 @@ router.get('/items', (_req, res) => {
 })
 
 //Get item's photo ids
-// router.get('/photos/:item_id/:color_id', (req, res) => {
-//   const item_id = parseInt(req.params.item_id)
-//   const color_id = parseInt(req.params.color_id)
-
-//   pool.query(
-//     'SELECT photo_id FROM item_photos WHERE item_id = $1 AND color_id = $2',
-//     [item_id, color_id],
-//     (error, results) => {
-//       if (error) {
-//         throw error
-//       }
-//       var photoIds = []
-//       results.rows.forEach((item) => {
-//         photoIds.push(item.photo_id)
-//       })
-//       res.json(photoIds)
-//     }
-//   )
-// })
-
 router.get('/photos/:item_id', (req, res) => {
   const item_id = parseInt(req.params.item_id)
 
@@ -184,7 +164,6 @@ router.get('/photos/:item_id', (req, res) => {
         'color_id': colorId,
         'photo_ids': colorPhotoIds
       })
-      console.log(photoIds)
       res.json(photoIds)
     }
   )
