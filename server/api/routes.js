@@ -131,21 +131,60 @@ router.get('/items', (_req, res) => {
 })
 
 //Get item's photo ids
-router.get('/photos/:item_id/:color_id', (req, res) => {
+// router.get('/photos/:item_id/:color_id', (req, res) => {
+//   const item_id = parseInt(req.params.item_id)
+//   const color_id = parseInt(req.params.color_id)
+
+//   pool.query(
+//     'SELECT photo_id FROM item_photos WHERE item_id = $1 AND color_id = $2',
+//     [item_id, color_id],
+//     (error, results) => {
+//       if (error) {
+//         throw error
+//       }
+//       var photoIds = []
+//       results.rows.forEach((item) => {
+//         photoIds.push(item.photo_id)
+//       })
+//       res.json(photoIds)
+//     }
+//   )
+// })
+
+router.get('/photos/:item_id', (req, res) => {
   const item_id = parseInt(req.params.item_id)
-  const color_id = parseInt(req.params.color_id)
 
   pool.query(
-    'SELECT photo_id FROM item_photos WHERE item_id = $1 AND color_id = $2',
-    [item_id, color_id],
+    'SELECT photo_id, color_id FROM item_photos WHERE item_id = $1',
+    [item_id],
     (error, results) => {
       if (error) {
         throw error
       }
+
       var photoIds = []
+      var colorPhotoIds = []
+      var colorId = results.rows[0].color_id
+      
       results.rows.forEach((item) => {
-        photoIds.push(item.photo_id)
+        if (item.color_id === colorId){
+          colorPhotoIds.push(item.photo_id)
+        } else {
+          photoIds.push({
+            'color_id': colorId,
+            'photo_ids': colorPhotoIds
+          })
+          colorId = item.color_id
+          colorPhotoIds = []
+          colorPhotoIds.push(item.photo_id)
+        }
       })
+
+      photoIds.push({
+        'color_id': colorId,
+        'photo_ids': colorPhotoIds
+      })
+      console.log(photoIds)
       res.json(photoIds)
     }
   )

@@ -120,7 +120,7 @@ class Cart extends React.Component {
     removeItem = (key) => {
         let price = 0;
         let quantity = 0;
-        let withoutItem = this.state.cartItems.filter(function (value, index, arr) {
+        let withoutItem = this.state.cartItems.filter(function (value, _index, _arr) {
             if (value.key === key) {
                 price = value.cartItem.quantity * value.cartItem.price;
                 quantity = value.cartItem.quantity;
@@ -145,7 +145,7 @@ class Cart extends React.Component {
         let itemArray = this.state.cartItems;
         let quantity = item.cartItem.quantity;
 
-        let index = itemArray.findIndex(function (currentValue, index, arr) {
+        let index = itemArray.findIndex(function (currentValue, _index, _arr) {
             return currentValue.key === item.key;
         });
 

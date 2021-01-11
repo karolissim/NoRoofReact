@@ -28,15 +28,19 @@ const ImageSlider = (props) => {
         }
 
         window.addEventListener('resize', handleScreenResize)
+    }, [])
 
+    useEffect(() => {
         var dotState = []
+        
         dotState.push(true)
         for (var i = 0; i < photoIds.length - 1; i++) {
             dotState.push(false)
         }
+
         setNavDotState(dotState)
         setPosition(1)
-    }, [props.itemId, props.colorId, props.photoIds])
+    }, [props.itemId, props.colorId])
 
     function animateSliderTransition() {
         ReactDOM.findDOMNode(imageSliderElementRef).style.transition = "transform 0.4s ease-in-out"
@@ -69,10 +73,10 @@ const ImageSlider = (props) => {
             if (position === photoIds.length) {
                 navDotState[0] = true
                 navDotState[navDotState.length - 1] = false
-            } else if(position === photoIds.length + 1){
+            } else if (position === photoIds.length + 1) {
                 navDotState[0] = true
                 navDotState[navDotState.length - 2] = false
-            }else {
+            } else {
                 navDotState[position] = true
                 navDotState[position - 1] = false
             }
@@ -123,7 +127,9 @@ const ImageSlider = (props) => {
                         <ImageContainer
                             itemId={props.itemId}
                             colorId={props.colorId}
-                            photoIds={props.photoIds}/>
+                            photoIds={props.photoIds}
+                        // photoIds={itemPhotosIds}
+                        />
                     </div>
                 </div>
                 <div>
@@ -143,11 +149,11 @@ const ImageSlider = (props) => {
                         }}>&#10095;</a>
                 </div>
                 <div className="slider-nav">
-                    {photoIds.map((_photoId, key) => {
+                    {props.photoIds.map((_photoId, key) => {
                         return (
                             <a
                                 className="slider-nav__dot"
-                                style={navDotState[key] ? {border: "1px solid rgb(" + COLORS[key] + ")", borderWidth: '1px', backgroundColor: "rgb(" + COLORS[key] + ")"} : {border: '1px solid', borderColor: "rgb(" + COLORS[key] + ")"}}
+                                style={navDotState[key] ? { border: "1px solid rgb(" + COLORS[key] + ")", borderWidth: '1px', backgroundColor: "rgb(" + COLORS[key] + ")" } : { border: '1px solid', borderColor: "rgb(" + COLORS[key] + ")" }}
                                 key={key}
                                 onClick={() => {
                                     setPosition(key + 1)

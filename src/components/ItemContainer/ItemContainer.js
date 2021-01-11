@@ -29,40 +29,17 @@ const ItemContainer = (props) => {
         return product.product_id !== parseInt(itemId)
     })
 
-    useEffect(() => {
-        setItem([])
-        setItemQuantity([])
+    const filteredPhotos = itemPhotos.filter((item) => {
+        return item.color_id === parseInt(colorId)
+    })
 
-        /**
-         * Fetches single item data from server using item ID and size ID as params
-         */
+    useEffect(() => {
         async function fetchItem() {
             await fetch(SERVER_URL + "/api/item/" + itemId + '/' + sizeId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
                     setIsItemFetched(true)
-                })
-        }
-
-        /**
-         * Fetches all item's quantities and sizes using item ID as param
-         */
-        async function fetchQuantity() {
-            await fetch(SERVER_URL + "/api/quantity/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
-                .then((res) => res.json())
-                .then((result) => {
-                    setItemQuantity(result)
-                    setItemQuantityInStock(result[0].quantity)
-                    setUserItemSize(result[0].size)
-                })
-        }
-
-        async function fetchPhotoIds() {
-            await fetch(SERVER_URL + "/api/photos/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
-                .then((res) => res.json())
-                .then((result) => {
-                    setItemPhotos(result)
                 })
         }
 
@@ -74,11 +51,42 @@ const ItemContainer = (props) => {
                 })
         }
 
-        fetchQuantity()
+        async function fetchPhotoIds() {
+            await fetch(SERVER_URL + "/api/photos/" + itemId, { mode: 'cors', method: 'GET' })
+                .then((res) => res.json())
+                .then((result) => {
+                    setItemPhotos(result)
+                })
+        }
+
         fetchItem()
-        fetchPhotoIds()
         fetchItemColors()
-    }, [itemId, colorId])
+        fetchPhotoIds()
+
+        return () => {
+            setItem([])
+            setItemPhotos([])
+            setItemColors([])
+        }
+    }, [itemId])
+
+    useEffect(() => {
+        async function fetchQuantity() {
+            await fetch(SERVER_URL + "/api/quantity/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
+                .then((res) => res.json())
+                .then((result) => {
+                    setItemQuantity(result)
+                    setItemQuantityInStock(result[0].quantity)
+                    setUserItemSize(result[0].size)
+                })
+        }
+
+        fetchQuantity()
+
+        return () => {
+            setItemQuantity([])
+        }
+    }, [colorId])
 
     /**
      * Method is called after item quantity input's onChange event is triggered and
@@ -126,12 +134,10 @@ const ItemContainer = (props) => {
     }
 
     function getItem(item) {
-        console.log("" + itemId + item.product_color_id + userItemSize);
         return {
             key: "" + itemId + item.product_color_id + userItemSize,
             cartItem: {
                 itemId: itemId,
-                src: require("../../images/" + item.product_id + ".jpg").default,
                 itemSizeId: itemQuantity.find((size) => size.size === userItemSize).size_id,
                 itemColorId: item.product_color_id,
                 quantity: userItemQuantity * 1,
@@ -144,7 +150,7 @@ const ItemContainer = (props) => {
         };
     }
 
-    if (isItemFetched && !itemQuantity.length === false && !itemPhotos.length === false && !itemColors.length === false) {
+    if (isItemFetched && !itemColors.length === false && !itemPhotos.length === false) {
         return (
             <div className="container">
 
@@ -152,7 +158,8 @@ const ItemContainer = (props) => {
                     <ImageSlider
                         itemId={itemId}
                         colorId={colorId}
-                        photoIds={itemPhotos} />
+                        photoIds={filteredPhotos.shift().photo_ids}
+                    />
                     <div className="item-container-with-error">
                         <ItemInformation
                             itemId={itemId}
