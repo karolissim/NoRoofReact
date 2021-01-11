@@ -99,24 +99,24 @@ const ItemContainer = (props) => {
     }
 
     function showAnimation() {
-        console.log(props.limitReached);
-
-        let anim = lottie.loadAnimation({
-            container: animationContainer.current,
-            loop: true,
-            animationData: animation,
-
-            rendererSettings: {
-                // resizeMode: 'cover'
-              }
-        });
-        setAddToCartAnimation(true);
-        anim.play();
-
-        anim.addEventListener('complete', function(){
-            anim.destroy();
-            setAddToCartAnimation(false);
-        });
+        console.log(props.limitReached)
+        if(!props.limitReached) {
+            console.log("inside")
+            let anim = lottie.loadAnimation({
+                container: animationContainer.current,
+                loop: false,
+                autoplay: false,
+                animationData: animation,
+            });
+            setAddToCartAnimation(true);
+            anim.play();
+    
+            anim.addEventListener('complete', function(){
+                anim.destroy();
+                setAddToCartAnimation(false);
+            });
+        }
+        
 
         
     }
@@ -148,7 +148,6 @@ const ItemContainer = (props) => {
     }
 
     function getItem(item) {
-        console.log("" + itemId + item.product_color_id + userItemSize);
         return {
             key: "" + itemId + item.product_color_id + userItemSize,
             cartItem: {
@@ -166,18 +165,10 @@ const ItemContainer = (props) => {
         };
     }
 
-    async function addToCartOnClick() {
-        
+   function addToCartOnClick() {    
         props.addToCart(getItem(item));
         
-        let anim = setTimeout(() => {
-            console.log(props.limitReached);
-            if(props.limitReached === false) {
-                showAnimation();
-            }
-        }, 1000);
-
-        return () => clearTimeout(anim);
+        showAnimation();
         
     }
 

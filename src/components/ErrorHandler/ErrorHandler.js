@@ -5,7 +5,8 @@ const ErrorHandler = (props) => {
     const style = props.isActive ? 'block' : 'none' ;
 
     useEffect(() =>{
-        props.setErrorDisplay(true);
+        console.log(props.isActive);
+        let si = props.isActive ? props.setErrorDisplay(true) : "";
         const timer = setTimeout(() => {
             props.setLimitReached(false);
             props.setErrorDisplay(false);
