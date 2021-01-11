@@ -2,7 +2,7 @@ import React from 'react';
 
 import "./CartItem.css"
 import { Link } from 'react-router-dom'
-import {colors} from '../../Constants/Constants';
+import { COLORS, SERVER_URL } from '../../constants/Constants';
 
 class CartItem extends React.Component {
 
@@ -17,7 +17,7 @@ class CartItem extends React.Component {
     }
 
     changeColor() {
-        let randomColor = colors[Math.floor(Math.random() * colors.length)];
+        let randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
         document.documentElement.style.setProperty('--remove-item-color', randomColor);
         this.setState({ itemCloseHover: true });
     }
@@ -28,11 +28,10 @@ class CartItem extends React.Component {
 
     render() {
         const item = this.props.item;
-        console.log("/shop/" + item.cartItem.itemColorId + "/" + item.cartItem.itemSizeId)
         return (
             <li className="cart-item">
-                <Link to={"/shop/" + item.cartItem.itemId + "/" + item.cartItem.size}>
-                    <img className="cart-preview-photo" src={item.cartItem.src} alt={item.cartItem.name} title={item.cartItem.name} onClick={this.props.displayCart}></img>
+                <Link to={"/shop/" + item.cartItem.itemId + "/" + item.cartItem.itemSizeId + "/" + item.cartItem.itemColorId}>
+                    <img className="cart-preview-photo" src={SERVER_URL + "/images/" + item.cartItem.itemId + "/" + item.cartItem.itemColorId + "/1.jpg"} alt={item.cartItem.name} title={item.cartItem.name} onClick={this.props.displayCart}></img>
                 </Link>
                 <div className="cart-info">
                     <span hidden={item.cartItem.itemId} className="item-id"></span>

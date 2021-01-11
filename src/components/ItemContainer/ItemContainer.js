@@ -5,19 +5,7 @@ import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 import ImageSlider from '../ImageSlider/ImageSlider'
 import ErrorHandler from '../ErrorHandler/ErrorHandler'
-
-const AddToCartButtonState = [
-    {
-        style: 'add-to-cart-button unavailable',
-        text: 'OUT OF STOCK',
-        isDisabled: true
-    },
-    {
-        style: 'add-to-cart-button available',
-        text: 'ADD TO CART',
-        isDisabled: false
-    }
-]
+import { SERVER_URL, ADD_TO_CART_BUTTON_STATE } from '../../constants/Constants'
 
 /**
  * React functional component which is responsible for rendering 
@@ -25,59 +13,85 @@ const AddToCartButtonState = [
  * @param {Object} props 
  */
 const ItemContainer = (props) => {
-    const { itemId, sizeId } = useParams()
+    const { itemId, sizeId, colorId } = useParams()
     const [isItemFetched, setIsItemFetched] = useState(false)
     const [item, setItem] = useState([])
     const [itemQuantity, setItemQuantity] = useState([])
+    const [itemColors, setItemColors] = useState([])
     const [userItemQuantity, setUserQuantity] = useState(1)
     const [userItemSize, setUserItemSize] = useState('')
     const [itemQuantityInStock, setItemQuantityInStock] = useState(0)
     const [itemPhotos, setItemPhotos] = useState([])
 
-    const addToCartInfo = itemQuantityInStock === 0 ? AddToCartButtonState[0] : AddToCartButtonState[1]
+    const addToCartInfo = itemQuantityInStock === 0 ? ADD_TO_CART_BUTTON_STATE[0] : ADD_TO_CART_BUTTON_STATE[1]
 
-    const filteredItems = props.allItems.filter((product) => {
-        return product.product_id !== parseInt(itemId)
+    const filteredItems = props.allItems.filter((item) => {
+        return item.product_id !== parseInt(itemId)
     })
 
+    const filteredPhotos = itemPhotos.filter((item) => {
+        return item.color_id === parseInt(colorId)
+    })
+
+    const isLoading = isItemFetched && !itemColors.length === false && !itemPhotos.length === false && !filteredPhotos.length === false
+
     useEffect(() => {
-        /**
-         * Fetches single item data from server using item ID and size ID as params
-         */
         async function fetchItem() {
-            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
+            await fetch(SERVER_URL + "/api/item/" + itemId + '/' + sizeId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
-                    setUserItemSize(result.available_size.split(",")[0])
                     setIsItemFetched(true)
-                    fetchPhotoIds(result.product_color_id)
                 })
         }
 
-        /**
-         * Fetches all item's quantities and sizes using item ID as param
-         */
-        async function fetchQuantity() {
-            await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
+        async function fetchItemColors() {
+            await fetch(SERVER_URL + "/api/color/" + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
-                    setItemQuantity(result)
-                    setItemQuantityInStock(result[0].quantity)
+                    console.log(result)
+                    setItemColors(result.colors)
                 })
         }
 
-        function fetchPhotoIds(colorId) {
-            fetch('http://localhost:3030/api/photos/' + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
+        async function fetchPhotoIds() {
+            await fetch(SERVER_URL + "/api/photos/" + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
                     setItemPhotos(result)
                 })
         }
 
-        fetchQuantity()
         fetchItem()
+        fetchItemColors()
+        fetchPhotoIds()
+
+        return () => {
+            setItem([])
+            setItemPhotos([])
+            setItemColors([])
+            setIsItemFetched(false)
+        }
     }, [itemId])
+
+    useEffect(() => {
+        console.log(colorId)
+        async function fetchQuantity() {
+            await fetch(SERVER_URL + "/api/quantity/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
+                .then((res) => res.json())
+                .then((result) => {
+                    setItemQuantity(result)
+                    setItemQuantityInStock(result[0].quantity)
+                    setUserItemSize(result[0].size)
+                })
+        }
+
+        fetchQuantity()
+
+        return () => {
+            setItemQuantity([])
+        }
+    }, [colorId])
 
     /**
      * Method is called after item quantity input's onChange event is triggered and
@@ -125,36 +139,38 @@ const ItemContainer = (props) => {
     }
 
     function getItem(item) {
-        console.log("" + itemId + item.product_color_id + userItemSize);
         return {
-            key: "" + itemId + item.product_color_id + userItemSize,
+            key: "" + itemId + colorId + userItemSize,
             cartItem: {
                 itemId: itemId,
-                src: require("../../images/" + item.product_id + ".jpg").default,
                 itemSizeId: itemQuantity.find((size) => size.size === userItemSize).size_id,
-                itemColorId: item.product_color_id,
+                itemColorId: colorId,
                 quantity: userItemQuantity * 1,
                 name: item.name,
-                color: item.color,
+                color: itemColors.filter((color) => {
+                    return color.color_id === parseInt(colorId)
+                }).shift().color,
                 size: userItemSize,
                 price: item.price * 1,
                 maxQuantity: itemQuantityInStock
             }
-        };
+        }
     }
 
-    if (isItemFetched && !itemQuantity.length === false && !itemPhotos.length === false) {
+    if (isLoading) {
         return (
             <div className="container">
-
                 <div className="item-container">
                     <ImageSlider
                         itemId={itemId}
-                        colorId={item.product_color_id}
-                        photoIds={itemPhotos} />
+                        colorId={colorId}
+                        photoIds={filteredPhotos.shift().photo_ids} />
                     <div className="item-container-with-error">
                         <ItemInformation
+                            itemId={itemId}
                             item={item}
+                            itemSizes={itemQuantity}
+                            itemColors={itemColors}
                             userQuantity={userItemQuantity}
                             changeQuantity={changeQuantity}
                             quantityValidation={quantityValidation}
@@ -164,7 +180,6 @@ const ItemContainer = (props) => {
                                 <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
                                     props.addToCart(getItem(item))
                                 }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
-
                             </div>
                         </ItemInformation>
                         <div className="errorWrapper">
@@ -175,7 +190,6 @@ const ItemContainer = (props) => {
                             />
                         </div>
                     </div>
-
                 </div>
                 <div className="recommended-items-container">
                     <div className="recommended-items">
@@ -183,11 +197,12 @@ const ItemContainer = (props) => {
                             return (
                                 <ReccomendedItem
                                     key={item.product_id}
-                                    item={item} />
+                                    item={item}
+                                    sizeId={item.size_id}
+                                    colorId={item.product_color_id} />
                             )
                         })}
                     </div>
-
                 </div>
             </div>
         )

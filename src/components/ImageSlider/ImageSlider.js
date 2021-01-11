@@ -3,24 +3,23 @@ import ReactDOM from 'react-dom'
 import './ImageSlider.css'
 import ImageContainer from '../ImageContainer/ImageContainer'
 import ImageZoom from '../ImageZoom/ImageZoom'
-import { PREV, NEXT, SERVER_URL } from '../../Constants/Constants'
+import { PREV, NEXT, SERVER_URL, COLORS } from '../../constants/Constants'
 
 const ImageSlider = (props) => {
+    const { photoIds, itemId, colorId } = props
     const [position, setPosition] = useState(1)
     const [imageWidth, setImageWidth] = useState(0)
     const [navDotState, setNavDotState] = useState([])
     const [zoomXPosition, setZoomXPosition] = useState(0)
     const [zoomYPosition, setZoomYPosition] = useState(0)
     const [zoomContainerState, setZoomContainerState] = useState(false)
-    const photoIds = props.photoIds
     var imageSliderElementRef, imageSliderElement
 
     const translateValue = 'translateX(' + (-imageWidth * position) + 'px)'
     const zoom = ' ' + zoomXPosition + '%' + zoomYPosition + '%'
-    const photoUrl = 'url(' + SERVER_URL + '/images/' + props.itemId + '/' + props.colorId + '/' + position + '.jpg)'
+    const photoUrl = 'url(' + SERVER_URL + '/images/' + itemId + '/' + colorId + '/' + position + '.jpg)'
 
     useEffect(() => {
-        console.log("ImageSlider")
         imageSliderElement = ReactDOM.findDOMNode(imageSliderElementRef)
         setImageWidth(imageSliderElement.clientWidth)
 
@@ -29,15 +28,19 @@ const ImageSlider = (props) => {
         }
 
         window.addEventListener('resize', handleScreenResize)
+    }, [])
 
+    useEffect(() => {
         var dotState = []
+
         dotState.push(true)
         for (var i = 0; i < photoIds.length - 1; i++) {
             dotState.push(false)
         }
+
         setNavDotState(dotState)
         setPosition(1)
-    }, [props.itemId])
+    }, [itemId, colorId])
 
     function animateSliderTransition() {
         ReactDOM.findDOMNode(imageSliderElementRef).style.transition = "transform 0.4s ease-in-out"
@@ -56,7 +59,7 @@ const ImageSlider = (props) => {
     }
 
     function incrementPosition() {
-        if (position >= photoIds.length + 1) return
+        if (position > photoIds.length) return
         setPosition(position + 1)
     }
 
@@ -70,6 +73,9 @@ const ImageSlider = (props) => {
             if (position === photoIds.length) {
                 navDotState[0] = true
                 navDotState[navDotState.length - 1] = false
+            } else if (position === photoIds.length + 1) {
+                navDotState[0] = true
+                navDotState[navDotState.length - 2] = false
             } else {
                 navDotState[position] = true
                 navDotState[position - 1] = false
@@ -88,7 +94,6 @@ const ImageSlider = (props) => {
             }
             navDotState[value] = true
         }
-
         setNavDotState(navDotState)
     }
 
@@ -120,10 +125,10 @@ const ImageSlider = (props) => {
                         onMouseOver={() => changeZoomContainerState()}
                         onMouseOut={() => changeZoomContainerState()}>
                         <ImageContainer
-                            itemId={props.itemId}
-                            colorId={props.colorId}
-                            photoIds={props.photoIds}
-                            imageSliderElement={imageSliderElementRef} />
+                            itemId={itemId}
+                            colorId={colorId}
+                            photoIds={photoIds}
+                        />
                     </div>
                 </div>
                 <div>
@@ -146,7 +151,8 @@ const ImageSlider = (props) => {
                     {photoIds.map((_photoId, key) => {
                         return (
                             <a
-                                className={navDotState[key] ? "slider-nav__dot slider-nav__dot-filled" : "slider-nav__dot"}
+                                className="slider-nav__dot"
+                                style={navDotState[key] ? { border: "1px solid rgb(" + COLORS[key] + ")", borderWidth: '1px', backgroundColor: "rgb(" + COLORS[key] + ")" } : { border: '1px solid', borderColor: "rgb(" + COLORS[key] + ")" }}
                                 key={key}
                                 onClick={() => {
                                     setPosition(key + 1)

@@ -1,18 +1,21 @@
 import React from 'react'
+import { SERVER_URL } from '../../constants/Constants'
 
 const ImageContainer = (props) => {
+    const { itemId, colorId, photoIds } = props
+
     return (
         <React.Fragment>
-            <img src={"http://localhost:3030/images/" + props.itemId + "/" + props.colorId + "/" + props.photoIds[props.photoIds.length - 1] + ".jpg"}
-                alt=""></img>
-            {props.photoIds.map((photoId) => {
+            <img src={SERVER_URL + "/images/" + itemId + "/" + colorId + "/" + photoIds[photoIds.length - 1] + ".jpg"} alt=""></img>
+            {photoIds.map((photoId) => {
                 return (
-                    <img src={"http://localhost:3030/images/" + props.itemId + "/" + props.colorId + "/" + photoId + ".jpg"} alt="" key={photoId}></img>
+                    <img src={SERVER_URL + "/images/" + itemId + "/" + colorId + "/" + photoId + ".jpg"} alt="" key={photoId}></img>
                 )
             })}
-            <img src={"http://localhost:3030/images/" + props.itemId + "/" + props.colorId + "/" + props.photoIds[0] + ".jpg"} alt=""></img>
+            <img src={SERVER_URL + "/images/" + itemId + "/" + colorId + "/" + photoIds[0] + ".jpg"} alt=""></img>
         </React.Fragment>
     )
+
 }
 
 export default ImageContainer

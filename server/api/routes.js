@@ -21,26 +21,13 @@ router.get('/', (_req, res) => {
 })
 
 // Get item data when item is clicked from shop screen
-router.get('/item/:id/:size', (req, res) => {
+router.get('/item/:id/:size_id/:color_id', (req, res) => {
   const id = parseInt(req.params.id)
-  const size = req.params.size
+  const size = parseInt(req.params.size_id)
+  const colorId = parseInt(req.params.color_id)
 
-  pool.query('SELECT product.product_id, color_size.product_color_id, color_size.size_id, product.name, product.price, product.description, product.fit, product.fabric, product.available_size, color.color, size.size, color_size.quantity FROM product_color JOIN color_size ON product_color.product_color_id = color_size.product_color_id JOIN color ON product_color.color_id = color.color_id JOIN size ON color_size.size_id = size.size_id JOIN product ON product_color.product_id = product.product_id WHERE product.product_id = $1 and size = $2',
-    [id, size], (error, results) => {
-      if (error) {
-        throw error
-      }
-      res.json(results.rows[0])
-    })
-})
-
-// Get item quantity when item size is being changed
-router.get('/quantity/:id/:size', (req, res) => {
-  const id = parseInt(req.params.id)
-  const size = req.params.size
-
-  pool.query('SELECT color_size.quantity, color_size.size_id FROM  product_color JOIN color_size ON product_color.product_color_id = color_size.product_color_id JOIN color ON product_color.color_id = color.color_id JOIN size ON color_size.size_id = size.size_id JOIN product ON product_color.product_id = product.product_id WHERE product.product_id = $1 and size = $2',
-    [id, size], (error, results) => {
+  pool.query('SELECT product.product_id, color_size.product_color_id, color_size.size_id, product.name, product.price, product.description, product.fit, product.fabric, color.color FROM product_color JOIN color_size ON product_color.product_color_id = color_size.product_color_id JOIN color ON product_color.color_id = color.color_id JOIN size ON color_size.size_id = size.size_id JOIN product ON product_color.product_id = product.product_id WHERE product.product_id = $1 and size.size_id = $2 and color_size.product_color_id = $3',
+    [id, size, colorId], (error, results) => {
       if (error) {
         throw error
       }
@@ -49,15 +36,43 @@ router.get('/quantity/:id/:size', (req, res) => {
 })
 
 //Get item quantity of all sizes
-router.get('/quantity/:id', (req, res) => {
+router.get('/quantity/:id/:color_id', (req, res) => {
   const id = parseInt(req.params.id)
+  const colorId = parseInt(req.params.color_id)
 
-  pool.query('SELECT color_size.quantity, size.size, size.size_id FROM  product_color JOIN color_size ON product_color.product_color_id = color_size.product_color_id JOIN color ON product_color.color_id = color.color_id JOIN size ON color_size.size_id = size.size_id JOIN product ON product_color.product_id = product.product_id WHERE product.product_id = $1 ORDER BY color_size.size_id',
-    [id], (error, results) => {
+  pool.query('SELECT color_size.quantity, size.size, size.size_id FROM product_color JOIN color_size ON product_color.product_color_id = color_size.product_color_id JOIN color ON product_color.color_id = color.color_id JOIN size ON color_size.size_id = size.size_id JOIN product ON product_color.product_id = product.product_id WHERE product.product_id = $1 and color_size.product_color_id = $2 ORDER BY color_size.size_id;',
+    [id, colorId], (error, results) => {
       if (error) {
         throw error
       }
       res.json(results.rows)
+    }
+  )
+})
+
+router.get('/color/:id', (req, res) => {
+  const id = parseInt(req.params.id)
+
+  pool.query('SELECT product_color.color_id, color_size.size_id, color.color, color.hex FROM product_color JOIN color_size ON product_color.product_color_id = color_size.product_color_id JOIN color ON product_color.color_id = color.color_id WHERE product_color.product_id = $1 ORDER BY product_color.color_id, color_size.size_id;',
+    [id], (error, results) => {
+      if(error){
+        throw error
+      }
+
+      var colorID
+      var colors = []
+
+      for (var i = 0; i < results.rows.length; i++) {
+        if (i === 0) {
+          colors.push(results.rows[i])
+          colorID = results.rows[i].color_id
+        } else if (results.rows[i].color_id !== colorID) {
+          colors.push(results.rows[i])
+          colorID = results.rows[i].color_id
+        }
+      }
+
+      res.send({ 'colors' : colors })
     }
   )
 })
@@ -92,30 +107,62 @@ router.get('/pre-checkout', (_req, res) => {
 })
 
 // Get all items
-router.get('/item', (_req, res) => {
-  pool.query('SELECT * FROM product ORDER BY product_id;',
+router.get('/items', (_req, res) => {
+  pool.query('SELECT DISTINCT product.product_id, product.name, product.price, product_color.product_color_id, color_size.size_id FROM product JOIN product_color ON product.product_id = product_color.product_id JOIN color_size ON product_color.product_color_id = color_size.product_color_id ORDER BY product.product_id;',
     (error, results) => {
       if (error)
         throw error
-      res.send({ 'items': results.rows })
+
+      var itemID
+      var items = []
+
+      for (var i = 0; i < results.rows.length; i++) {
+        if (i === 0) {
+          items.push(results.rows[i])
+          itemID = results.rows[i].product_id
+        } else if (results.rows[i].product_id !== itemID) {
+          items.push(results.rows[i])
+          itemID = results.rows[i].product_id
+        }
+      }
+
+      res.send({ 'items': items })
     })
 })
 
 //Get item's photo ids
-router.get('/photos/:item_id/:color_id', (req, res) => {
+router.get('/photos/:item_id', (req, res) => {
   const item_id = parseInt(req.params.item_id)
-  const color_id = parseInt(req.params.color_id)
 
   pool.query(
-    'SELECT photo_id FROM item_photos WHERE item_id = $1 AND color_id = $2',
-    [item_id, color_id],
+    'SELECT photo_id, color_id FROM item_photos WHERE item_id = $1',
+    [item_id],
     (error, results) => {
       if (error) {
         throw error
       }
+
       var photoIds = []
+      var colorPhotoIds = []
+      var colorId = results.rows[0].color_id
+      
       results.rows.forEach((item) => {
-        photoIds.push(item.photo_id)
+        if (item.color_id === colorId){
+          colorPhotoIds.push(item.photo_id)
+        } else {
+          photoIds.push({
+            'color_id': colorId,
+            'photo_ids': colorPhotoIds
+          })
+          colorId = item.color_id
+          colorPhotoIds = []
+          colorPhotoIds.push(item.photo_id)
+        }
+      })
+
+      photoIds.push({
+        'color_id': colorId,
+        'photo_ids': colorPhotoIds
       })
       res.json(photoIds)
     }
