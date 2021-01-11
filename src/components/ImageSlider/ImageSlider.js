@@ -6,18 +6,18 @@ import ImageZoom from '../ImageZoom/ImageZoom'
 import { PREV, NEXT, SERVER_URL, COLORS } from '../../constants/Constants'
 
 const ImageSlider = (props) => {
+    const { photoIds, itemId, colorId } = props
     const [position, setPosition] = useState(1)
     const [imageWidth, setImageWidth] = useState(0)
     const [navDotState, setNavDotState] = useState([])
     const [zoomXPosition, setZoomXPosition] = useState(0)
     const [zoomYPosition, setZoomYPosition] = useState(0)
     const [zoomContainerState, setZoomContainerState] = useState(false)
-    const photoIds = props.photoIds
     var imageSliderElementRef, imageSliderElement
 
     const translateValue = 'translateX(' + (-imageWidth * position) + 'px)'
     const zoom = ' ' + zoomXPosition + '%' + zoomYPosition + '%'
-    const photoUrl = 'url(' + SERVER_URL + '/images/' + props.itemId + '/' + props.colorId + '/' + position + '.jpg)'
+    const photoUrl = 'url(' + SERVER_URL + '/images/' + itemId + '/' + colorId + '/' + position + '.jpg)'
 
     useEffect(() => {
         imageSliderElement = ReactDOM.findDOMNode(imageSliderElementRef)
@@ -32,7 +32,7 @@ const ImageSlider = (props) => {
 
     useEffect(() => {
         var dotState = []
-        
+
         dotState.push(true)
         for (var i = 0; i < photoIds.length - 1; i++) {
             dotState.push(false)
@@ -40,7 +40,7 @@ const ImageSlider = (props) => {
 
         setNavDotState(dotState)
         setPosition(1)
-    }, [props.itemId, props.colorId])
+    }, [itemId, colorId])
 
     function animateSliderTransition() {
         ReactDOM.findDOMNode(imageSliderElementRef).style.transition = "transform 0.4s ease-in-out"
@@ -125,10 +125,9 @@ const ImageSlider = (props) => {
                         onMouseOver={() => changeZoomContainerState()}
                         onMouseOut={() => changeZoomContainerState()}>
                         <ImageContainer
-                            itemId={props.itemId}
-                            colorId={props.colorId}
-                            photoIds={props.photoIds}
-                        // photoIds={itemPhotosIds}
+                            itemId={itemId}
+                            colorId={colorId}
+                            photoIds={photoIds}
                         />
                     </div>
                 </div>
@@ -149,7 +148,7 @@ const ImageSlider = (props) => {
                         }}>&#10095;</a>
                 </div>
                 <div className="slider-nav">
-                    {props.photoIds.map((_photoId, key) => {
+                    {photoIds.map((_photoId, key) => {
                         return (
                             <a
                                 className="slider-nav__dot"

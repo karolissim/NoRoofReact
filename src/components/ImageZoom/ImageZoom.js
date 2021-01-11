@@ -13,6 +13,7 @@ const ImageZoom = (props) => {
             backgroundPosition: 'center center',
             backgroundRepeat: 'no-repeat no-repeat',
         }
+        
     return (
         <div
             className="image-zoom-container"

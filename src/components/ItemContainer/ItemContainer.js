@@ -25,13 +25,15 @@ const ItemContainer = (props) => {
 
     const addToCartInfo = itemQuantityInStock === 0 ? ADD_TO_CART_BUTTON_STATE[0] : ADD_TO_CART_BUTTON_STATE[1]
 
-    const filteredItems = props.allItems.filter((product) => {
-        return product.product_id !== parseInt(itemId)
+    const filteredItems = props.allItems.filter((item) => {
+        return item.product_id !== parseInt(itemId)
     })
 
     const filteredPhotos = itemPhotos.filter((item) => {
         return item.color_id === parseInt(colorId)
     })
+
+    const isLoading = isItemFetched && !itemColors.length === false && !itemPhotos.length === false && !filteredPhotos.length === false
 
     useEffect(() => {
         async function fetchItem() {
@@ -47,6 +49,7 @@ const ItemContainer = (props) => {
             await fetch(SERVER_URL + "/api/color/" + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
+                    console.log(result)
                     setItemColors(result.colors)
                 })
         }
@@ -67,10 +70,12 @@ const ItemContainer = (props) => {
             setItem([])
             setItemPhotos([])
             setItemColors([])
+            setIsItemFetched(false)
         }
     }, [itemId])
 
     useEffect(() => {
+        console.log(colorId)
         async function fetchQuantity() {
             await fetch(SERVER_URL + "/api/quantity/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
@@ -135,31 +140,31 @@ const ItemContainer = (props) => {
 
     function getItem(item) {
         return {
-            key: "" + itemId + item.product_color_id + userItemSize,
+            key: "" + itemId + colorId + userItemSize,
             cartItem: {
                 itemId: itemId,
                 itemSizeId: itemQuantity.find((size) => size.size === userItemSize).size_id,
-                itemColorId: item.product_color_id,
+                itemColorId: colorId,
                 quantity: userItemQuantity * 1,
                 name: item.name,
-                color: item.color,
+                color: itemColors.filter((color) => {
+                    return color.color_id === parseInt(colorId)
+                }).shift().color,
                 size: userItemSize,
                 price: item.price * 1,
                 maxQuantity: itemQuantityInStock
             }
-        };
+        }
     }
 
-    if (isItemFetched && !itemColors.length === false && !itemPhotos.length === false) {
+    if (isLoading) {
         return (
             <div className="container">
-
                 <div className="item-container">
                     <ImageSlider
                         itemId={itemId}
                         colorId={colorId}
-                        photoIds={filteredPhotos.shift().photo_ids}
-                    />
+                        photoIds={filteredPhotos.shift().photo_ids} />
                     <div className="item-container-with-error">
                         <ItemInformation
                             itemId={itemId}
@@ -175,7 +180,6 @@ const ItemContainer = (props) => {
                                 <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
                                     props.addToCart(getItem(item))
                                 }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
-
                             </div>
                         </ItemInformation>
                         <div className="errorWrapper">
@@ -186,7 +190,6 @@ const ItemContainer = (props) => {
                             />
                         </div>
                     </div>
-
                 </div>
                 <div className="recommended-items-container">
                     <div className="recommended-items">
@@ -200,7 +203,6 @@ const ItemContainer = (props) => {
                             )
                         })}
                     </div>
-
                 </div>
             </div>
         )
