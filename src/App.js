@@ -7,6 +7,7 @@ import FAQ from './components/FAQ/FAQ'
 import Contact from './components/Contact/Contact'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Cart from './components/Cart/Cart';
+import Checkout from './components/Checkout/Checkout'
 import { SERVER_URL } from './constants/Constants'
 
 class App extends Component {
@@ -95,6 +96,9 @@ class App extends Component {
                 setLimitReached={this.setLimitReached}
                 allItems={this.state.shopItems}
                 addToCart={this.addItemToCart} />
+            </Route>
+            <Route path="/checkout">
+              <Checkout />
             </Route>
           </Switch>
         </Router>
