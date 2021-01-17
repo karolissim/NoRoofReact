@@ -4,6 +4,7 @@ import './CheckoutForm.css'
 import { SERVER_URL, STRIPE_OPTIONS, POSTAL_CODE, CARD_NUMBER, CARD_CVC, CARD_DATE } from '../../constants/Constants'
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { validateEmail, validatePostalCode } from '../../utils/Validations'
+import { COUNTRIES } from '../../constants/Countries'
 
 const CheckoutForm = (props) => {
     const stripe = useStripe()

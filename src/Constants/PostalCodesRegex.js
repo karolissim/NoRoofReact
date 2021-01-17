@@ -1,4 +1,4 @@
-export const postalCodes = {
+export const POSTAL_CODES = {
   "AD": "AD\\d{3}",
   "AM": "(37)?\\d{4}",
   "AR": "([A-HJ-NP-Z])?\\d{4}([A-Z]{3})?",
