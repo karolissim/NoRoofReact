@@ -49,7 +49,6 @@ const ItemContainer = (props) => {
             await fetch(SERVER_URL + "/api/color/" + itemId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
                 .then((result) => {
-                    console.log(result)
                     setItemColors(result.colors)
                 })
         }
