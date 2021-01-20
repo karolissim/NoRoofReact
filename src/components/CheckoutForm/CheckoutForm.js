@@ -15,11 +15,13 @@ const CheckoutForm = (props) => {
     const [isLoading, setIsLoading] = useState(false)
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [countryCode, setCountryCode] = useState('')
 
     var countryInput, addressInput, cityInput, postalInput, nameInput, surnameInput, emailInput
 
     function handleOnFocusGained(ref) {
         ReactDOM.findDOMNode(ref).classList.add('focused')
+        ReactDOM.findDOMNode(ref).classList.remove('invalid')
     }
 
     function handleOnFocusLost(ref) {
@@ -33,7 +35,6 @@ const CheckoutForm = (props) => {
             setShowErrorMessage(false)
         } else {
             elementRef.classList.remove('empty')
-            elementRef.classList.remove('invalid')
             setShowErrorMessage(false)
         }
     }
@@ -97,7 +98,7 @@ const CheckoutForm = (props) => {
             ReactDOM.findDOMNode(addressInput).classList.add('invalid')
             errorCount++
         }
-        if (ReactDOM.findDOMNode(countryInput).value.length === 0) {
+        if (countryCode === '') {
             ReactDOM.findDOMNode(countryInput).classList.add('invalid')
             errorCount++
         }
@@ -128,6 +129,12 @@ const CheckoutForm = (props) => {
         }
     }
 
+    function handleCountrySelect(event) {
+        setCountryCode(event.target.value)
+        ReactDOM.findDOMNode(countryInput).classList.remove('empty')
+        ReactDOM.findDOMNode(countryInput).classList.remove('invalid')
+    }
+
     async function handleSubmition() {
         setIsLoading(true)
 
@@ -139,12 +146,12 @@ const CheckoutForm = (props) => {
 
         const billingData = {
             address_city: ReactDOM.findDOMNode(cityInput).value,
-            address_country: ReactDOM.findDOMNode(countryInput).value,
+            address_country: countryCode,
             address_zip: ReactDOM.findDOMNode(postalInput).value,
             address_line1: ReactDOM.findDOMNode(addressInput).value,
             email: ReactDOM.findDOMNode(emailInput).value,
             name: `${ReactDOM.findDOMNode(nameInput).value} ${ReactDOM.findDOMNode(surnameInput).value}`,
-            currency: 'usd'
+            currency: 'eur'
         }
 
         const { error, token } = await stripe.createToken(cardNumberElement, billingData)
@@ -174,7 +181,7 @@ const CheckoutForm = (props) => {
     return (
         <div className="checkout-wrapper">
             <div className="checkout-modal">
-                <form onSubmit={(event) => {
+                <form autoComplete="true" onSubmit={(event) => {
                     event.preventDefault()
                     if (!hasError()) {
                         if (!validateEmail(ReactDOM.findDOMNode(emailInput).value)) {
@@ -247,15 +254,15 @@ const CheckoutForm = (props) => {
                         </div>
                         <div className="row" data-locale-reversible>
                             <div className="field half-width">
-                                <input
+                                <select
                                     className="input empty"
-                                    type="text"
-                                    placeholder="Lithuania"
-                                    ref={(country) => countryInput = country}
-                                    onFocus={() => handleOnFocusGained(countryInput)}
-                                    onBlur={() => handleOnFocusLost(countryInput)}
-                                    onKeyUp={() => handleOnKeyUp(countryInput)}>
-                                </input>
+                                    onChange={(event) => handleCountrySelect(event)}
+                                    ref={(country) => countryInput = country}>
+                                    <option></option>
+                                    {COUNTRIES.map((country) => {
+                                        return <option value={country.code} key={country.code}>{country.name}</option>
+                                    })}
+                                </select>
                                 <label className="info-label">Country</label>
                                 <div className="baseline"></div>
                             </div>
