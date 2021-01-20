@@ -9,6 +9,7 @@ import FAQ from './components/FAQ/FAQ'
 import Contact from './components/Contact/Contact'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import CheckoutForm from './components/CheckoutForm/CheckoutForm'
+import CheckoutItems from './components/CheckoutItems/CheckoutItems'
 import { SERVER_URL } from './constants/Constants'
 
 const stripePromise = loadStripe('pk_test_51HXAIhD4jRnDIKXSUReminHgu3nj1XBPMVTJmKzSAyAnQhqrB8FssuvJHI150EpdQ2q0mTDgOctyc3s2HyT83I3G00ZmSekB71');
@@ -158,6 +159,11 @@ class App extends Component {
                   amount={this.state.checkoutAmount}
                   items={this.state.checkoutItems} />
               </Elements>
+            </Route>
+            <Route path="/checkout-items">
+              <CheckoutItems
+              amount={this.state.checkoutAmount}
+              items={this.state.checkoutItems} />
             </Route>
           </Switch>
         </Router>
