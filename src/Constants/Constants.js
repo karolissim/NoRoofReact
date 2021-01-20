@@ -58,3 +58,27 @@ export const ADD_TO_CART_BUTTON_STATE = [
     isDisabled: false
   }
 ]
+
+export const STRIPE_OPTIONS = {
+  style: {
+      base: {
+          color: '#32325d',
+          fontFamily: '"Rubik", sans-serif',
+          fontSmoothing: 'antialiased',
+          fontSize: '16px',
+          '::placeholder': {
+              color: '#fff'
+          }
+      },
+      invalid: {
+          color: '#fa755a',
+          iconColor: '#fa755a'
+      }
+  }
+}
+
+export const CARD_NUMBER = "CARD_NUMBER"
+export const CARD_CVC = "CARD_CVC"
+export const CARD_DATE = "CARD_DATE"
+
+export const POSTAL_CODE = "postalCode"

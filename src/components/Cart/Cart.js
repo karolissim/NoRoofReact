@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import { Link } from 'react-router-dom'
 import './Cart.css'
 import CartItem from '../CartItem/CartItem';
 import { COLORS } from '../../constants/Constants';
@@ -47,7 +48,8 @@ class Cart extends React.Component {
         cartItems.forEach((element) => {
             quantity += element.cartItem.quantity;
         });
-        this.props.modifyItemNum(quantity);
+
+        this.props.setItemQuantityInCart(quantity)
         return cartItems;
     }
 
@@ -236,7 +238,12 @@ class Cart extends React.Component {
                         <span id="currency">€</span>
                     </p>
                 </div>
-                <a className="checkout-btn">Checkout</a>
+                <Link to="/checkout">
+                    <span className="checkout-btn" onClick={() => {
+                        this.props.handleCheckout(this.state.cartItems, this.state.totalPrice)
+                        this.closeCart()
+                    }}>Checkout</span>
+                </Link>
             </div>
         )
     }
