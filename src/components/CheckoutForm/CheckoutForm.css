@@ -8,8 +8,8 @@
 }
 
 .checkout-wrapper {
-  height: 100vh;
-  width: 100%;
+  width: 700px;
+  margin: 24px;
 }
 
 .InputElement {
@@ -17,22 +17,8 @@
 }
 
 .checkout-modal {
-  margin-top: 120px;
-  margin-left: 80px;
-  width: 55vw;
-  height: 50vh;
+  width: 700px;
   background-color: white;
-  -moz-box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-  -webkit-box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-  border-radius: 30px;
-}
-
-.checkout-modal form {
-  margin: 0 auto;
-  padding: 4vh 0;
-  width: 80%;
-  height: 80%;
 }
 
 .checkout-modal .row {
@@ -81,9 +67,9 @@
   box-shadow: none !important;
 }
 
-.input:focus{
+.input:focus {
   outline: none;
-  }
+}
 
 .checkout-modal label {
   position: absolute;
@@ -145,7 +131,7 @@
   color: #24b47e;
 }
 
-.checkout-modal .input.focused+.info-label+.baseline, .StripeElement--focus+.payment-label+.baseline, :not(.StripeElement--empty)+.payment-label+.baseline {
+.checkout-modal .input.focused+.info-label+.baseline, .StripeElement--focus+.payment-label+.baseline {
   background-color: #24b47e;
 }
 
@@ -212,4 +198,17 @@
 
 .checkout-modal__error-message {
   color: #fa755a;
+}
+
+.checkout-divider--gray {
+  margin: 2px 0;
+  border: solid 1px #cfd7df;
+}
+
+.section {
+  margin: 60px 0 24px 0; /* 15px */
+}
+
+.section span {
+  color: rgba(1,1,1,0.5);
 }
