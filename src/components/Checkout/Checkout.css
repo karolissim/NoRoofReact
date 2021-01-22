@@ -1,0 +1,22 @@
+.checkout {
+    height: 100vh;
+}
+
+.checkout__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 120px;
+    justify-content: center;
+    margin: 0px 120px;
+}
+
+.checkout__header {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkout__header h1 {
+    align-items: center;
+}

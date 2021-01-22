@@ -1,10 +1,10 @@
-import { React, useState } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState } from 'react'
 import './CheckoutForm.css'
-import { SERVER_URL, STRIPE_OPTIONS, POSTAL_CODE, CARD_NUMBER, CARD_CVC, CARD_DATE } from '../../constants/Constants'
+import CheckoutFormInput from '../CheckoutFormInput/CheckoutFormInput'
+import { SERVER_URL, STRIPE_OPTIONS, CARD_NUMBER, CARD_CVC, CARD_DATE } from '../../constants/Constants'
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { CheckoutFormData, nameInput, surnameInput, cityInput, countryInput, emailInput, postalInput, addressInput, formRefsArray } from '../../constants/CheckoutFormData'
 import { validateEmail, validatePostalCode } from '../../utils/Validations'
-import { COUNTRIES } from '../../constants/Countries'
 
 const CheckoutForm = (props) => {
     const stripe = useStripe()
@@ -16,28 +16,6 @@ const CheckoutForm = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [countryCode, setCountryCode] = useState('')
-
-    var countryInput, addressInput, cityInput, postalInput, nameInput, surnameInput, emailInput
-
-    function handleOnFocusGained(ref) {
-        ReactDOM.findDOMNode(ref).classList.add('focused')
-        ReactDOM.findDOMNode(ref).classList.remove('invalid')
-    }
-
-    function handleOnFocusLost(ref) {
-        ReactDOM.findDOMNode(ref).classList.remove('focused')
-    }
-
-    function handleOnKeyUp(ref) {
-        var elementRef = ReactDOM.findDOMNode(ref)
-        if (ref.value.length === 0) {
-            elementRef.classList.add('empty')
-            setShowErrorMessage(false)
-        } else {
-            elementRef.classList.remove('empty')
-            setShowErrorMessage(false)
-        }
-    }
 
     function handleStripeElementOnChange(isComplete, isEmpty, element) {
         switch (element) {
@@ -82,32 +60,15 @@ const CheckoutForm = (props) => {
 
     function hasError() {
         var errorCount = 0
-        if (ReactDOM.findDOMNode(nameInput).value.length === 0) {
-            ReactDOM.findDOMNode(nameInput).classList.add('invalid')
-            errorCount++
-        }
-        if (ReactDOM.findDOMNode(surnameInput).value.length === 0) {
-            ReactDOM.findDOMNode(surnameInput).classList.add('invalid')
-            errorCount++
-        }
-        if (ReactDOM.findDOMNode(emailInput).value.length === 0) {
-            ReactDOM.findDOMNode(emailInput).classList.add('invalid')
-            errorCount++
-        }
-        if (ReactDOM.findDOMNode(addressInput).value.length === 0) {
-            ReactDOM.findDOMNode(addressInput).classList.add('invalid')
-            errorCount++
-        }
+        formRefsArray.forEach((ref) => {
+            if (ref.current.value.length === 0) {
+                ref.current.classList.add('invalid')
+                errorCount++
+            }
+        })
+
         if (countryCode === '') {
-            ReactDOM.findDOMNode(countryInput).classList.add('invalid')
-            errorCount++
-        }
-        if (ReactDOM.findDOMNode(cityInput).value.length === 0) {
-            ReactDOM.findDOMNode(cityInput).classList.add('invalid')
-            errorCount++
-        }
-        if (ReactDOM.findDOMNode(postalInput).value.length === 0) {
-            ReactDOM.findDOMNode(postalInput).classList.add('invalid')
+            countryInput.current.classList.add('invalid')
             errorCount++
         }
         if (isNumberValid.isEmpty) {
@@ -122,6 +83,7 @@ const CheckoutForm = (props) => {
             document.getElementById('card-cvc').classList.add('StripeElement--invalid')
             errorCount++
         }
+
         if (errorCount > 0) {
             return true
         } else {
@@ -131,8 +93,8 @@ const CheckoutForm = (props) => {
 
     function handleCountrySelect(event) {
         setCountryCode(event.target.value)
-        ReactDOM.findDOMNode(countryInput).classList.remove('empty')
-        ReactDOM.findDOMNode(countryInput).classList.remove('invalid')
+        countryInput.current.classList.remove('empty')
+        countryInput.current.classList.remove('invalid')
     }
 
     async function handleSubmition() {
@@ -145,12 +107,12 @@ const CheckoutForm = (props) => {
         const cardNumberElement = elements.getElement(CardNumberElement)
 
         const billingData = {
-            address_city: ReactDOM.findDOMNode(cityInput).value,
+            address_city: cityInput.current.value,
             address_country: countryCode,
-            address_zip: ReactDOM.findDOMNode(postalInput).value,
-            address_line1: ReactDOM.findDOMNode(addressInput).value,
-            email: ReactDOM.findDOMNode(emailInput).value,
-            name: `${ReactDOM.findDOMNode(nameInput).value} ${ReactDOM.findDOMNode(surnameInput).value}`,
+            address_zip: postalInput.current.value,
+            address_line1: addressInput.current.value,
+            email: emailInput.current.value,
+            name: `${nameInput.current.value} ${surnameInput.current.value}`,
             currency: 'eur'
         }
 
@@ -167,26 +129,29 @@ const CheckoutForm = (props) => {
     const stripeTokenHandler = async (token) => {
         const paymentToken = { token: token.id, amount: props.amount * 100 }
 
-        const response = await fetch(SERVER_URL + '/stripe/charge', {
+        await fetch(SERVER_URL + '/stripe/charge', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(paymentToken)
         })
-
-        console.log(response)
     }
 
     return (
         <div className="checkout-wrapper">
+            <div className="section" style={{ marginLeft: '15px', marginRight: '15px' }}>
+                <span>SHIPPING DETAILS</span>
+                <div className="checkout-divider--gray"></div>
+            </div>
             <div className="checkout-modal">
-                <form autoComplete="true" onSubmit={(event) => {
+                <form onSubmit={(event) => {
+                    console.log("LOL")
                     event.preventDefault()
                     if (!hasError()) {
-                        if (!validateEmail(ReactDOM.findDOMNode(emailInput).value)) {
+                        if (!validateEmail(emailInput.current.value)) {
                             showError({ message: 'Enter correct email' }, false)
-                        } else if (!validatePostalCode('LT', ReactDOM.findDOMNode(postalInput).value)) {
+                        } else if (!validatePostalCode(countryCode, postalInput.current.value)) {
                             showError({ message: 'Enter correct postal code' }, false)
                         } else if (isNumberValid.isValid && isCvcValid.isValid && isDateValid.isValid) {
                             handleSubmition()
@@ -194,105 +159,29 @@ const CheckoutForm = (props) => {
                     }
                 }}>
                     <div data-locale-reversible>
-                        <div className="row">
-                            <div className="field half-width">
-                                <input
-                                    className="input empty"
-                                    type="text"
-                                    placeholder="Tu belekas"
-                                    ref={(name) => nameInput = name}
-                                    onFocus={() => handleOnFocusGained(nameInput)}
-                                    onBlur={() => handleOnFocusLost(nameInput)}
-                                    onKeyUp={() => handleOnKeyUp(nameInput)}>
-                                </input>
-                                <label className="info-label">First name</label>
-                                <div className="baseline"></div>
-                            </div>
-                            <div className="field half-width">
-                                <input
-                                    className="input empty"
-                                    type="text"
-                                    placeholder="Myliu"
-                                    ref={(surname) => surnameInput = surname}
-                                    onFocus={() => handleOnFocusGained(surnameInput)}
-                                    onBlur={() => handleOnFocusLost(surnameInput)}
-                                    onKeyUp={() => handleOnKeyUp(surnameInput)}>
-                                </input>
-                                <label className="info-label">Last name</label>
-                                <div className="baseline"></div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="field">
-                                <input
-                                    className="input empty"
-                                    type="text"
-                                    placeholder="senitoksgrazus@gmail.com"
-                                    ref={(email) => emailInput = email}
-                                    onFocus={() => handleOnFocusGained(emailInput)}
-                                    onBlur={() => handleOnFocusLost(emailInput)}
-                                    onKeyUp={() => handleOnKeyUp(emailInput)}>
-                                </input>
-                                <label className="info-label">Email</label>
-                                <div className="baseline"></div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="field">
-                                <input
-                                    className="input empty"
-                                    type="text"
-                                    placeholder="pats geriausias"
-                                    ref={(address) => addressInput = address}
-                                    onFocus={() => handleOnFocusGained(addressInput)}
-                                    onBlur={() => handleOnFocusLost(addressInput)}
-                                    onKeyUp={() => handleOnKeyUp(addressInput)}>
-                                </input>
-                                <label className="info-label">Address</label>
-                                <div className="baseline"></div>
-                            </div>
-                        </div>
-                        <div className="row" data-locale-reversible>
-                            <div className="field half-width">
-                                <select
-                                    className="input empty"
-                                    onChange={(event) => handleCountrySelect(event)}
-                                    ref={(country) => countryInput = country}>
-                                    <option></option>
-                                    {COUNTRIES.map((country) => {
-                                        return <option value={country.code} key={country.code}>{country.name}</option>
+                        {CheckoutFormData.map((row, rowIndex) => {
+                            return (
+                                <div className="row" key={rowIndex}>
+                                    {row.map((input, inputIndex) => {
+                                        return (
+                                            <CheckoutFormInput
+                                                key={inputIndex}
+                                                ref={input.ref}
+                                                class={input.className}
+                                                placeholder={input.placeholder}
+                                                label={input.label}
+                                                isCountryPicker={input.isCountryPicker}
+                                                handleCountrySelect={handleCountrySelect}
+                                            />
+                                        )
                                     })}
-                                </select>
-                                <label className="info-label">Country</label>
-                                <div className="baseline"></div>
-                            </div>
-                            <div className="field quarter-width">
-                                <input
-                                    className="input empty"
-                                    type="text"
-                                    placeholder="Vilnius"
-                                    ref={(city) => cityInput = city}
-                                    onFocus={() => handleOnFocusGained(cityInput)}
-                                    onBlur={() => handleOnFocusLost(cityInput)}
-                                    onKeyUp={() => handleOnKeyUp(cityInput)}>
-                                </input>
-                                <label className="info-label">City</label>
-                                <div className="baseline"></div>
-                            </div>
-                            <div className="field quarter-width">
-                                <input
-                                    className="input empty"
-                                    type="text"
-                                    placeholder="11111"
-                                    ref={(postal) => postalInput = postal}
-                                    onFocus={() => handleOnFocusGained(postalInput)}
-                                    onBlur={() => handleOnFocusLost(postalInput)}
-                                    onKeyUp={() => handleOnKeyUp(postalInput, POSTAL_CODE)}>
-                                </input>
-                                <label className="info-label">POSTAL/ZIP</label>
-                                <div className="baseline"></div>
-                            </div>
-                        </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="section" style={{ marginLeft: '15px', marginRight: '15px' }}>
+                        <span>PAYMENT DETAILS</span>
+                        <div className="checkout-divider--gray"></div>
                     </div>
                     <div className="row">
                         <div className="field half-width">
