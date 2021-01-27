@@ -28,6 +28,10 @@ const ImageSlider = (props) => {
         }
 
         window.addEventListener('resize', handleScreenResize)
+
+        return(() => {
+            window.removeEventListener('resize', handleScreenResize)
+        })
     }, [])
 
     useEffect(() => {

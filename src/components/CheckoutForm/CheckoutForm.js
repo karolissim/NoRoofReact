@@ -146,7 +146,6 @@ const CheckoutForm = (props) => {
             </div>
             <div className="checkout-modal">
                 <form onSubmit={(event) => {
-                    console.log("LOL")
                     event.preventDefault()
                     if (!hasError()) {
                         if (!validateEmail(emailInput.current.value)) {

@@ -74,7 +74,6 @@ const ItemContainer = (props) => {
     }, [itemId])
 
     useEffect(() => {
-        console.log(colorId)
         async function fetchQuantity() {
             await fetch(SERVER_URL + "/api/quantity/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
                 .then((res) => res.json())
