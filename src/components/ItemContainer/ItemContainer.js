@@ -5,32 +5,9 @@ import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 import ImageSlider from '../ImageSlider/ImageSlider'
 import ErrorHandler from '../ErrorHandler/ErrorHandler'
-<<<<<<< HEAD
-import ReactBodymovin from 'react-bodymovin'
 import animation from '../../loaders/18855-checkmark-icon.json'
-import ReactDOM from 'react-dom'
 import lottie from "lottie-web"
-
-const AddToCartButtonState = [
-    {
-        style: 'add-to-cart-button unavailable',
-        text: 'OUT OF STOCK',
-        isDisabled: true
-    },
-    {
-        style: 'add-to-cart-button available',
-        text: 'ADD TO CART',
-        isDisabled: false
-    },
-    {
-        style: 'add-to-cart-button available add-to-cart-button-wa',
-        text: '',
-        isDisabled: true
-    }
-]
-=======
 import { SERVER_URL, ADD_TO_CART_BUTTON_STATE } from '../../constants/Constants'
->>>>>>> main
 
 /**
  * React functional component which is responsible for rendering 
@@ -46,16 +23,10 @@ const ItemContainer = (props) => {
     const [userItemQuantity, setUserQuantity] = useState(1)
     const [userItemSize, setUserItemSize] = useState('')
     const [itemQuantityInStock, setItemQuantityInStock] = useState(0)
-<<<<<<< HEAD
     const [addToCartAnimation, setAddToCartAnimation] = useState(false);
-    let addToCartInfo = itemQuantityInStock === 0 ? AddToCartButtonState[0] : addToCartAnimation ? AddToCartButtonState[2] : AddToCartButtonState[1]
     const [errorDisplay, setErrorDisplay] = useState(false);
-    const filteredItems = props.allItems.filter((product) => {
-        return product.product_id !== parseInt(itemId)
-    })
 
     var animationContainer = React.createRef()
-=======
     const [itemPhotos, setItemPhotos] = useState([])
 
     const addToCartInfo = itemQuantityInStock === 0 ? ADD_TO_CART_BUTTON_STATE[0] : ADD_TO_CART_BUTTON_STATE[1]
@@ -69,15 +40,10 @@ const ItemContainer = (props) => {
     })
 
     const isLoading = isItemFetched && !itemColors.length === false && !itemPhotos.length === false && !filteredPhotos.length === false
->>>>>>> main
 
     useEffect(() => {
         async function fetchItem() {
-<<<<<<< HEAD
-            await fetch('http://localhost:3030/api/item/' + itemId + '/' + sizeId, { mode: 'cors', method: 'GET' })
-=======
             await fetch(SERVER_URL + "/api/item/" + itemId + '/' + sizeId + '/' + colorId, { mode: 'cors', method: 'GET' })
->>>>>>> main
                 .then((res) => res.json())
                 .then((result) => {
                     setItem(result)
@@ -115,11 +81,7 @@ const ItemContainer = (props) => {
 
     useEffect(() => {
         async function fetchQuantity() {
-<<<<<<< HEAD
-            await fetch('http://localhost:3030/api/quantity/' + itemId, { mode: 'cors', method: 'GET' })
-=======
             await fetch(SERVER_URL + "/api/quantity/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
->>>>>>> main
                 .then((res) => res.json())
                 .then((result) => {
                     setItemQuantity(result)
@@ -219,16 +181,11 @@ const ItemContainer = (props) => {
         }
     }
 
-<<<<<<< HEAD
    function addToCartOnClick() {    
         props.addToCart(getItem(item));
         // showAnimation();
     }
-
-    if (isItemFetched && !itemQuantity.length === false) {
-=======
     if (isLoading) {
->>>>>>> main
         return (
             <div className="container">
                 <div className="item-container">
@@ -247,32 +204,20 @@ const ItemContainer = (props) => {
                             quantityValidation={quantityValidation}
                             changeSize={changeSize}
                             itemQuantity={itemQuantityInStock === 0 ? 1 : itemQuantityInStock}>
-<<<<<<< HEAD
-                                <button className = {addToCartInfo.style} type="submit" name="button" onClick={() => addToCartOnClick()} disabled={addToCartInfo.isDisabled}>
+                                <button className = {addToCartInfo.style} type="submit" name="button" onClick={() => {
+                                    addToCartOnClick()
+                                     }} disabled={addToCartInfo.isDisabled}>
                                     {addToCartInfo.text}
                                     {/* <div className = {addToCartAnimation ? "add-to-cart-animation" : ""} ref = {animationContainer}></div> */}
                                     <div className = "add-to-cart-animation"></div>
                                 </button>
-=======
-                            <div>
-                                <button className={addToCartInfo.style} type="submit" name="button" onClick={() => {
-                                    props.addToCart(getItem(item))
-                                }} disabled={addToCartInfo.isDisabled}>{addToCartInfo.text}</button>
-                            </div>
->>>>>>> main
                         </ItemInformation>
                         <div className="errorWrapper">
                             <ErrorHandler
-<<<<<<< HEAD
                                 setLimitReached = {props.setLimitReached}
                                 isActive = {props.limitReached}
                                 message = {generateErrorMessage()}
                                 setErrorDisplay = {setErrorDisplay}
-=======
-                                setLimitReached={props.setLimitReached}
-                                isActive={props.limitReached}
-                                message={generateErrorMessage()}
->>>>>>> main
                             />
                         </div>
                     </div>

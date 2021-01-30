@@ -2,11 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './Cart.css'
 import CartItem from '../CartItem/CartItem';
-<<<<<<< HEAD
-import {colors} from '../../constants/Constants';
-=======
 import { COLORS } from '../../constants/Constants';
->>>>>>> main
 /*eslint no-unused-expressions: ["error", { "allowTernary": true }]*/
 
 

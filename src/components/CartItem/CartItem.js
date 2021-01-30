@@ -2,11 +2,7 @@ import React from 'react';
 
 import "./CartItem.css"
 import { Link } from 'react-router-dom'
-<<<<<<< HEAD
-import {colors} from '../../constants/Constants';
-=======
 import { COLORS, SERVER_URL } from '../../constants/Constants';
->>>>>>> main
 
 class CartItem extends React.Component {
 
