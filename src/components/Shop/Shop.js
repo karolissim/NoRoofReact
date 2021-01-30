@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './Shop.css'
+import { SERVER_URL } from '../../constants/Constants'
 
 const Shop = (props) => {
     const items = props.shopItems
@@ -14,12 +15,11 @@ const Shop = (props) => {
             <div className="item-list">
                 <div className="shop-grid">
                     {items.map((item, i) => {
-                        const size = item.available_size.split(",")[0]
                         return (
                             <div className="shop-grid__item" key={i}>
                                 <div className="shop-grid__item-info">
-                                    <Link to={"/shop/" + item.product_id + "/" + size}>
-                                        <img className="item-image" src={require("../../images/" + item.product_id + ".jpg").default} alt=""></img>
+                                    <Link to={"/shop/" + item.product_id + "/" + item.size_id + "/" + item.product_color_id}>
+                                        <img className="item-image" src={SERVER_URL + "/images/" + item.product_id + "/" + item.product_color_id + "/1.jpg"} alt=""></img>
                                     </Link>
                                     <h2>{item.name}</h2>
                                     <h3>€{item.price}</h3>

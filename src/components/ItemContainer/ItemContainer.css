@@ -95,11 +95,13 @@
 
 @media only screen and (max-width: 1024px) {
     .item-container-with-error {
+<<<<<<< HEAD
         justify-items: center;
         
+=======
+        justify-content: center;
+>>>>>>> main
     }
-
-    
     .item-container {
         position: fixed;
         grid-row: 1;

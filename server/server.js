@@ -5,6 +5,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const apiRoutes = require('./api/routes');
+const apiStripe = require('./api/stripe')
 var cors = require('cors');
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -24,52 +25,11 @@ app.use(express.json({
     if (req.originalUrl.startsWith('/webhook')) {
       req.rawBody = buf.toString();
     }
-  },
+  }
 }))
 
-app.use('/api', apiRoutes);
-
-// Get request
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/client/index.html")
-
-  var key = req.cookies['key'];
-  var status = req.cookies['status'];
-
-  if(status === 'false'){
-    fetch('http://192.168.1.160:3030/checkout-session?sessionId=' + key)
-      .then(function(result) {
-        return result.json();
-      })
-      .then(function(session) {
-        productColorIds = String(session.metadata.colorId).split(',');
-        productSizeIds = String(session.metadata.sizeIds).split(',');
-        productAmount = String(session.metadata.amount).split(',');
-
-        for (var i = 0; i < productColorIds.length; i++) {
-          fetch('http://192.168.1.160:3030/api/quantity/' + productColorIds[i] + '/' + productSizeIds[i] + '/' + productAmount[i], {
-              mode: 'cors',
-              method: 'PUT',
-            })
-            .then(response => response.json());
-        }
-      })
-      .catch(function(err) {
-        console.log('Error while fetching checkout session', err);
-      });
-
-      res.cookie('key', '', {maxAge: 0});
-      res.cookie('status', '', {maxAge: 0});
-  }
-});
-
-app.get("/canceled", function(req, res) {
-  res.sendFile(__dirname + "/client/canceled.html")
-});
-
-app.get("/success", function(req, res) {
-  res.sendFile(__dirname + "/client/success.html")
-});
+app.use('/api', apiRoutes)
+app.use('/stripe', apiStripe)
 
 app.get('/checkout-session', async (req, res) => {
   const { sessionId } = req.query;

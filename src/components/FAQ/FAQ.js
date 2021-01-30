@@ -1,14 +1,18 @@
 import React from 'react'
 import FaqUnit from '../FaqUnit/FaqUnit'
 import './FAQ.css'
+<<<<<<< HEAD
 import { FaqData } from '../../constants/Constants'
+=======
+import { FAQ_DATA } from '../../constants/Constants'
+>>>>>>> main
 
 const FAQ = () => {
   return (
     <div id="FAQ" className="faq-screen">
       <div className="faq-list">
         <ol>
-          {FaqData.map((unit) => {
+          {FAQ_DATA.map((unit) => {
             return (
               <FaqUnit
                 key={unit.num}

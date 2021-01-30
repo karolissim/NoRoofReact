@@ -1,7 +1,12 @@
-import React from 'react';
+import React from 'react'
+import { Link } from 'react-router-dom'
 import './Cart.css'
 import CartItem from '../CartItem/CartItem';
+<<<<<<< HEAD
 import {colors} from '../../constants/Constants';
+=======
+import { COLORS } from '../../constants/Constants';
+>>>>>>> main
 /*eslint no-unused-expressions: ["error", { "allowTernary": true }]*/
 
 
@@ -24,8 +29,7 @@ class Cart extends React.Component {
         this.incrementQuantity = this.incrementQuantity.bind(this);
         this.decrementQuantity = this.decrementQuantity.bind(this);
         this.setLocalStorage = this.setLocalStorage.bind(this);
-        this.closeCart = this.closeCart.bind(this);  
-
+        this.closeCart = this.closeCart.bind(this);
     }
 
     /**
@@ -48,7 +52,8 @@ class Cart extends React.Component {
         cartItems.forEach((element) => {
             quantity += element.cartItem.quantity;
         });
-        this.props.modifyItemNum(quantity);
+
+        this.props.setItemQuantityInCart(quantity)
         return cartItems;
     }
 
@@ -62,8 +67,8 @@ class Cart extends React.Component {
         let price = 0;
         let value = 0;
         updatedCart.forEach((element) => {
-            if(element.key === key) {
-                if(element.cartItem.maxQuantity !== element.cartItem.quantity) {
+            if (element.key === key) {
+                if (element.cartItem.maxQuantity !== element.cartItem.quantity) {
                     element.cartItem.quantity += 1;
                     price = element.cartItem.price;
                     value = 1;
@@ -71,8 +76,10 @@ class Cart extends React.Component {
 
             }
         });
-        this.setState({cartItems: updatedCart,
-                       totalPrice: this.state.totalPrice + price});
+        this.setState({
+            cartItems: updatedCart,
+            totalPrice: this.state.totalPrice + price
+        });
         this.props.modifyItemNum(value);
     }
 
@@ -106,7 +113,7 @@ class Cart extends React.Component {
      * method that changes color of the close cart button "X" once it is hovered over
      */
     changeColor(name) {
-        let randomColor = colors[Math.floor(Math.random() * colors.length)];
+        let randomColor = COLORS[Math.floor(Math.random() * COLORS.length)];
         document.documentElement.style.setProperty(name, randomColor);
     }
 
@@ -119,7 +126,7 @@ class Cart extends React.Component {
     removeItem = (key) => {
         let price = 0;
         let quantity = 0;
-        let withoutItem = this.state.cartItems.filter(function (value, index, arr) {
+        let withoutItem = this.state.cartItems.filter(function (value, _index, _arr) {
             if (value.key === key) {
                 price = value.cartItem.quantity * value.cartItem.price;
                 quantity = value.cartItem.quantity;
@@ -144,15 +151,15 @@ class Cart extends React.Component {
         let itemArray = this.state.cartItems;
         let quantity = item.cartItem.quantity;
 
-        let index = itemArray.findIndex(function (currentValue, index, arr) {
+        let index = itemArray.findIndex(function (currentValue, _index, _arr) {
             return currentValue.key === item.key;
         });
-        
+
         if (index !== -1) {
             let newQuantity = itemArray[index].cartItem.quantity + quantity;
             console.log(newQuantity);
             console.log(itemArray[index].cartItem.maxQuantity);
-            if(newQuantity >  itemArray[index].cartItem.maxQuantity) {
+            if (newQuantity > itemArray[index].cartItem.maxQuantity) {
                 quantity = 0;
                 this.props.setLimitReached(true);
             } else {
@@ -188,7 +195,7 @@ class Cart extends React.Component {
         this.props.displayCart();
     }
 
-    
+
     /**
      * if a component is updated, update local storage with new information
      * 
@@ -199,12 +206,12 @@ class Cart extends React.Component {
         if (prevState !== this.state) {
             this.setLocalStorage();
         }
-        if(this.props.item !== null) {
+        if (this.props.item !== null) {
             this.addItem(this.props.item);
             this.props.emptyAddToCartItem();
         }
 
-        if(!prevProps.shadow) {
+        if (!prevProps.shadow) {
             this.changeColor('--check-out-button');
         }
     }
@@ -214,7 +221,7 @@ class Cart extends React.Component {
             <div id="cart" className={this.props.cartOn ? "speed-in" : ""}>
                 <div id="cart-header">
                     <h2 id="cart-tag">Cart</h2>
-                    <div className="close-container" id="close1" onMouseEnter = {() => this.changeColor('--close-cart-color')} onClick = {this.closeCart} >
+                    <div className="close-container" id="close1" onMouseEnter={() => this.changeColor('--close-cart-color')} onClick={this.closeCart} >
                         <div className="leftright"></div>
                         <div className="rightleft"></div>
                     </div>
@@ -236,7 +243,14 @@ class Cart extends React.Component {
                         <span id="currency">€</span>
                     </p>
                 </div>
-                <a className="checkout-btn">Checkout</a>
+                <Link to="/checkout">
+                    <span className="checkout-btn" onClick={() => {
+                        console.log(this.state.cartItems)
+                        window.localStorage.setItem('checkoutItems', JSON.stringify({cartItems: [...this.state.cartItems], totalPrice: this.state.totalPrice})) //{...this.state.cartItems, totalPrice: this.state.totalPrice}
+                        this.props.handleCheckout(this.state.cartItems, this.state.totalPrice)
+                        this.closeCart()
+                    }}>Checkout</span>
+                </Link>
             </div>
         )
     }
