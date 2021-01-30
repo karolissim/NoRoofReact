@@ -64,8 +64,8 @@ export const CheckoutFormData = [
         {
             className: "field quarter-width",
             ref: cityInput,
-            placeholder: 'City',
-            label: 'Vilnius',
+            placeholder: 'Vilnius',
+            label: 'City',
             isCountryPicker: false
         },
         {

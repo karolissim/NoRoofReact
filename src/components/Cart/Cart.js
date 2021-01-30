@@ -240,6 +240,8 @@ class Cart extends React.Component {
                 </div>
                 <Link to="/checkout">
                     <span className="checkout-btn" onClick={() => {
+                        console.log(this.state.cartItems)
+                        window.localStorage.setItem('checkoutItems', JSON.stringify({cartItems: [...this.state.cartItems], totalPrice: this.state.totalPrice})) //{...this.state.cartItems, totalPrice: this.state.totalPrice}
                         this.props.handleCheckout(this.state.cartItems, this.state.totalPrice)
                         this.closeCart()
                     }}>Checkout</span>

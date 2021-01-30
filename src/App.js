@@ -153,10 +153,8 @@ class App extends Component {
                 addToCart={this.addItemToCart} />
             </Route>
             <Route path="/checkout">
-            <Elements stripe={stripePromise}>
-              <Checkout
-                amount={this.state.checkoutAmount}
-                items={this.state.checkoutItems} />
+              <Elements stripe={stripePromise}>
+                <Checkout />
               </Elements>
             </Route>
           </Switch>
