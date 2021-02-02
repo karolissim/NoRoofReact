@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import './CheckoutForm.css'
 import CheckoutFormInput from '../CheckoutFormInput/CheckoutFormInput'
-import { SERVER_URL, STRIPE_OPTIONS, CARD_NUMBER, CARD_CVC, CARD_DATE } from '../../constants/Constants'
+import { SERVER_URL, STRIPE_OPTIONS, CARD_NUMBER, CARD_CVC, CARD_DATE } from '../../Constants/Constants'
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { CheckoutFormData, nameInput, surnameInput, cityInput, countryInput, emailInput, postalInput, addressInput, formRefsArray } from '../../constants/CheckoutFormData'
+import { CheckoutFormData, nameInput, surnameInput, cityInput, countryInput, emailInput, postalInput, addressInput, formRefsArray } from '../../Constants/CheckoutFormData.js'
 import { validateEmail, validatePostalCode } from '../../utils/Validations'
 
 const CheckoutForm = (props) => {

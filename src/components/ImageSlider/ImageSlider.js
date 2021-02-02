@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import './ImageSlider.css'
 import ImageContainer from '../ImageContainer/ImageContainer'
 import ImageZoom from '../ImageZoom/ImageZoom'
-import { PREV, NEXT, SERVER_URL, COLORS } from '../../constants/Constants'
+import { PREV, NEXT, SERVER_URL, COLORS } from '../../Constants/Constants'
 
 const ImageSlider = (props) => {
     const { photoIds, itemId, colorId } = props

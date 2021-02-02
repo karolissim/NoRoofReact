@@ -9,7 +9,7 @@ import FAQ from './components/FAQ/FAQ'
 import Contact from './components/Contact/Contact'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Checkout from './components/Checkout/Checkout'
-import { SERVER_URL } from './constants/Constants'
+import { SERVER_URL } from './Constants/Constants'
 
 const stripePromise = loadStripe('pk_test_51HXAIhD4jRnDIKXSUReminHgu3nj1XBPMVTJmKzSAyAnQhqrB8FssuvJHI150EpdQ2q0mTDgOctyc3s2HyT83I3G00ZmSekB71');
 

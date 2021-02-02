@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './ReccomendedItem.css'
-import {SERVER_URL} from '../../constants/Constants'
+import {SERVER_URL} from '../../Constants/Constants'
 
 const ReccomendedItem = (props) => {
     const item = props.item

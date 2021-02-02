@@ -1,5 +1,5 @@
 import React from 'react'
-import { SERVER_URL } from '../../constants/Constants'
+import { SERVER_URL } from '../../Constants/Constants'
 
 const SingleCheckoutItem = (props) => {
     const { item: { name, color, size, quantity, price, itemColorId, itemId } } = props

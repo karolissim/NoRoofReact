@@ -2,7 +2,7 @@ import React from 'react';
 
 import "./CartItem.css"
 import { Link } from 'react-router-dom'
-import { COLORS, SERVER_URL } from '../../constants/Constants';
+import { COLORS, SERVER_URL } from '../../Constants/Constants';
 
 class CartItem extends React.Component {
 

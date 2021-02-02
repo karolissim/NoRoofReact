@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './Shop.css'
-import { SERVER_URL } from '../../constants/Constants'
+import { SERVER_URL } from '../../Constants/Constants'
 
 const Shop = (props) => {
     const items = props.shopItems

@@ -1,5 +1,5 @@
 import React from 'react'
-import { COUNTRIES } from '../../constants/Countries'
+import { COUNTRIES } from '../../Constants/Countries'
 
 const CheckoutFormInput = React.forwardRef((props, ref) => {
     function handleOnFocusGained(ref) {

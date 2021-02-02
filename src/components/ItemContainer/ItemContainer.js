@@ -5,7 +5,7 @@ import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 import ImageSlider from '../ImageSlider/ImageSlider'
 import ErrorHandler from '../ErrorHandler/ErrorHandler'
-import { SERVER_URL, ADD_TO_CART_BUTTON_STATE } from '../../constants/Constants'
+import { SERVER_URL, ADD_TO_CART_BUTTON_STATE } from '../../Constants/Constants'
 
 /**
  * React functional component which is responsible for rendering 
