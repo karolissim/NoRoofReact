@@ -20,6 +20,7 @@ const Navigation = (props) => {
                 setLimitReached={props.setLimitReached}
                 handleCheckout={props.handleCheckout}
                 setItemQuantityInCart={props.setItemQuantityInCart}
+                showAnimation={props.showAnimation} 
             />
         </React.Fragment>
     )

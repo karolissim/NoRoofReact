@@ -56,6 +56,11 @@ export const ADD_TO_CART_BUTTON_STATE = [
     style: 'add-to-cart-button available',
     text: 'ADD TO CART',
     isDisabled: false
+  },
+  {
+    style: 'add-to-cart-button available add-to-cart-button-wa',
+    text: '',
+    isDisabled: true
   }
 ]
 

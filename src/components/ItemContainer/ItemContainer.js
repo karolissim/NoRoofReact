@@ -29,7 +29,7 @@ const ItemContainer = (props) => {
     var animationContainer = React.createRef()
     const [itemPhotos, setItemPhotos] = useState([])
 
-    const addToCartInfo = itemQuantityInStock === 0 ? ADD_TO_CART_BUTTON_STATE[0] : ADD_TO_CART_BUTTON_STATE[1]
+    const addToCartInfo = itemQuantityInStock === 0 ? ADD_TO_CART_BUTTON_STATE[0] : addToCartAnimation ? ADD_TO_CART_BUTTON_STATE[2] : ADD_TO_CART_BUTTON_STATE[1]
 
     const filteredItems = props.allItems.filter((item) => {
         return item.product_id !== parseInt(itemId)
@@ -208,8 +208,7 @@ const ItemContainer = (props) => {
                                     addToCartOnClick()
                                      }} disabled={addToCartInfo.isDisabled}>
                                     {addToCartInfo.text}
-                                    {/* <div className = {addToCartAnimation ? "add-to-cart-animation" : ""} ref = {animationContainer}></div> */}
-                                    <div className = "add-to-cart-animation"></div>
+                                    <div className = {addToCartAnimation ? "add-to-cart-animation" : ""} ref = {animationContainer}></div>
                                 </button>
                         </ItemInformation>
                         <div className="errorWrapper">

@@ -108,6 +108,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/">
               <Navigation
+                showAnimation={this.showAnimation} 
                 displayCart={this.displayCart}
                 shadowState={this.state.cartShadow}
                 itemNumber={this.state.itemNumber}
@@ -125,6 +126,7 @@ class App extends Component {
             </Route>
             <Route path="/faq">
               <Navigation
+                showAnimation={this.showAnimation} 
                 displayCart={this.displayCart}
                 shadowState={this.state.cartShadow}
                 itemNumber={this.state.itemNumber}
@@ -141,6 +143,7 @@ class App extends Component {
             </Route>
             <Route path="/contact">
               <Navigation
+                showAnimation={this.showAnimation} 
                 displayCart={this.displayCart}
                 shadowState={this.state.cartShadow}
                 itemNumber={this.state.itemNumber}
@@ -157,6 +160,7 @@ class App extends Component {
             </Route>
             <Route path="/shop/:itemId/:sizeId/:colorId">
               <Navigation
+                showAnimation={this.showAnimation} 
                 displayCart={this.displayCart}
                 shadowState={this.state.cartShadow}
                 itemNumber={this.state.itemNumber}
@@ -173,7 +177,8 @@ class App extends Component {
                 limitReached={this.state.limitReached}
                 setLimitReached={this.setLimitReached}
                 allItems={this.state.shopItems}
-                addToCart={this.addItemToCart} />
+                addToCart={this.addItemToCart}/>
+                
             </Route>
             <Route path="/checkout">
               <Elements stripe={stripePromise}>
