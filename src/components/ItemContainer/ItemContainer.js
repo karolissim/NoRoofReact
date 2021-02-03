@@ -205,7 +205,7 @@ const ItemContainer = (props) => {
             </div>
         )
     } else {
-        return <div></div>
+        return (<div className = "loader-wrapper"><img className = "loader" src = {require("../../loaders/colored_loader.gif").default} height="150px" width="150px" /></div>);
     }
 }
 
