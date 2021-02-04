@@ -16,7 +16,6 @@ class Navbar extends Component {
                             hash: '#shop-start'
                         }}>Shop</Link>
                         <Link className="link" to="/faq">FAQ</Link>
-                        <Link className="link" to="/contact">Contact</Link>
                         <a id="cart-trigger" onClick={this.props.displayCart}>Cart <span id="counter-wrapper">(<span id="item-counter">{this.props.itemNumber}</span>)</span></a>
                     </div>
                 </div>

@@ -6,7 +6,6 @@ import Navigation from './components/Navigation/Navigation'
 import WelcomeScreen from './components/WelcomeScreen/WelcomeScreen'
 import Shop from './components/Shop/Shop'
 import FAQ from './components/FAQ/FAQ'
-import Contact from './components/Contact/Contact'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Checkout from './components/Checkout/Checkout'
 import { SERVER_URL } from './Constants/Constants'
@@ -115,22 +114,6 @@ class App extends Component {
                 handleCheckout={this.handleCheckout}
                 setItemQuantityInCart={this.setItemQuantityInCart} />
               <FAQ />
-            </Route>
-            <Route path="/contact">
-              <Navigation
-                displayCart={this.displayCart}
-                shadowState={this.state.cartShadow}
-                itemNumber={this.state.itemNumber}
-                modifyItemNum={this.modifyItemNum}
-                cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
-                item={this.state.addToCartItem}
-                emptyAddToCartItem={this.emptyAddToCartItem}
-                shadow={this.state.cartShadow}
-                setLimitReached={this.setLimitReached}
-                handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart} />
-              <Contact />
             </Route>
             <Route path="/shop/:itemId/:sizeId/:colorId">
               <Navigation
