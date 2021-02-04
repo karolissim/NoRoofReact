@@ -9,12 +9,12 @@
 }
 
 .faq-list {
-  margin-left: 40px;
   text-align: left;
 }
 
 .faq-list ol {
   list-style-type: none;
+  padding: 0;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -34,14 +34,6 @@
   }
   .faq-list {
     margin: 0 !important;
-  }
-  .faq-list ol {
-    display: grid;
-    grid-auto-columns: 1fr;
-    grid-column-gap: 10px;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
   }
 }
 
