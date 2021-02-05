@@ -4,7 +4,7 @@ import './Shop.css'
 import { SERVER_URL } from '../../Constants/Constants'
 
 const Shop = (props) => {
-    const items = props.shopItems
+    const {shopItems, shopRef} = props
     return (
         <div id="Shop" className="shop-screen">
             <div className="shop-text">
@@ -12,9 +12,9 @@ const Shop = (props) => {
                 <h3>FREE SHIPPING ON ALL ORDERS OVER 80€</h3>
             </div>
             <div className="divider"></div>
-            <div className="item-list">
+            <div ref={shopRef} className="item-list">
                 <div className="shop-grid">
-                    {items.map((item, i) => {
+                    {shopItems.map((item, i) => {
                         return (
                             <div className="shop-grid__item" key={i}>
                                 <div className="shop-grid__item-info">

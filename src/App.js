@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route, withRouter } from "react-router-dom"
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import Navigation from './components/Navigation/Navigation'
@@ -8,7 +8,7 @@ import Shop from './components/Shop/Shop'
 import FAQ from './components/FAQ/FAQ'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Checkout from './components/Checkout/Checkout'
-import { SERVER_URL } from './Constants/Constants'
+import { SERVER_URL, shopRef } from './Constants/Constants'
 
 const stripePromise = loadStripe('pk_test_51HXAIhD4jRnDIKXSUReminHgu3nj1XBPMVTJmKzSAyAnQhqrB8FssuvJHI150EpdQ2q0mTDgOctyc3s2HyT83I3G00ZmSekB71');
 
@@ -25,13 +25,18 @@ class App extends Component {
       addToCartItem: null,
       limitReached: false,
       checkoutAmount: 0,
-      checkoutItems: []
+      checkoutItems: [],
+      navSource: 'home'
     }
 
-    this.modifyItemNum = this.modifyItemNum.bind(this);
+    this.shopReference = React.createRef()
+
+    this.modifyItemNum = this.modifyItemNum.bind(this)
   }
 
   componentDidMount() {
+    console.log(location.hash)
+
     fetch(SERVER_URL + "/api/items", { mode: 'cors', method: 'GET' })
       .then(res => res.json())
       .then(
@@ -77,6 +82,21 @@ class App extends Component {
     this.setState({ itemNumber: quantity })
   }
 
+  changeNavSource = (navSource) => {
+    this.setState({ navSource: navSource })
+    var count = 5
+    
+    while(count-- > 0 && shopRef.current === null) {
+      setTimeout(function() {
+        console.log(`count ${count}`)
+      } ,1000)
+    }
+
+    if (navSource === 'shop' && shopRef.current !== null) {
+      shopRef.current.scrollIntoView()
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -84,6 +104,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/">
               <Navigation
+                changeNavSource={this.changeNavSource}
+                shopRef={this.shopReference}
                 displayCart={this.displayCart}
                 shadowState={this.state.cartShadow}
                 itemNumber={this.state.itemNumber}
@@ -97,10 +119,12 @@ class App extends Component {
                 handleCheckout={this.handleCheckout}
                 setItemQuantityInCart={this.setItemQuantityInCart} />
               <WelcomeScreen />
-              {this.state.isLoaded ? <Shop shopItems={this.state.shopItems} /> : <div></div>}
+              <Shop shopRef={shopRef} shopItems={this.state.shopItems} />
             </Route>
             <Route path="/faq">
               <Navigation
+                changeNavSource={this.changeNavSource}
+                shopRef={this.shopReference}
                 displayCart={this.displayCart}
                 shadowState={this.state.cartShadow}
                 itemNumber={this.state.itemNumber}
@@ -117,6 +141,8 @@ class App extends Component {
             </Route>
             <Route path="/shop/:itemId/:sizeId/:colorId">
               <Navigation
+                changeNavSource={this.changeNavSource}
+                shopRef={this.shopReference}
                 displayCart={this.displayCart}
                 shadowState={this.state.cartShadow}
                 itemNumber={this.state.itemNumber}
@@ -147,4 +173,4 @@ class App extends Component {
   }
 }
 
-export default App
+export default withRouter(App)

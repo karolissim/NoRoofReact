@@ -6,6 +6,8 @@ const Navigation = (props) => {
     return (
         <React.Fragment>
             <Navbar
+                changeNavSource={props.changeNavSource}
+                shopRef={props.shopRef}
                 displayCart={props.displayCart}
                 shadowState={props.shadowState}
                 itemNumber={props.itemNumber}

@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const FAQ_DATA = [
   {
     num: '01',
@@ -82,3 +84,5 @@ export const CARD_CVC = "CARD_CVC"
 export const CARD_DATE = "CARD_DATE"
 
 export const POSTAL_CODE = "postalCode"
+
+export const shopRef = React.createRef()
