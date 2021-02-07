@@ -5,6 +5,7 @@ import {SERVER_URL} from '../../Constants/Constants'
 
 const ReccomendedItem = (props) => {
     const item = props.item
+    
     return (
         <div>
             <Link to={"/shop/" + item.product_id + "/" + props.sizeId + "/" + props.colorId}>

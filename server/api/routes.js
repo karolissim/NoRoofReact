@@ -44,7 +44,6 @@ router.get('/item/:id/:size_id/:color_id', async (req, res) => {
       res.status(404).send({ 'code': 404, 'message': 'Item not found' })
     }
   } catch (error) {
-    console.log(error)
     res.status(404).send({ 'code': 404, 'message': 'Item not found' })
   }
 })
@@ -73,7 +72,6 @@ router.get('/quantity/:id/:color_id', async (req, res) => {
       res.status(404).send({ 'code': 404, 'message': 'Item not found' })
     }
   } catch (error) {
-    console.log(error)
     res.status(404).send({ 'code': 404, 'message': 'Item not found' })
   }
 })
@@ -111,7 +109,6 @@ router.get('/color/:id', async (req, res) => {
       res.status(404).send({ 'code': 404, 'message': "Item id doesn't exist" })
     }
   } catch (error) {
-    console.log(error)
     res.status(404).send({ 'code': 404, 'message': "Item id doesn't exist" })
   }
 })
@@ -132,7 +129,6 @@ router.put('/quantity/:pr_id/:sz_id/', async (req, res) => {
 
     res.status(200).send({ 'code': 200, 'message': 'Item quantity updated' })
   } catch (error) {
-    console.log(error)
     res.status(404).send({ 'code': 404, 'message': 'Item not found' })
   }
 })
@@ -140,7 +136,7 @@ router.put('/quantity/:pr_id/:sz_id/', async (req, res) => {
 // Check whether all items in cart are in stock
 router.get('/pre-checkout', async (_req, res) => {
   try {
-    const {rows} = await pool.query(
+    const { rows } = await pool.query(
       `SELECT product.name, color_size.quantity, color_size.size_id, color.color, color_size.price_id, color_size.product_color_id 
        FROM color_size JOIN product_color ON color_size.product_color_id = product_color.product_color_id 
        JOIN product ON product_color.product_id = product.product_id 
@@ -148,8 +144,7 @@ router.get('/pre-checkout', async (_req, res) => {
     )
 
     res.status(200).send(rows)
-  } catch(error) {
-    console.log(error)
+  } catch (error) {
     res.status(404).send({ 'code': 404, 'message': 'Not found' })
   }
 })
@@ -180,7 +175,6 @@ router.get('/items', async (_req, res) => {
 
     res.status(200).send({ 'items': items })
   } catch (error) {
-    console.log(error)
     res.status(404).send({ 'code': 104, 'message': 'Not found' })
   }
 })
@@ -190,7 +184,10 @@ router.get('/photos/:item_id', async (req, res) => {
   const item_id = parseInt(req.params.item_id)
 
   try {
-    const { rows } = await pool.query('SELECT photo_id, color_id FROM item_photos WHERE item_id = $1', [item_id])
+    const { rows } = await pool.query(
+      'SELECT photo_id, color_id FROM item_photos WHERE item_id = $1',
+      [item_id]
+    )
 
     var photoIds = []
     var colorPhotoIds = []
@@ -217,7 +214,6 @@ router.get('/photos/:item_id', async (req, res) => {
 
     res.status(200).send(photoIds)
   } catch (error) {
-    console.log(error)
     res.status(404).send({ 'code': 404, 'message': 'Item not found' })
   }
 })

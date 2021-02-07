@@ -6,6 +6,7 @@ import './ItemInformation.css'
 const ItemInformation = (props) => {
     const { item, itemId, itemColors, itemSizes, userQuantity, itemQuantity } = props
     var itemQuantityInput
+    
     return (
         <div className="item-container__info">
             <h2>{item.name}</h2>

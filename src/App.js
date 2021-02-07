@@ -9,7 +9,7 @@ import FAQ from './components/FAQ/FAQ'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Checkout from './components/Checkout/Checkout'
 import ErrorPage from './components/ErrorPage/ErrorPage'
-import { SERVER_URL, SUCCESS_STATE } from './Constants/Constants'
+import { SUCCESS_STATE, ERROR_MESSAGE_PAGE_DOES_NOT_EXIST } from './Constants/Constants'
 import { api } from './api/Api'
 
 const stripePromise = loadStripe('pk_test_51HXAIhD4jRnDIKXSUReminHgu3nj1XBPMVTJmKzSAyAnQhqrB8FssuvJHI150EpdQ2q0mTDgOctyc3s2HyT83I3G00ZmSekB71');
@@ -40,13 +40,13 @@ class App extends Component {
 
   componentDidMount() {
     const getItems = async () => {
-      try { 
+      try {
         const response = await api.get('/api/items')
         this.setState({
           isLoaded: true,
           shopItems: response.data.items
         })
-      } catch(error) {
+      } catch (error) {
         this.setState({
           isLoaded: false,
           error: `Couldn't fetch items from server`
@@ -179,7 +179,8 @@ class App extends Component {
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 changeSnackbarState={this.changeSnackbarState} />
-                <ErrorPage />
+              <ErrorPage
+                message={ERROR_MESSAGE_PAGE_DOES_NOT_EXIST} />
             </Route>
           </Switch>
         </Router>
