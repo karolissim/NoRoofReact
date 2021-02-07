@@ -4,8 +4,9 @@ import './ItemContainer.css'
 import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 import ImageSlider from '../ImageSlider/ImageSlider'
-import ErrorHandler from '../ErrorHandler/ErrorHandler'
 import { SERVER_URL, ADD_TO_CART_BUTTON_STATE } from '../../Constants/Constants'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 /**
  * React functional component which is responsible for rendering 
@@ -70,6 +71,7 @@ const ItemContainer = (props) => {
             setItemPhotos([])
             setItemColors([])
             setIsItemFetched(false)
+            props.closeSnackbar()
         }
     }, [itemId])
 
@@ -119,7 +121,7 @@ const ItemContainer = (props) => {
         var currentQuantity = itemQuantity.find((size) => size.size === event.target.value).quantity
         setItemQuantityInStock(currentQuantity)
         setQuantityInputValue(currentQuantity)
-        props.setLimitReached(false);
+        props.closeSnackbar()
     }
 
     function setQuantityInputValue(quantity) {
@@ -133,7 +135,11 @@ const ItemContainer = (props) => {
     }
 
     function generateErrorMessage() {
-        return "Only " + itemQuantityInStock + " items in stock";
+        if (itemQuantityInStock === 1) {
+            return `We have only ${itemQuantityInStock} item in stock`
+        } else {
+            return `We have only ${itemQuantityInStock} items in stock`
+        }
     }
 
     function getItem(item) {
@@ -153,6 +159,10 @@ const ItemContainer = (props) => {
                 maxQuantity: itemQuantityInStock
             }
         }
+    }
+
+    const Alert = (props) => {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
 
     if (isLoading) {
@@ -181,11 +191,11 @@ const ItemContainer = (props) => {
                             </div>
                         </ItemInformation>
                         <div className="errorWrapper">
-                            <ErrorHandler
-                                setLimitReached={props.setLimitReached}
-                                isActive={props.limitReached}
-                                message={generateErrorMessage()}
-                            />
+                            <Snackbar anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} open={props.snackbarState.isOpen} autoHideDuration={6000} onClose={props.handleSnackbarClose}>
+                                <Alert onClose={props.handleSnackbarClose} severity={props.snackbarState.messageType}>
+                                    {props.snackbarState.limitReached === true ? generateErrorMessage() : "Item added successfully!"}
+                                </Alert>
+                            </Snackbar>
                         </div>
                     </div>
                 </div>
@@ -205,7 +215,7 @@ const ItemContainer = (props) => {
             </div>
         )
     } else {
-        return (<div className = "loader-wrapper"><img className = "loader" src = {require("../../loaders/colored_loader.gif").default} height="150px" width="150px" /></div>);
+        return (<div className="loader-wrapper"><img className="loader" src={require("../../loaders/colored_loader.gif").default} height="150px" width="150px" /></div>);
     }
 }
 

@@ -82,3 +82,6 @@ export const CARD_CVC = "CARD_CVC"
 export const CARD_DATE = "CARD_DATE"
 
 export const POSTAL_CODE = "postalCode"
+
+export const SUCCESS_STATE = "success"
+export const ERROR_STATE = "error"

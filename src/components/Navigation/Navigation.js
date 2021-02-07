@@ -17,9 +17,9 @@ const Navigation = (props) => {
                 item={props.item}
                 emptyAddToCartItem={props.emptyAddToCartItem}
                 shadow={props.shadow}
-                setLimitReached={props.setLimitReached}
                 handleCheckout={props.handleCheckout}
                 setItemQuantityInCart={props.setItemQuantityInCart}
+                changeSnackbarState={props.changeSnackbarState}
             />
         </React.Fragment>
     )
