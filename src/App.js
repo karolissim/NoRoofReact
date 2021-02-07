@@ -8,7 +8,7 @@ import Shop from './components/Shop/Shop'
 import FAQ from './components/FAQ/FAQ'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Checkout from './components/Checkout/Checkout'
-import { SERVER_URL } from './Constants/Constants'
+import { SERVER_URL, SUCCESS_STATE } from './Constants/Constants'
 
 const stripePromise = loadStripe('pk_test_51HXAIhD4jRnDIKXSUReminHgu3nj1XBPMVTJmKzSAyAnQhqrB8FssuvJHI150EpdQ2q0mTDgOctyc3s2HyT83I3G00ZmSekB71');
 
@@ -23,12 +23,17 @@ class App extends Component {
       isLoaded: false,
       shopItems: [],
       addToCartItem: null,
-      limitReached: false,
       checkoutAmount: 0,
-      checkoutItems: []
+      checkoutItems: [],
+      snackbarState: {
+        isOpen: false,
+        messageType: SUCCESS_STATE,
+        limitReached: false
+      }
     }
 
     this.modifyItemNum = this.modifyItemNum.bind(this);
+    this.changeSnackbarState = this.changeSnackbarState.bind(this)
   }
 
   componentDidMount() {
@@ -65,16 +70,28 @@ class App extends Component {
     this.setState({ addToCartItem: null })
   }
 
-  setLimitReached = (bool) => {
-    this.setState({ limitReached: bool });
-  }
-
   handleCheckout = (items, amount) => {
     this.setState({ checkoutAmount: amount, checkoutItems: items })
   }
 
   setItemQuantityInCart = (quantity) => {
     this.setState({ itemNumber: quantity })
+  }
+
+  changeSnackbarState = (state, limitReached) => {
+    this.setState({ snackbarState: { messageType: state, isOpen: true, limitReached: limitReached } })
+  }
+
+  handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return
+    }
+
+    this.setState({ snackbarState: { ...this.state.snackbarState, isOpen: false } })
+  }
+
+  closeSnackbar = () => {
+    this.setState({ snackbarState: { ...this.state.snackbarState, isOpen: false } })
   }
 
   render() {
@@ -93,9 +110,9 @@ class App extends Component {
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
-                setLimitReached={this.setLimitReached}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart} />
+                setItemQuantityInCart={this.setItemQuantityInCart}
+                changeSnackbarState={this.changeSnackbarState} />
               <WelcomeScreen />
               {this.state.isLoaded ? <Shop shopItems={this.state.shopItems} /> : <div></div>}
             </Route>
@@ -110,9 +127,10 @@ class App extends Component {
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
-                setLimitReached={this.setLimitReached}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart} />
+                setItemQuantityInCart={this.setItemQuantityInCart}
+                setItemQuantityInCart={this.setItemQuantityInCart}
+                changeSnackbarState={this.changeSnackbarState}  />
               <FAQ />
             </Route>
             <Route path="/shop/:itemId/:sizeId/:colorId">
@@ -126,14 +144,16 @@ class App extends Component {
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
-                setLimitReached={this.setLimitReached}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart} />
+                setItemQuantityInCart={this.setItemQuantityInCart}
+                setItemQuantityInCart={this.setItemQuantityInCart}
+                changeSnackbarState={this.changeSnackbarState}  />
               <ItemContainer
-                limitReached={this.state.limitReached}
-                setLimitReached={this.setLimitReached}
                 allItems={this.state.shopItems}
-                addToCart={this.addItemToCart} />
+                addToCart={this.addItemToCart}
+                snackbarState={this.state.snackbarState}
+                handleSnackbarClose={this.handleSnackbarClose}
+                closeSnackbar={this.closeSnackbar} />
             </Route>
             <Route path="/checkout">
               <Elements stripe={stripePromise}>

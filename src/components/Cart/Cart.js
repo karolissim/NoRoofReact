@@ -2,8 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import './Cart.css'
 import CartItem from '../CartItem/CartItem';
-import { COLORS } from '../../Constants/Constants';
-/*eslint no-unused-expressions: ["error", { "allowTernary": true }]*/
+import { COLORS, SUCCESS_STATE, ERROR_STATE } from '../../Constants/Constants'
 
 
 var localStorage = window.localStorage;
@@ -157,12 +156,14 @@ class Cart extends React.Component {
             console.log(itemArray[index].cartItem.maxQuantity);
             if (newQuantity > itemArray[index].cartItem.maxQuantity) {
                 quantity = 0;
-                this.props.setLimitReached(true);
+                this.props.changeSnackbarState(ERROR_STATE, true)
             } else {
-                itemArray[index].cartItem.quantity += quantity;
+                itemArray[index].cartItem.quantity += quantity
+                this.props.changeSnackbarState(SUCCESS_STATE, false)
             }
         } else {
             itemArray.push(item);
+            this.props.changeSnackbarState(SUCCESS_STATE, false)
         }
 
         this.props.modifyItemNum(quantity);
@@ -189,7 +190,6 @@ class Cart extends React.Component {
     closeCart() {
         this.props.displayCart();
     }
-
 
     /**
      * if a component is updated, update local storage with new information
