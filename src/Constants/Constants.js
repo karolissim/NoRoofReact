@@ -85,3 +85,6 @@ export const POSTAL_CODE = "postalCode"
 
 export const SUCCESS_STATE = "success"
 export const ERROR_STATE = "error"
+
+export const ERROR_MESSAGE_ITEM = "We are sorry but it looks like that item you are looking for does not exist :("
+export const ERROR_MESSAGE_PAGE_DOES_NOT_EXIST = "We are sorry but this page does not seem to exist"

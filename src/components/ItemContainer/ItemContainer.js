@@ -4,9 +4,11 @@ import './ItemContainer.css'
 import ItemInformation from '../ItemInformation/ItemInformation'
 import ReccomendedItem from '../RecommendedItem/RecommendedItem'
 import ImageSlider from '../ImageSlider/ImageSlider'
-import { SERVER_URL, ADD_TO_CART_BUTTON_STATE } from '../../Constants/Constants'
+import { api } from '../../api/Api'
+import { ADD_TO_CART_BUTTON_STATE, ERROR_MESSAGE_ITEM } from '../../Constants/Constants'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import ErrorPage from '../ErrorPage/ErrorPage'
 
 /**
  * React functional component which is responsible for rendering 
@@ -23,6 +25,7 @@ const ItemContainer = (props) => {
     const [userItemSize, setUserItemSize] = useState('')
     const [itemQuantityInStock, setItemQuantityInStock] = useState(0)
     const [itemPhotos, setItemPhotos] = useState([])
+    const [showError, setShowError] = useState(false)
 
     const addToCartInfo = itemQuantityInStock === 0 ? ADD_TO_CART_BUTTON_STATE[0] : ADD_TO_CART_BUTTON_STATE[1]
 
@@ -37,29 +40,32 @@ const ItemContainer = (props) => {
     const isLoading = isItemFetched && !itemColors.length === false && !itemPhotos.length === false && !filteredPhotos.length === false
 
     useEffect(() => {
-        async function fetchItem() {
-            await fetch(SERVER_URL + "/api/item/" + itemId + '/' + sizeId + '/' + colorId, { mode: 'cors', method: 'GET' })
-                .then((res) => res.json())
-                .then((result) => {
-                    setItem(result)
-                    setIsItemFetched(true)
-                })
+        const fetchItem = async () => {
+            try {
+                const { data } = await api.get(`/api/item/${itemId}/${sizeId}/${colorId}`)
+                setItem(data)
+                setIsItemFetched(true)
+            } catch (error) {
+                setShowError(true)
+            }
         }
 
-        async function fetchItemColors() {
-            await fetch(SERVER_URL + "/api/color/" + itemId, { mode: 'cors', method: 'GET' })
-                .then((res) => res.json())
-                .then((result) => {
-                    setItemColors(result.colors)
-                })
+        const fetchItemColors = async () => {
+            try {
+                const { data } = await api.get(`/api/color/${itemId}`)
+                setItemColors(data.colors)
+            } catch (error) {
+                setShowError(true)
+            }
         }
 
-        async function fetchPhotoIds() {
-            await fetch(SERVER_URL + "/api/photos/" + itemId, { mode: 'cors', method: 'GET' })
-                .then((res) => res.json())
-                .then((result) => {
-                    setItemPhotos(result)
-                })
+        const fetchPhotoIds = async () => {
+            try {
+                const { data } = await api.get(`/api/photos/${itemId}`)
+                setItemPhotos(data)
+            } catch (error) {
+                setShowError(true)
+            }
         }
 
         fetchItem()
@@ -76,14 +82,15 @@ const ItemContainer = (props) => {
     }, [itemId])
 
     useEffect(() => {
-        async function fetchQuantity() {
-            await fetch(SERVER_URL + "/api/quantity/" + itemId + '/' + colorId, { mode: 'cors', method: 'GET' })
-                .then((res) => res.json())
-                .then((result) => {
-                    setItemQuantity(result)
-                    setItemQuantityInStock(result[0].quantity)
-                    setUserItemSize(result[0].size)
-                })
+        const fetchQuantity = async () => {
+            try {
+                const { data } = await api.get(`/api/quantity/${itemId}/${colorId}`)
+                setItemQuantity(data)
+                setItemQuantityInStock(data[0].quantity)
+                setUserItemSize(data[0].size)
+            } catch (error) {
+                setShowError(true)
+            }
         }
 
         fetchQuantity()
@@ -214,8 +221,17 @@ const ItemContainer = (props) => {
                 </div>
             </div>
         )
+    } else if (showError) {
+        return (
+            <ErrorPage
+                message={ERROR_MESSAGE_ITEM} />
+        )
     } else {
-        return (<div className="loader-wrapper"><img className="loader" src={require("../../loaders/colored_loader.gif").default} height="150px" width="150px" /></div>);
+        return (
+            <div className="loader-wrapper">
+                <img className="loader" src={require("../../loaders/colored_loader.gif").default} height="150px" width="150px" />
+            </div>
+        );
     }
 }
 

@@ -8,7 +8,9 @@ import Shop from './components/Shop/Shop'
 import FAQ from './components/FAQ/FAQ'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Checkout from './components/Checkout/Checkout'
-import { SERVER_URL, SUCCESS_STATE } from './Constants/Constants'
+import ErrorPage from './components/ErrorPage/ErrorPage'
+import { SUCCESS_STATE, ERROR_MESSAGE_PAGE_DOES_NOT_EXIST } from './Constants/Constants'
+import { api } from './api/Api'
 
 const stripePromise = loadStripe('pk_test_51HXAIhD4jRnDIKXSUReminHgu3nj1XBPMVTJmKzSAyAnQhqrB8FssuvJHI150EpdQ2q0mTDgOctyc3s2HyT83I3G00ZmSekB71');
 
@@ -37,20 +39,22 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch(SERVER_URL + "/api/items", { mode: 'cors', method: 'GET' })
-      .then(res => res.json())
-      .then(
-        result => {
-          this.setState({
-            isLoaded: true,
-            shopItems: result.items
-          })
-        }
-      )
-      .catch((error) => {
-        console.log(error);
-        this.setState({ error: error })
-      })
+    const getItems = async () => {
+      try {
+        const response = await api.get('/api/items')
+        this.setState({
+          isLoaded: true,
+          shopItems: response.data.items
+        })
+      } catch (error) {
+        this.setState({
+          isLoaded: false,
+          error: `Couldn't fetch items from server`
+        })
+      }
+    }
+
+    getItems()
   }
 
   displayCart = () => {
@@ -130,7 +134,7 @@ class App extends Component {
                 handleCheckout={this.handleCheckout}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
-                changeSnackbarState={this.changeSnackbarState}  />
+                changeSnackbarState={this.changeSnackbarState} />
               <FAQ />
             </Route>
             <Route path="/shop/:itemId/:sizeId/:colorId">
@@ -147,7 +151,7 @@ class App extends Component {
                 handleCheckout={this.handleCheckout}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
-                changeSnackbarState={this.changeSnackbarState}  />
+                changeSnackbarState={this.changeSnackbarState} />
               <ItemContainer
                 allItems={this.state.shopItems}
                 addToCart={this.addItemToCart}
@@ -159,6 +163,24 @@ class App extends Component {
               <Elements stripe={stripePromise}>
                 <Checkout />
               </Elements>
+            </Route>
+            <Route>
+              <Navigation
+                displayCart={this.displayCart}
+                shadowState={this.state.cartShadow}
+                itemNumber={this.state.itemNumber}
+                modifyItemNum={this.modifyItemNum}
+                cartOn={this.state.cartOn}
+                displayCart={this.displayCart}
+                item={this.state.addToCartItem}
+                emptyAddToCartItem={this.emptyAddToCartItem}
+                shadow={this.state.cartShadow}
+                handleCheckout={this.handleCheckout}
+                setItemQuantityInCart={this.setItemQuantityInCart}
+                setItemQuantityInCart={this.setItemQuantityInCart}
+                changeSnackbarState={this.changeSnackbarState} />
+              <ErrorPage
+                message={ERROR_MESSAGE_PAGE_DOES_NOT_EXIST} />
             </Route>
           </Switch>
         </Router>
