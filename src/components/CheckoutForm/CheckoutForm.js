@@ -5,6 +5,7 @@ import { SERVER_URL, STRIPE_OPTIONS, CARD_NUMBER, CARD_CVC, CARD_DATE } from '..
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { CheckoutFormData, nameInput, surnameInput, cityInput, countryInput, emailInput, postalInput, addressInput, formRefsArray } from '../../Constants/CheckoutFormData.js'
 import { validateEmail, validatePostalCode } from '../../utils/Validations'
+import { api } from '../../api/Api'
 
 const CheckoutForm = (props) => {
     const stripe = useStripe()
@@ -98,44 +99,59 @@ const CheckoutForm = (props) => {
     }
 
     async function handleSubmition() {
+        showError({ message: '' }, true)
         setIsLoading(true)
 
         if (!stripe || !elements) {
             return
         }
 
-        const cardNumberElement = elements.getElement(CardNumberElement)
-
-        const billingData = {
-            address_city: cityInput.current.value,
-            address_country: countryCode,
-            address_zip: postalInput.current.value,
-            address_line1: addressInput.current.value,
-            email: emailInput.current.value,
-            name: `${nameInput.current.value} ${surnameInput.current.value}`,
-            currency: 'eur'
-        }
-
-        const { error, token } = await stripe.createToken(cardNumberElement, billingData)
-
-        if (error) {
-            console.log('[error]', error);
-        } else {
-            console.log('[token]', token);
-            stripeTokenHandler(token)
-        }
-    }
-
-    const stripeTokenHandler = async (token) => {
-        const paymentToken = { token: token.id, amount: props.amount * 100 }
-
-        await fetch(SERVER_URL + '/stripe/charge', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        const shippingInfo = {
+            address: {
+                line1: addressInput.current.value,
+                city: cityInput.current.value,
+                country: countryCode,
+                postal_code: postalInput.current.value
             },
-            body: JSON.stringify(paymentToken)
-        })
+            name: `${nameInput.current.value} ${surnameInput.current.value}`
+        }
+
+        try {
+            const { data } = await api.post(`${SERVER_URL}/stripe/charge`,
+                {
+                    shipping: shippingInfo,
+                    email: emailInput.current.value,
+                    amount: props.amount * 100
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+
+            const { error, paymentIntent } = await stripe.confirmCardPayment(data.client_secret, {
+                payment_method: {
+                    card: elements.getElement(CardNumberElement),
+                    billing_details: {
+                        address: shippingInfo.address,
+                        email: emailInput.current.value,
+                        name: `${nameInput.current.value} ${surnameInput.current.value}`
+                    }
+                }
+            })
+
+            if (error) {
+                if (error.type === 'card_error') {
+                    showError({ message: error.message }, false)
+                }
+            } else if (paymentIntent.status === 'succeeded') {
+                console.log(paymentIntent)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
