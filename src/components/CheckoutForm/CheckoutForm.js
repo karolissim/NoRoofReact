@@ -5,6 +5,7 @@ import { SERVER_URL, STRIPE_OPTIONS, CARD_NUMBER, CARD_CVC, CARD_DATE } from '..
 import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { CheckoutFormData, nameInput, surnameInput, cityInput, countryInput, emailInput, postalInput, addressInput, formRefsArray } from '../../Constants/CheckoutFormData.js'
 import { validateEmail, validatePostalCode } from '../../utils/Validations'
+import { api } from '../../api/Api'
 
 const CheckoutForm = (props) => {
     const stripe = useStripe()
@@ -113,7 +114,7 @@ const CheckoutForm = (props) => {
             address_line1: addressInput.current.value,
             email: emailInput.current.value,
             name: `${nameInput.current.value} ${surnameInput.current.value}`,
-            currency: 'eur'
+            currency: 'eur',
         }
 
         const { error, token } = await stripe.createToken(cardNumberElement, billingData)
@@ -127,15 +128,25 @@ const CheckoutForm = (props) => {
     }
 
     const stripeTokenHandler = async (token) => {
-        const paymentToken = { token: token.id, amount: props.amount * 100 }
-
-        await fetch(SERVER_URL + '/stripe/charge', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(paymentToken)
-        })
+        try {
+            const { data } = await api.post(
+                `${SERVER_URL}/stripe/charge`,
+                {
+                    token: token.id,
+                    amount: props.amount * 100,
+                    email: emailInput.current.value
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+            console.log(error.response.data)
+        }
     }
 
     return (

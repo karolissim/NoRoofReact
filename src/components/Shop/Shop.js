@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import './Shop.css'
 import { SERVER_URL } from '../../Constants/Constants'
 
 const Shop = (props) => {
-    // useEffect(() => {
-
-    // }, [])
     const items = props.shopItems
     return (
         <div id="Shop" className="shop-screen">

@@ -9,6 +9,7 @@ import FAQ from './components/FAQ/FAQ'
 import ItemContainer from './components/ItemContainer/ItemContainer'
 import Checkout from './components/Checkout/Checkout'
 import ErrorPage from './components/ErrorPage/ErrorPage'
+import AfterCheckout from './components/AfterCheckout/AfterCheckout'
 import { SUCCESS_STATE, ERROR_MESSAGE_PAGE_DOES_NOT_EXIST } from './Constants/Constants'
 import { api } from './api/Api'
 
@@ -110,7 +111,6 @@ class App extends Component {
                 itemNumber={this.state.itemNumber}
                 modifyItemNum={this.modifyItemNum}
                 cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
@@ -127,12 +127,10 @@ class App extends Component {
                 itemNumber={this.state.itemNumber}
                 modifyItemNum={this.modifyItemNum}
                 cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 changeSnackbarState={this.changeSnackbarState} />
               <FAQ />
@@ -144,12 +142,10 @@ class App extends Component {
                 itemNumber={this.state.itemNumber}
                 modifyItemNum={this.modifyItemNum}
                 cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 changeSnackbarState={this.changeSnackbarState} />
               <ItemContainer
@@ -159,10 +155,13 @@ class App extends Component {
                 handleSnackbarClose={this.handleSnackbarClose}
                 closeSnackbar={this.closeSnackbar} />
             </Route>
-            <Route path="/checkout">
+            <Route exact path="/checkout">
               <Elements stripe={stripePromise}>
                 <Checkout />
               </Elements>
+            </Route>
+            <Route path="/checkout/success">
+              <AfterCheckout />
             </Route>
             <Route>
               <Navigation
@@ -171,12 +170,10 @@ class App extends Component {
                 itemNumber={this.state.itemNumber}
                 modifyItemNum={this.modifyItemNum}
                 cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 changeSnackbarState={this.changeSnackbarState} />
               <ErrorPage
