@@ -6,7 +6,7 @@ const ErrorPage = (props) => {
     return (
         <div className="error-page__wrapper">
             <div className="error-page">
-                <img className="error-page__image" src={require('../../images/404-error.svg').default}></img>
+                <img className="error-page__image" src={require('../../images/404-error.svg').default} alt=""></img>
                 <h1 className="error-page__header">Page does not exist</h1>
                 <p className="error-page__message">{message}</p>
             </div>

@@ -43,6 +43,8 @@ const CheckoutForm = (props) => {
                     setIsCvcValid({ isValid: false, isEmpty: isEmpty })
                 }
                 break
+            default:
+                break
         }
     }
 

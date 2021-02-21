@@ -21,7 +21,7 @@ const Checkout = () => {
             <div className="item-dropdown" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                 <div className="item-dropdown__info">
                     <div className="item-dropdwon__info-order">
-                        <img src={require('../../images/shopping-cart.svg').default} className="cart-logo"></img>
+                        <img src={require('../../images/shopping-cart.svg').default} className="cart-logo" alt=""></img>
                         <p>Show order items</p>
                         <i className={arrowClass}></i>
                     </div>

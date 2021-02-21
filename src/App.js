@@ -110,7 +110,6 @@ class App extends Component {
                 itemNumber={this.state.itemNumber}
                 modifyItemNum={this.modifyItemNum}
                 cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
@@ -127,12 +126,10 @@ class App extends Component {
                 itemNumber={this.state.itemNumber}
                 modifyItemNum={this.modifyItemNum}
                 cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 changeSnackbarState={this.changeSnackbarState} />
               <FAQ />
@@ -144,12 +141,10 @@ class App extends Component {
                 itemNumber={this.state.itemNumber}
                 modifyItemNum={this.modifyItemNum}
                 cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 changeSnackbarState={this.changeSnackbarState} />
               <ItemContainer
@@ -171,12 +166,10 @@ class App extends Component {
                 itemNumber={this.state.itemNumber}
                 modifyItemNum={this.modifyItemNum}
                 cartOn={this.state.cartOn}
-                displayCart={this.displayCart}
                 item={this.state.addToCartItem}
                 emptyAddToCartItem={this.emptyAddToCartItem}
                 shadow={this.state.cartShadow}
                 handleCheckout={this.handleCheckout}
-                setItemQuantityInCart={this.setItemQuantityInCart}
                 setItemQuantityInCart={this.setItemQuantityInCart}
                 changeSnackbarState={this.changeSnackbarState} />
               <ErrorPage
