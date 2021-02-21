@@ -6,31 +6,27 @@
     --headline-color: var(--accent-color);
 }
 
-* {
-    box-sizing: border-box;
-    text-decoration: none !important;
-}
-
-h1, h2, h3, h4, h5, h6 {
+.title, .message {
     color: var(--body-color);
     margin-top: 2px;
     margin-bottom: 4px;
 }
 
-h1 {
+.title {
     font-size: 3rem;
     color: var(--headline-color);
     font-weight: bolder;
     margin-left: 0 !important;
 }
 
-h3 {
+.message {
     font-size: 1rem;
     margin-left: 2px;
     color: var(--headline-color);
 }
 
-.root {
+.container {
+    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -66,7 +62,7 @@ h3 {
     padding-left: 48px;
 }
 
-button {
+.button {
     background: rgb(131, 209, 104);
     border-radius: var(--radius);
     color: white;
@@ -79,17 +75,17 @@ button {
     display: block;
 }
 
-button:hover {
+.button:hover {
     filter: contrast(115%);
 }
 
-button:active {
+.button:active {
     transform: translateY(0px) scale(0.98);
     filter: brightness(0.9);
 }
 
 @media only screen and (max-width: 768px) {
-    .root {
+    .container {
         flex-direction: column;
         justify-content: space-around;
         padding: 48px 20px;
@@ -102,11 +98,14 @@ button:active {
         text-align: center;
         margin: auto;
     }
-    .payment-summary button {
+    .payment-summary .button {
         margin: auto;
     }
     .main {
         width: 100%;
+    }
+    .message {
+        margin-bottom: 12px;
     }
 }
 
@@ -139,7 +138,7 @@ button:active {
     opacity: 1;
 }
 
-.root {
+.container {
     animation: 0.4s form-in;
     animation-fill-mode: both;
     animation-timing-function: ease;

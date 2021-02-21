@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import './CheckoutForm.css'
 import CheckoutFormInput from '../CheckoutFormInput/CheckoutFormInput'
 import { SERVER_URL, STRIPE_OPTIONS, CARD_NUMBER, CARD_CVC, CARD_DATE } from '../../Constants/Constants'
@@ -6,10 +7,13 @@ import { CardNumberElement, CardExpiryElement, CardCvcElement, useStripe, useEle
 import { CheckoutFormData, nameInput, surnameInput, cityInput, countryInput, emailInput, postalInput, addressInput, formRefsArray } from '../../Constants/CheckoutFormData.js'
 import { validateEmail, validatePostalCode } from '../../utils/Validations'
 import { api } from '../../api/Api'
+import { usePrompt } from '../../utils/usePrompt'
 
 const CheckoutForm = (props) => {
+    const localStorage = window.localStorage
     const stripe = useStripe()
     const elements = useElements()
+    const history = useHistory()
     const [isNumberValid, setIsNumberValid] = useState({ isValid: false, isEmpty: true })
     const [isCvcValid, setIsCvcValid] = useState({ isValid: false, isEmpty: true })
     const [isDateValid, setIsDateValid] = useState({ isValid: false, isEmpty: true })
@@ -17,6 +21,8 @@ const CheckoutForm = (props) => {
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const [countryCode, setCountryCode] = useState('')
+    const [showPrompt, setShowPrompt] = useState(true)
+    usePrompt(showPrompt)
 
     function handleStripeElementOnChange(isComplete, isEmpty, element) {
         switch (element) {
@@ -145,10 +151,13 @@ const CheckoutForm = (props) => {
 
             if (error) {
                 if (error.type === 'card_error') {
+                    setIsLoading(false)
                     showError({ message: error.message }, false)
                 }
             } else if (paymentIntent.status === 'succeeded') {
-                console.log(paymentIntent)
+                setShowPrompt(false)
+                localStorage.clear()
+                setTimeout(() => history.push('/checkout/success'), 500)
             }
 
         } catch (error) {

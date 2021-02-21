@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import './Checkout.css'
 import CheckoutForm from '../CheckoutForm/CheckoutForm'
 import CheckoutItems from '../CheckoutItems/CheckoutItems'
-import { usePrompt } from '../../utils/usePrompt'
 
 const Checkout = () => {
     const { cartItems, totalPrice } = JSON.parse(window.localStorage.getItem('checkoutItems'))
@@ -10,8 +9,6 @@ const Checkout = () => {
     const [shippingPrice, setShippingPrice] = useState(0.00)
 
     const arrowClass = isDropdownOpen ? "arrow up" : "arrow down"
-
-    usePrompt(true)
 
     return (
         <div className="checkout">

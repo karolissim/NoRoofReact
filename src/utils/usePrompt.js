@@ -2,42 +2,42 @@ import { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 export const usePrompt = (when, message = 'Are you sure you want to quit without saving your changes?') => {
-  const history = useHistory();
+    const history = useHistory();
 
-  const self = useRef(null);
+    const self = useRef(null);
 
-  const onWindowOrTabClose = event => {
-    if (!when) {
-      return;
-    }
+    const onWindowOrTabClose = event => {
+        if (!when) {
+            return;
+        }
 
-    if (typeof event == 'undefined') {
-      event = window.event;
-    }
+        if (typeof event == 'undefined') {
+            event = window.event;
+        }
 
-    if (event) {
-      event.returnValue = message;
-    }
+        if (event) {
+            event.returnValue = message;
+        }
 
-    return message;
-  };
+        return message;
+    };
 
-  useEffect(() => {
-    if (when) {
-      self.current = history.block(message);
-    } else {
-      self.current = null;
-    }
+    useEffect(() => {
+        if (when) {
+            self.current = history.block(message);
+        } else {
+            self.current = null;
+        }
 
-    window.addEventListener('beforeunload', onWindowOrTabClose);
+        window.addEventListener('beforeunload', onWindowOrTabClose);
 
-    return () => {
-      if (self.current) {
-        self.current();
-        self.current = null;
-      }
+        return () => {
+            if (self.current) {
+                self.current();
+                self.current = null;
+            }
 
-      window.removeEventListener('beforeunload', onWindowOrTabClose);
-    }
-  }, [message, when]);
+            window.removeEventListener('beforeunload', onWindowOrTabClose);
+        }
+    }, [message, when, history]);
 };
