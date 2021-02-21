@@ -4,6 +4,7 @@
     height: auto;
     width: 30vw;
     overflow: hidden;
+    z-index: 99;
 }
 
 .carousel-slide {

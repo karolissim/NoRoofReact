@@ -98,7 +98,7 @@ const ItemContainer = (props) => {
         return () => {
             setItemQuantity([])
         }
-    }, [colorId])
+    }, [colorId, itemId])
 
     /**
      * Method is called after item quantity input's onChange event is triggered and
@@ -229,7 +229,7 @@ const ItemContainer = (props) => {
     } else {
         return (
             <div className="loader-wrapper">
-                <img className="loader" src={require("../../loaders/colored_loader.gif").default} height="150px" width="150px" />
+                <img className="loader" src={require("../../loaders/colored_loader.gif").default} height="150px" width="150px" alt="" />
             </div>
         );
     }

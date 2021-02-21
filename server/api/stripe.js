@@ -4,21 +4,21 @@ require('dotenv').config()
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 router.post('/charge', async (req, res) => {
-    const token = req.body.token
-    const amount = req.body.amount
+  const { amount, email, shipping } = req.body
 
-    try {
-        const charge = await stripe.charges.create({
-            amount: amount,
-            currency: 'eur',
-            description: 'Example charge',
-            source: token,
-            receipt_email: 'karolis70012@gmail.com'
-        })
-        res.status(200).send(charge)
-    } catch(error) {
-        res.status(404).send(error)
-    }
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: 'eur',
+      payment_method_types: ['card'],
+      receipt_email: email,
+      shipping: shipping
+    })
+
+    res.status(200).send({ client_secret: paymentIntent.client_secret })
+  } catch (error) {
+    res.status(400).send(error)
+  }
 })
 
 module.exports = router

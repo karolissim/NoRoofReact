@@ -43,6 +43,8 @@ const CheckoutForm = (props) => {
                     setIsCvcValid({ isValid: false, isEmpty: isEmpty })
                 }
                 break
+            default:
+                break
         }
     }
 
@@ -99,42 +101,29 @@ const CheckoutForm = (props) => {
     }
 
     async function handleSubmition() {
+        showError({ message: '' }, true)
         setIsLoading(true)
 
         if (!stripe || !elements) {
             return
         }
 
-        const cardNumberElement = elements.getElement(CardNumberElement)
-
-        const billingData = {
-            address_city: cityInput.current.value,
-            address_country: countryCode,
-            address_zip: postalInput.current.value,
-            address_line1: addressInput.current.value,
-            email: emailInput.current.value,
-            name: `${nameInput.current.value} ${surnameInput.current.value}`,
-            currency: 'eur',
+        const shippingInfo = {
+            address: {
+                line1: addressInput.current.value,
+                city: cityInput.current.value,
+                country: countryCode,
+                postal_code: postalInput.current.value
+            },
+            name: `${nameInput.current.value} ${surnameInput.current.value}`
         }
 
-        const { error, token } = await stripe.createToken(cardNumberElement, billingData)
-
-        if (error) {
-            console.log('[error]', error);
-        } else {
-            console.log('[token]', token);
-            stripeTokenHandler(token)
-        }
-    }
-
-    const stripeTokenHandler = async (token) => {
         try {
-            const { data } = await api.post(
-                `${SERVER_URL}/stripe/charge`,
+            const { data } = await api.post(`${SERVER_URL}/stripe/charge`,
                 {
-                    token: token.id,
-                    amount: props.amount * 100,
-                    email: emailInput.current.value
+                    shipping: shippingInfo,
+                    email: emailInput.current.value,
+                    amount: props.amount * 100
                 },
                 {
                     headers: {
@@ -142,10 +131,28 @@ const CheckoutForm = (props) => {
                     }
                 }
             )
-            console.log(data)
+
+            const { error, paymentIntent } = await stripe.confirmCardPayment(data.client_secret, {
+                payment_method: {
+                    card: elements.getElement(CardNumberElement),
+                    billing_details: {
+                        address: shippingInfo.address,
+                        email: emailInput.current.value,
+                        name: `${nameInput.current.value} ${surnameInput.current.value}`
+                    }
+                }
+            })
+
+            if (error) {
+                if (error.type === 'card_error') {
+                    showError({ message: error.message }, false)
+                }
+            } else if (paymentIntent.status === 'succeeded') {
+                console.log(paymentIntent)
+            }
+
         } catch (error) {
             console.log(error)
-            console.log(error.response.data)
         }
     }
 
