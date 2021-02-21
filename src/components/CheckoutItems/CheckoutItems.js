@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './CheckoutItems.css'
 import SingleCheckoutItem from '../SingleCheckoutItem/SingleCheckoutItem'
 import useBreakpoint from '../../utils/getBreakpoints'

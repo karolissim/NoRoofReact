@@ -16,7 +16,7 @@ class Navbar extends Component {
                             hash: '#shop-start'
                         }}>Shop</Link>
                         <Link className="link" to="/faq">FAQ</Link>
-                        <a id="cart-trigger" onClick={this.props.displayCart}>Cart <span id="counter-wrapper">(<span id="item-counter">{this.props.itemNumber}</span>)</span></a>
+                        <div id="cart-trigger" onClick={this.props.displayCart}>Cart <span id="counter-wrapper">(<span id="item-counter">{this.props.itemNumber}</span>)</span></div>
                     </div>
                 </div>
                 <div id="shadow-layer" className={this.props.shadowState ? "is-visible" : ""} onClick={this.props.displayCart}></div>

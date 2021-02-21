@@ -6,7 +6,7 @@ const SingleCheckoutItem = (props) => {
     return (
         <div className="single-item">
             <div className="single-item__image-container">
-                <img className="single-item__image" src={SERVER_URL + "/images/" + itemId + "/" + itemColorId + "/1.jpg"}></img>
+                <img className="single-item__image" src={SERVER_URL + "/images/" + itemId + "/" + itemColorId + "/1.jpg"} alt=""></img>
             </div>
             <div className="single-item__information">
                 <h3>{name}</h3>

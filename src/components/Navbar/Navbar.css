@@ -20,6 +20,10 @@
   color: #000;
 }
 
+.nav-links {
+    display: flex;
+}
+
 .link, .link-span {
   margin-right: 25px;
   font-size: 1rem;

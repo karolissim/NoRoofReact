@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import ReactDOM from 'react-dom'
+import React, { useState, useEffect, useRef } from 'react'
 import './ImageSlider.css'
 import ImageContainer from '../ImageContainer/ImageContainer'
 import ImageZoom from '../ImageZoom/ImageZoom'
@@ -13,18 +12,17 @@ const ImageSlider = (props) => {
     const [zoomXPosition, setZoomXPosition] = useState(0)
     const [zoomYPosition, setZoomYPosition] = useState(0)
     const [zoomContainerState, setZoomContainerState] = useState(false)
-    var imageSliderElementRef, imageSliderElement
+    const imageSliderRef = useRef()
 
     const translateValue = 'translateX(' + (-imageWidth * position) + 'px)'
     const zoom = ' ' + zoomXPosition + '%' + zoomYPosition + '%'
     const photoUrl = 'url(' + SERVER_URL + '/images/' + itemId + '/' + colorId + '/' + position + '.jpg)'
 
     useEffect(() => {
-        imageSliderElement = ReactDOM.findDOMNode(imageSliderElementRef)
-        setImageWidth(imageSliderElement.clientWidth)
+        setImageWidth(imageSliderRef.current.clientWidth)
 
         function handleScreenResize() {
-            setImageWidth(imageSliderElement.clientWidth)
+            setImageWidth(imageSliderRef.current.clientWidth)
         }
 
         window.addEventListener('resize', handleScreenResize)
@@ -44,20 +42,20 @@ const ImageSlider = (props) => {
 
         setNavDotState(dotState)
         setPosition(1)
-    }, [itemId, colorId])
+    }, [itemId, colorId, photoIds.length])
 
     function animateSliderTransition() {
-        ReactDOM.findDOMNode(imageSliderElementRef).style.transition = "transform 0.4s ease-in-out"
+        imageSliderRef.current.style.transition = "transform 0.4s ease-in-out"
     }
 
     function handleOnTransitionEnd() {
         if (position === photoIds.length + 1) {
-            ReactDOM.findDOMNode(imageSliderElementRef).style.transition = "none"
+            imageSliderRef.current.style.transition = "none"
             setPosition(photoIds.length - photoIds.length + 1)
         }
 
         if (position === 0) {
-            ReactDOM.findDOMNode(imageSliderElementRef).style.transition = "none"
+            imageSliderRef.current.style.transition = "none"
             setPosition(photoIds.length)
         }
     }
@@ -102,8 +100,8 @@ const ImageSlider = (props) => {
     }
 
     function zoomImage(event) {
-        var containerWidth = ReactDOM.findDOMNode(imageSliderElementRef).clientWidth
-        var containerHeight = ReactDOM.findDOMNode(imageSliderElementRef).clientHeight
+        var containerWidth = imageSliderRef.current.clientWidth
+        var containerHeight = imageSliderRef.current.clientHeight
 
         var currentWidth = event.nativeEvent.layerX
         var currentHeight = event.nativeEvent.layerY
@@ -123,7 +121,7 @@ const ImageSlider = (props) => {
                     <div
                         className="carousel-slide"
                         style={{ transform: translateValue }}
-                        ref={(slider) => imageSliderElementRef = slider}
+                        ref={imageSliderRef}
                         onTransitionEnd={() => handleOnTransitionEnd()}
                         onMouseMove={(event) => zoomImage(event)}
                         onMouseOver={() => changeZoomContainerState()}
@@ -136,25 +134,25 @@ const ImageSlider = (props) => {
                     </div>
                 </div>
                 <div>
-                    <a
+                    <div
                         className="prev"
                         onClick={() => {
                             decrementPosition()
                             animateSliderTransition()
                             changeNavDotState(PREV)
-                        }}>&#10094;</a>
-                    <a
+                        }}>&#10094;</div>
+                    <div
                         className="next"
                         onClick={() => {
                             incrementPosition()
                             animateSliderTransition()
                             changeNavDotState(NEXT)
-                        }}>&#10095;</a>
+                        }}>&#10095;</div>
                 </div>
                 <div className="slider-nav">
                     {photoIds.map((_photoId, key) => {
                         return (
-                            <a
+                            <div
                                 className="slider-nav__dot"
                                 style={navDotState[key] ? { border: "1px solid rgb(" + COLORS[key] + ")", borderWidth: '1px', backgroundColor: "rgb(" + COLORS[key] + ")" } : { border: '1px solid', borderColor: "rgb(" + COLORS[key] + ")" }}
                                 key={key}
@@ -162,7 +160,7 @@ const ImageSlider = (props) => {
                                     setPosition(key + 1)
                                     animateSliderTransition()
                                     changeNavDotState(key)
-                                }}></a>
+                                }}></div>
                         )
                     })}
                 </div>

@@ -9,7 +9,7 @@ const ReccomendedItem = (props) => {
     return (
         <div>
             <Link to={"/shop/" + item.product_id + "/" + props.sizeId + "/" + props.colorId}>
-                <img className="recommended-item__image" src={SERVER_URL + "/images/" + item.product_id + "/" + props.colorId + "/1.jpg"} alt="item photo"></img>
+                <img className="recommended-item__image" src={SERVER_URL + "/images/" + item.product_id + "/" + props.colorId + "/1.jpg"} alt=""></img>
             </Link>
             <h2 className="recommended-item__title">{item.name}</h2>
             <div className="small-divider"></div>
