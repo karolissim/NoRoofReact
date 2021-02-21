@@ -29,7 +29,7 @@ const ImageSlider = (props) => {
 
         window.addEventListener('resize', handleScreenResize)
 
-        return(() => {
+        return (() => {
             window.removeEventListener('resize', handleScreenResize)
         })
     }, [])
